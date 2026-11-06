@@ -225,9 +225,9 @@ document.getElementById("clubForm").addEventListener("submit", async function(ev
         .from("clubs")
         .insert([club]);
 
-    if (error) {
-        message.textContent = "Registration failed. Please try again.";
-        console.error(error);
+   if (error) {
+    message.textContent = "Error: " + error.message;
+    console.error(error);
     } else {
         message.textContent = "Registration submitted! Await admin approval.";
         form.reset();
