@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IPG Admin Panel</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    background: #080a0f;
+    color: white;
+    font-family: Arial, sans-serif;
+}
+
+header {
+    padding: 25px;
+    border-bottom: 1px solid #333;
+    display: flex;
+    justify-content: space-between;
+}
+
+.logo {
+    color: #d4af37;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+main {
+    max-width: 1000px;
+    margin: 50px auto;
+    padding: 20px;
+}
+
+h1, h2 {
+    color: #d4af37;
+}
+
+.panel, .club {
+    background: #151922;
+    padding: 25px;
+    margin: 20px 0;
+    border: 1px solid #333;
+    border-radius: 8px;
+}
+
+input {
+    display: block;
+    width: 100%;
+    padding: 14px;
+    margin: 15px 0;
+    background: #080a0f;
+    color: white;
+    border: 1px solid #555;
+    border-radius: 5px;
+}
+
+button {
+    background: #d4af37;
+    color: black;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+    margin: 5px;
+}
+
+.reject {
+    background: #a83232;
+    color: white;
+}
+
+.hidden {
+    display: none;
+}
+
+.muted {
+    color: #aaa;
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">IPG ADMIN</div>
+    <button id="logoutButton" class="hidden">LOG OUT</button>
+</header>
+
+<main>
+
+<section id="loginSection" class="panel">
+    <h1>ADMIN LOGIN</h1>
+
+    <form id="loginForm">
+        <input
+            type="email"
+            id="email"
+            placeholder="Admin Email"
+            required
+        >
+
+        <input
+            type="password"
+            id="password"
+            placeholder="Password"
+            required
+        >
+
+        <button type="submit">LOGIN</button>
+    </form>
+
+    <p id="loginMessage" class="muted"></p>
+</section>
+
+<section id="dashboard" class="hidden">
+
+    <h1>ADMIN DASHBOARD</h1>
+    <p>Manage International Professional Gaming.</p>
+
+    <div class="panel">
+        <h2>CLUB MANAGEMENT</h2>
+        <p id="clubCount">Loading clubs...</p>
+    </div>
+
+    <h2>PENDING REGISTRATIONS</h2>
+    <div id="pendingClubs"></div>
+
+    <h2>APPROVED CLUBS</h2>
+    <div id="approvedClubs"></div>
+
+    <p id="dashboardMessage" class="muted"></p>
+
+</section>
+
+</main>
+
+<script>
+
+const SUPABASE_URL = "https://anndmcqwvfjbnhsehrom.supabase.co";
+const SUPABASE_KEY = "sb_publishable_4OwZ-opv95mMay8hW-5yMA_gmWhMLDC";
+
+const supabaseClient = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+);
+
+const loginSection = document.getElementById("loginSection");
+const dashboard = document.getElementById("dashboard");
+const logoutButton = document.getElementById("logoutButton");
+
+async function checkAdmin() {
+
+    const { data: { session } } =
+        await supabaseClient.auth.getSession();
+
+    if (!session) {
+        showLogin();
+        return;
+    }
+
+    const { data, error } =
+        await supabaseClient.rpc("is_ipg_admin");
+
+    if (error || data !== true) {
+        await supabaseClient.auth.signOut();
+        showLogin();
+        document.getElementById("loginMessage").textContent =
+            "Access denied. Admin account required.";
+        return;
+    }
+
+    loginSection.classList.add("hidden");
+    dashboard.classList.remove("hidden");
+    logoutButton.classList.remove("hidden");
+
+    loadClubs();
+}
+
+function showLogin() {
+    loginSection.classList.remove("hidden");
+    dashboard.classList.add("hidden");
+    logoutButton.classList.add("hidden");
+}
+
+document.getElementById("loginForm").addEventListener(
+    "submit",
+    async function(event) {
+
+        event.preventDefault();
+
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+
+        document.getElementById("loginMessage").textContent =
+            "Logging in...";
+
+        const { error } = await supabaseClient.auth.signInWithPassword({
+            email,
+            password
+        });
+
+        if (error) {
+            document.getElementById("loginMessage").textContent =
+                "Login failed. Check your email and password.";
+            return;
+        }
+
+        document.getElementById("password").value = "";
+
+        checkAdmin();
+    }
+);
+
+logoutButton.addEventListener("click", async function() {
+    await supabaseClient.auth.signOut();
+    showLogin();
+});
+
+async function loadClubs() {
+
+    const { data, error } = await supabaseClient
+        .from("clubs")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+    if (error) {
+        document.getElementById("dashboardMessage").textContent =
+            "Could not load clubs: " + error.message;
+        return;
+    }
+
+    const pending = data.filter(club => club.status === "pending");
+    const approved = data.filter(club => club.status === "approved");
+
+    document.getElementById("clubCount").textContent =
+        data.length + " total clubs registered";
+
+    renderClubs(pending, "pendingClubs");
+    renderClubs(approved, "approvedClubs");
+}
+
+function renderClubs(clubs, elementId) {
+
+    const container = document.getElementById(elementId);
+    container.innerHTML = "";
+
+    if (clubs.length === 0) {
+        container.innerHTML = '<p class="muted">No clubs found.</p>';
+        return;
+    }
+
+    clubs.forEach(club => {
+
+        const card = document.createElement("div");
+        card.className = "club";
+
+        const title = document.createElement("h3");
+        title.textContent = club.club_name;
+
+        const details = document.createElement("p");
+        details.textContent =
+            "Country: " + club.country +
+            " | Captain: " + club.captain_name +
+            " | Discord: " + club.captain_discord;
+
+        const status = document.createElement("p");
+        status.textContent = "Status: " + club.status;
+
+        card.append(title, details, status);
+
+        if (club.status === "pending") {
+
+            const approve = document.createElement("button");
+            approve.textContent = "APPROVE";
+            approve.onclick = () => updateStatus(club.id, "approved");
+
+            const reject = document.createElement("button");
+            reject.textContent = "REJECT";
+            reject.className = "reject";
+            reject.onclick = () => updateStatus(club.id, "rejected");
+
+            card.append(approve, reject);
+        }
+
+        container.appendChild(card);
+    });
+}
+
+async function updateStatus(id, status) {
+
+    const message = document.getElementById("dashboardMessage");
+    message.textContent = "Updating club...";
+
+    const { error } = await supabaseClient
+        .from("clubs")
+        .update({ status: status })
+        .eq("id", id)
+        .eq("status", "pending");
+
+    if (error) {
+        message.textContent = "Update failed: " + error.message;
+        return;
+    }
+
+    message.textContent = "Club status updated!";
+    loadClubs();
+}
+
+supabaseClient.auth.onAuthStateChange((event, session) => {
+    if (event === "SIGNED_OUT") {
+        showLogin();
+    }
+});
+
+checkAdmin();
+
+</script>
+
+</body>
+</html>
