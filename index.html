@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IPG | International Professional Gaming</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #080a0f;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 25px 8%;
+            border-bottom: 1px solid #292929;
+        }
+
+        .logo {
+            color: #d4af37;
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 25px;
+            font-size: 14px;
+        }
+
+        nav a:hover {
+            color: #d4af37;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 130px 20px;
+        }
+
+        .hero h1 {
+            font-size: 52px;
+            color: #d4af37;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 18px;
+            letter-spacing: 3px;
+            margin-bottom: 35px;
+        }
+
+        .button {
+            display: inline-block;
+            background: #d4af37;
+            color: black;
+            padding: 15px 30px;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 4px;
+        }
+
+        .section {
+            padding: 60px 8%;
+            text-align: center;
+        }
+
+        .section h2 {
+            color: #d4af37;
+            margin-bottom: 30px;
+            font-size: 30px;
+        }
+
+        .cards {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .card {
+            background: #151922;
+            border: 1px solid #333;
+            padding: 35px;
+            width: 280px;
+            border-radius: 8px;
+        }
+
+        .card h3 {
+            color: #d4af37;
+            margin-bottom: 15px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            border-top: 1px solid #292929;
+            color: #888;
+        }
+
+        @media (max-width: 600px) {
+            header {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            nav a {
+                margin: 8px;
+            }
+
+            .hero h1 {
+                font-size: 35px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">IPG</div>
+
+    <nav>
+        <a href="#home">HOME</a>
+        <a href="#tournaments">TOURNAMENTS</a>
+        <a href="#rankings">RANKINGS</a>
+        <a href="#clubs">CLUBS</a>
+    </nav>
+</header>
+
+<section class="hero" id="home">
+    <h1>INTERNATIONAL PROFESSIONAL GAMING</h1>
+    <p>COMPETE. DOMINATE. BECOME LEGENDS.</p>
+    <a href="#tournaments" class="button">EXPLORE TOURNAMENTS</a>
+</section>
+
+<section class="section" id="tournaments">
+    <h2>TOURNAMENTS</h2>
+
+    <div class="cards">
+        <div class="card">
+            <h3>IPG WEEKEND LEAGUE</h3>
+            <p>Compete against clubs from around the world.</p>
+        </div>
+
+        <div class="card">
+            <h3>CHAMPIONS CUP</h3>
+            <p>Fight for your place among the best.</p>
+        </div>
+    </div>
+</section>
+
+<section class="section" id="rankings">
+    <h2>GLOBAL RANKINGS</h2>
+    <p>Club rankings and tournament points will appear here.</p>
+</section>
+
+<section class="section" id="clubs">
+    <h2>REGISTER YOUR CLUB</h2>
+    <p>Join the IPG competitive community.</p>
+</section>
+
+<footer>
+    © 2026 INTERNATIONAL PROFESSIONAL GAMING
+    <br><br>
+    COMPETE. DOMINATE. BECOME LEGENDS.
+</footer>
+
+</body>
+</html>
