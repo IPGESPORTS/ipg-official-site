@@ -175,6 +175,64 @@
     <br><br>
     COMPETE. DOMINATE. BECOME LEGENDS.
 </footer>
+<section class="section" id="register">
+    <h2>REGISTER YOUR CLUB</h2>
+    <p>Join the International Professional Gaming community.</p>
 
+    <form id="clubForm" style="max-width:500px;margin:30px auto;">
+        <input name="club_name" placeholder="Club Name" required>
+        <input name="country" placeholder="Country" required>
+        <input name="captain_name" placeholder="Captain Name" required>
+        <input name="captain_discord" placeholder="Captain Discord" required>
+        <input name="contact_email" type="email" placeholder="Contact Email" required>
+        <input name="logo_url" type="url" placeholder="Club Logo URL (optional)">
+
+        <button class="button" type="submit">SUBMIT REGISTRATION</button>
+
+        <p id="formMessage" style="margin-top:20px;"></p>
+    </form>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+const SUPABASE_URL = "https://anndmcqwvfjbnhsehrom.supabase.co/rest/v1/";
+const SUPABASE_KEY = "sb_publishable_4OwZ-opv95mMay8hW-5yMA_gmWhMLDC";
+
+const supabaseClient = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+);
+
+document.getElementById("clubForm").addEventListener("submit", async function(event) {
+    event.preventDefault();
+
+    const form = event.target;
+    const message = document.getElementById("formMessage");
+
+    const club = {
+        club_name: form.club_name.value.trim(),
+        country: form.country.value.trim(),
+        captain_name: form.captain_name.value.trim(),
+        captain_discord: form.captain_discord.value.trim(),
+        contact_email: form.contact_email.value.trim(),
+        logo_url: form.logo_url.value.trim() || null
+    };
+
+    message.textContent = "Submitting registration...";
+
+    const { error } = await supabaseClient
+        .from("clubs")
+        .insert([club]);
+
+    if (error) {
+        message.textContent = "Registration failed. Please try again.";
+        console.error(error);
+    } else {
+        message.textContent = "Registration submitted! Await admin approval.";
+        form.reset();
+    }
+});
+</script>
 </body>
 </html>
