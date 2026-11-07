@@ -978,6 +978,34 @@ body::before{
 }
 </style>
 
+<style id="ipg-champions-type-glow">
+/* Subtle stadium-light glow for IPG typography */
+.hero h1 {
+  text-shadow:
+    0 0 10px rgba(255,255,255,.22),
+    0 0 26px rgba(91,166,255,.24),
+    0 0 54px rgba(65,135,255,.16) !important;
+}
+.hero h1 span {
+  text-shadow:
+    0 0 9px rgba(244,207,111,.48),
+    0 0 24px rgba(212,175,55,.38),
+    0 0 48px rgba(212,175,55,.18) !important;
+}
+.hero-tagline {
+  text-shadow: 0 0 10px rgba(212,175,55,.42), 0 0 25px rgba(80,145,255,.2);
+}
+section h2, .section-title, .form-header h2, .tournament-menu-header h2 {
+  text-shadow: 0 0 15px rgba(89,151,255,.2), 0 0 28px rgba(212,175,55,.10);
+}
+nav a:hover, nav a:focus-visible {
+  text-shadow: 0 0 10px rgba(255,255,255,.5), 0 0 22px rgba(82,151,255,.42);
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero h1, .hero h1 span, .hero-tagline, section h2, .section-title,
+  .form-header h2, .tournament-menu-header h2 { text-shadow: none; }
+}
+</style>
 </head>
 
 <body>
