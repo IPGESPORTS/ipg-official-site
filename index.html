@@ -922,6 +922,13 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
 .ipg-profile-logo-button .ipg-profile-art{display:grid;place-items:center;width:100%;height:100%;font-size:42px;color:#f0d477}
 @media(max-width:600px){.ipg-profile-card.ipg-logo-preview{min-height:136px}.ipg-profile-logo-button{width:96px;height:96px}}
 </style>
+
+<style id="ipg-manager-style-profile-names">
+/* Manager-style profile identity: emblem first, muted silver name below. */
+.ipg-profile-card.ipg-logo-preview{gap:13px;min-height:194px;padding:20px 16px}
+.ipg-profile-preview-name{margin:0!important;color:#aeb7c5!important;font-size:13px!important;font-weight:800!important;letter-spacing:.13em;text-align:center;text-transform:uppercase;line-height:1.4;overflow-wrap:anywhere}
+@media(max-width:600px){.ipg-profile-card.ipg-logo-preview{min-height:174px;gap:11px}.ipg-profile-preview-name{font-size:12px!important}}
+</style>
 </head>
 
 <body>
@@ -1652,7 +1659,7 @@ refreshClubAccount=async function(session){await priorRefreshForManager(session)
   if(error){clubBox.innerHTML='<p>Club profiles could not be loaded. '+safe(error.message)+'</p>';return}
   clubs=data||[];
   if(!clubs.length){clubBox.innerHTML="<p>No approved clubs yet. Be among the first to join IPG.</p>";return}
-  clubBox.innerHTML=clubs.map(x=>'<article class="ipg-profile-card ipg-logo-preview"><button class="ipg-profile-logo-button" type="button" data-club-profile="'+safe(x.id)+'" aria-label="View '+safe(x.club_name)+' profile">'+(x.logo_url?'<img src="'+safe(x.logo_url)+'" alt="'+safe(x.club_name)+' logo">':'<span class="ipg-profile-art" aria-hidden="true">🏆</span>')+'</button></article>').join("");
+  clubBox.innerHTML=clubs.map(x=>'<article class="ipg-profile-card ipg-logo-preview"><button class="ipg-profile-logo-button" type="button" data-club-profile="'+safe(x.id)+'" aria-label="View '+safe(x.club_name)+' profile">'+(x.logo_url?'<img src="'+safe(x.logo_url)+'" alt="'+safe(x.club_name)+' logo">':'<span class="ipg-profile-art" aria-hidden="true">🏆</span>')+'</button><h3 class="ipg-profile-preview-name">'+safe(x.club_name)+'</h3></article>').join("");
  }
  async function loadPlayerProfiles(){
   playerBox.innerHTML="<p>Loading public player profiles...</p>";
@@ -1660,7 +1667,7 @@ refreshClubAccount=async function(session){await priorRefreshForManager(session)
   if(error){playerBox.innerHTML='<p>Player profiles could not be loaded. '+safe(error.message)+'</p>';return}
   players=data||[];
   if(!players.length){playerBox.innerHTML="<p>No public player profiles yet.</p>";return}
-  playerBox.innerHTML=players.map(p=>'<article class="ipg-profile-card ipg-logo-preview"><button class="ipg-profile-logo-button" type="button" data-player-profile="'+safe(p.user_id)+'" aria-label="View '+safe(p.display_name)+' profile">'+(p.avatar_url?'<img src="'+safe(p.avatar_url)+'" alt="'+safe(p.display_name)+' avatar">':'<span class="ipg-profile-art" aria-hidden="true">⚽</span>')+'</button></article>').join("");
+  playerBox.innerHTML=players.map(p=>'<article class="ipg-profile-card ipg-logo-preview"><button class="ipg-profile-logo-button" type="button" data-player-profile="'+safe(p.user_id)+'" aria-label="View '+safe(p.display_name)+' profile">'+(p.avatar_url?'<img src="'+safe(p.avatar_url)+'" alt="'+safe(p.display_name)+' avatar">':'<span class="ipg-profile-art" aria-hidden="true">⚽</span>')+'</button><h3 class="ipg-profile-preview-name">'+safe(p.display_name)+'</h3></article>').join("");
  }
  document.querySelectorAll("[data-profile-tab]").forEach(b=>b.addEventListener("click",()=>{
   document.querySelectorAll("[data-profile-tab]").forEach(x=>x.classList.toggle("active",x===b));
