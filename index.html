@@ -1056,6 +1056,15 @@ input:focus,select:focus,textarea:focus,.registration-form input:focus{outline:2
 @media(max-width:700px){.hero:before{opacity:.42}}
 @media(prefers-reduced-motion:reduce){.hero:before{filter:none}}
 </style>
+
+<style id="ipg-champions-cta-style">
+.ipg-champions-cta{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:13px;margin:22px auto 0;padding:13px 25px;min-width:220px;color:#fff!important;text-decoration:none;font-size:11px;font-weight:900;letter-spacing:.2em;border:1px solid rgba(254,127,45,.9);background:linear-gradient(110deg,rgba(8,13,24,.96),rgba(20,31,50,.94),rgba(8,13,24,.96));clip-path:polygon(9% 0,91% 0,100% 50%,91% 100%,9% 100%,0 50%);box-shadow:0 0 12px rgba(254,127,45,.32),inset 0 0 18px rgba(254,127,45,.12);text-shadow:0 0 10px rgba(255,255,255,.35);transition:transform .22s ease,box-shadow .22s ease,background .22s ease}
+.ipg-champions-cta:before{content:"";position:absolute;inset:3px;clip-path:inherit;border:1px solid rgba(255,255,255,.22);pointer-events:none}
+.ipg-champions-cta:hover{transform:translateY(-3px);box-shadow:0 0 10px rgba(254,127,45,.8),0 0 28px rgba(254,127,45,.42),inset 0 0 22px rgba(254,127,45,.2);background:linear-gradient(110deg,#111c30,#263b5b,#111c30)}
+.ipg-champions-star{color:#FE7F2D;font-size:18px;text-shadow:0 0 12px rgba(254,127,45,.95)}
+.ipg-champions-arrow{color:#FE7F2D;font-size:17px}
+@media(prefers-reduced-motion:reduce){.ipg-champions-cta{transition:none}}
+</style>
 </head>
 
 <body>
@@ -1126,6 +1135,7 @@ input:focus,select:focus,textarea:focus,.registration-form input:focus{outline:2
         </h1>
 
         <div class="hero-line"></div>
+        <a class="ipg-champions-cta" href="#tournaments"><span class="ipg-champions-star" aria-hidden="true">✦</span><span>ENTER THE ARENA</span><span class="ipg-champions-arrow" aria-hidden="true">↗</span></a>
 
         <p class="hero-tagline">
             COMPETE. DOMINATE. BECOME LEGENDS.
@@ -1233,10 +1243,8 @@ input:focus,select:focus,textarea:focus,.registration-form input:focus{outline:2
             <p id="clubAccountDetails"></p>
             <div id="playerAccountChoices" class="ipg-account-choices">
                 <p>WHAT WOULD YOU LIKE TO DO?</p>
-                <button type="button" id="createClubChoice">CREATE A CLUB</button>
-                <button type="button" id="joinTeamChoice">JOIN A TEAM</button>
+                <p class="account-muted">Player profiles and club applications are available in the IPG Player Network.</p>
             </div>
-            <button type="button" id="applyForClubButton" hidden>APPLY TO CREATE A CLUB</button>
             <button type="button" id="editClubProfileButton" hidden>EDIT CLUB PROFILE</button>
             <button type="button" id="signOutButton">SIGN OUT</button>
         </div>
@@ -1322,11 +1330,7 @@ input:focus,select:focus,textarea:focus,.registration-form input:focus{outline:2
    <div id="playerActivity"><p class="ipg-market-muted">Sign in to view applications and contract offers.</p></div>
   </div>
  </div>
- <h2 style="color:#fff;text-align:center;margin-top:55px">AVAILABLE FREE AGENTS</h2>
- <div class="ipg-market-grid" style="margin:22px 0">
-  <div class="ipg-market-card"><label>Position</label><select id="freeAgentPosition"><option value="">All positions</option><option>GK</option><option>CB</option><option>LB</option><option>RB</option><option>CDM</option><option>CM</option><option>CAM</option><option>LM</option><option>RM</option><option>LW</option><option>RW</option><option>ST</option></select><label>Country</label><input id="freeAgentCountry" placeholder="Filter by country"><label>Preferred foot</label><select id="freeAgentFoot"><option value="">Any</option><option>Right</option><option>Left</option><option>Either</option></select><button type="button" id="filterFreeAgents">FILTER PLAYERS</button></div>
- </div>
- <div id="freeAgentList" class="ipg-market-grid"><p>Loading free agents...</p></div>
+
 </section>
 
 
@@ -1765,30 +1769,9 @@ playerForm.addEventListener("submit",async e=>{
  playerMsg("Saving profile...");
  const {error}=await supabaseClient.from("player_profiles").upsert(payload,{onConflict:"user_id"});
  if(error){playerMsg("Could not save profile: "+error.message);return}
- playerMsg("Player profile saved. You can edit these details any time while signed in.");await loadFreeAgents();
+ playerMsg("Player profile saved. You can edit these details any time while signed in.");
 });
-async function loadFreeAgents(){
- const box=document.getElementById("freeAgentList");box.textContent="Loading free agents...";
- let q=supabaseClient.from("player_profiles").select("user_id,display_name,country,primary_position,secondary_position,shirt_number,preferred_foot,play_style,experience,former_clubs,achievements,bio,avatar_url").eq("availability","free_agent").eq("public_profile",true).order("updated_at",{ascending:false});
- const pos=document.getElementById("freeAgentPosition").value, country=document.getElementById("freeAgentCountry").value.trim(),foot=document.getElementById("freeAgentFoot").value;
- if(pos)q=q.eq("primary_position",pos);if(country)q=q.ilike("country","%"+country+"%");if(foot)q=q.eq("preferred_foot",foot);
- const {data,error}=await q;
- if(error){box.textContent="Could not load free agents: "+error.message;return}
- if(!data?.length){box.textContent="No free agents match these filters yet.";return}
- box.innerHTML=data.map(p=>'<article class="ipg-market-card">'+(p.avatar_url?'<img src="'+escPlayer(p.avatar_url)+'" alt="" style="width:76px;height:76px;object-fit:cover;border-radius:50%">':'')+'<h3>'+escPlayer(p.display_name)+'</h3><p>'+escPlayer(p.country)+' · '+escPlayer(p.primary_position)+(p.secondary_position?' / '+escPlayer(p.secondary_position):'')+'</p><p>Foot: '+escPlayer(p.preferred_foot)+' · #'+escPlayer(p.shirt_number||'—')+'</p><p>'+escPlayer(p.play_style||'')+'</p><p>'+escPlayer(p.bio||'')+'</p>'+(currentSession&&currentSession.user.id!==p.user_id?'<button type="button" data-apply-player="'+p.user_id+'">OFFER CONTRACT</button>':'')+'</article>').join("");
-}
 function escPlayer(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
-document.getElementById("filterFreeAgents").addEventListener("click",loadFreeAgents);
-document.getElementById("freeAgentList").addEventListener("click",async e=>{
- const b=e.target.closest("[data-apply-player]");if(!b)return;
- if(!currentSession){alert("Sign in first.");return}
- const {data:club}=await supabaseClient.from("clubs").select("id,status").eq("owner_id",currentSession.user.id).eq("status","approved").maybeSingle();
- if(!club){alert("Only an approved club owner can offer a contract. Your club must be approved.");return}
- const terms=prompt("Enter the contract terms (role, duration and expectations):");
- if(terms===null)return;
- const {error}=await supabaseClient.from("player_contracts").insert({player_id:b.dataset.applyPlayer,club_id:club.id,offered_by:currentSession.user.id,terms:terms.trim()||"Contract details to be agreed."});
- alert(error?(error.code==="23505"?"This player already has an active contract.":"Could not send offer: "+error.message):"Contract offer sent to player."); 
-});
 async function loadPlayerActivity(){
  const box=document.getElementById("playerActivity");
  const [apps,offers]=await Promise.all([
@@ -1803,7 +1786,6 @@ document.getElementById("playerActivity").addEventListener("click",async e=>{
  const {error}=await supabaseClient.from("player_contracts").update({status:b.dataset.answer,responded_at:new Date().toISOString()}).eq("id",b.dataset.contract).eq("status","pending");
  if(error){alert("Could not respond: "+error.message);return}await loadPlayerActivity();alert(b.dataset.answer==="active"?"Contract accepted.":"Offer rejected.");
 });
-loadFreeAgents();
 const previousRefreshClubAccount=refreshClubAccount;
 refreshClubAccount=async function(session){await previousRefreshClubAccount(session);await loadPlayerHub()};
 </script>
