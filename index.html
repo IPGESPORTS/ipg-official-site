@@ -308,6 +308,19 @@ nav a:hover {
     font-weight: 800;
     letter-spacing: 1.5px;
     box-shadow: 0 0 15px rgba(255, 55, 55, 0.12);
+    
+}
+        .status-live {
+    animation: livePulse 1.8s infinite;
+}
+
+@keyframes livePulse {
+    0%, 100% {
+        box-shadow: 0 0 5px rgba(255, 55, 55, 0.15);
+    }
+    50% {
+        box-shadow: 0 0 16px rgba(255, 55, 55, 0.5);
+    }
 }
 
 .status-open {
