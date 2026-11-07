@@ -711,6 +711,25 @@ button:hover{filter:brightness(1.08);transform:translateY(-1px)}
 }
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition:none!important;animation:none!important}}
 
+
+/* IPG PUBLIC PROFILES */
+.ipg-profile-switch{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin:28px 0}
+.ipg-profile-tab{padding:12px 20px;border:1px solid rgba(212,175,55,.4);border-radius:6px;background:#101827;color:#fff;font-weight:900;letter-spacing:.06em;cursor:pointer}
+.ipg-profile-tab.active{background:linear-gradient(135deg,#f0d477,#b58a25);color:#080d18}
+.ipg-profile-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(245px,1fr));gap:18px;text-align:left}
+.ipg-profile-card{padding:22px;border:1px solid rgba(212,175,55,.25);border-radius:12px;background:linear-gradient(145deg,#14223a,#080d18)}
+.ipg-profile-card h3{color:#f0d477;margin:12px 0 7px}
+.ipg-profile-card p{color:#b8c2d3;line-height:1.6;margin:6px 0}
+.ipg-profile-card img{width:76px;height:76px;object-fit:contain;border-radius:50%;background:#080d18;border:1px solid rgba(212,175,55,.3)}
+.ipg-profile-card button{margin-top:12px;padding:11px 15px;border:0;border-radius:5px;background:linear-gradient(135deg,#f0d477,#b58a25);color:#080d18;font-weight:900;cursor:pointer}
+.ipg-profile-detail{margin:24px 0 0;padding:25px;text-align:left;border:1px solid rgba(212,175,55,.4);border-radius:12px;background:linear-gradient(145deg,#14223a,#080d18)}
+.ipg-profile-detail h3{color:#f0d477}
+.ipg-profile-detail p{color:#c1cad8;line-height:1.7}
+.ipg-profile-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:10px;margin:18px 0}
+.ipg-profile-stat{padding:13px;background:rgba(0,0,0,.2);border:1px solid rgba(212,175,55,.15);border-radius:7px}
+.ipg-profile-stat strong{display:block;color:#f0d477;font-size:22px}
+.ipg-profile-stat span{color:#9da9ba;font-size:11px;letter-spacing:.08em}
+
 </style>
 </head>
 
@@ -727,6 +746,7 @@ button:hover{filter:brightness(1.08);transform:translateY(-1px)}
         <a href="#home">HOME</a>
      <a href="#" id="tournamentMenuButton">TOURNAMENTS</a>
         <a href="#rankings">RANKINGS</a>
+        <a href="#profiles">PROFILES</a>
         <a href="#register">REGISTER</a>
         <a class="discord-nav" href="https://discord.gg/PNYkEztN5K" target="_blank" rel="noopener noreferrer">JOIN DISCORD ↗</a>
     </nav>
@@ -836,6 +856,20 @@ button:hover{filter:brightness(1.08);transform:translateY(-1px)}
         <a class="ipg-gold-link" href="#register">REGISTER YOUR CLUB →</a>
     </div>
 </section>
+
+<section id="profiles" class="ipg-content-section">
+ <span class="ipg-eyebrow">THE IPG COMMUNITY</span>
+ <h2>CLUB & PLAYER PROFILES</h2>
+ <p class="ipg-section-intro">Discover approved clubs, follow their results and meet players across the IPG network.</p>
+ <div class="ipg-profile-switch" role="group" aria-label="Choose profile type">
+  <button type="button" class="ipg-profile-tab active" data-profile-tab="clubs">CLUB PROFILES</button>
+  <button type="button" class="ipg-profile-tab" data-profile-tab="players">PLAYER PROFILES</button>
+ </div>
+ <div id="clubProfiles" class="ipg-profile-grid"><p>Loading approved clubs...</p></div>
+ <div id="playerProfiles" class="ipg-profile-grid" hidden><p>Loading public player profiles...</p></div>
+ <div id="profileDetail" class="ipg-profile-detail" hidden aria-live="polite"></div>
+</section>
+
 <section class="section" id="register">
     <h2>JOIN INTERNATIONAL PROFESSIONAL GAMING</h2>
     <p>Choose your account type. Your email login is the same for both account types.</p>
@@ -1389,5 +1423,49 @@ document.getElementById("managerApplications").addEventListener("click",async e=
 const priorRefreshForManager=refreshClubAccount;
 refreshClubAccount=async function(session){await priorRefreshForManager(session);await loadManagerHub()};
 </script>
-\n</body>
+\n
+<script>
+(function(){
+ const clubBox=document.getElementById("clubProfiles"), playerBox=document.getElementById("playerProfiles"), detail=document.getElementById("profileDetail");
+ if(!clubBox||!playerBox||!detail)return;
+ const safe=v=>String(v??"").replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));
+ const stat=(n,label)=>'<div class="ipg-profile-stat"><strong>'+Number(n||0)+'</strong><span>'+label+'</span></div>';
+ let clubs=[],players=[];
+ async function loadClubProfiles(){
+  clubBox.innerHTML="<p>Loading approved clubs...</p>";
+  const {data,error}=await supabaseClient.rpc("get_public_club_profiles");
+  if(error){clubBox.innerHTML='<p>Club profiles could not be loaded. '+safe(error.message)+'</p>';return}
+  clubs=data||[];
+  if(!clubs.length){clubBox.innerHTML="<p>No approved clubs yet. Be among the first to join IPG.</p>";return}
+  clubBox.innerHTML=clubs.map(x=>'<article class="ipg-profile-card">'+(x.logo_url?'<img src="'+safe(x.logo_url)+'" alt="'+safe(x.club_name)+' logo">':'<div class="ipg-profile-art">🏆</div>')+'<h3>'+safe(x.club_name)+'</h3><p>'+safe(x.country||"Country not listed")+'</p><p>'+safe(x.captain_name||"")+'</p><p>'+Number(x.matches_played||0)+' matches · '+Number(x.wins||0)+' wins</p><button type="button" data-club-profile="'+safe(x.id)+'">VIEW CLUB PROFILE</button></article>').join("");
+ }
+ async function loadPlayerProfiles(){
+  playerBox.innerHTML="<p>Loading public player profiles...</p>";
+  const {data,error}=await supabaseClient.from("player_profiles").select("user_id,display_name,country,primary_position,secondary_position,shirt_number,preferred_foot,play_style,experience,former_clubs,achievements,bio,avatar_url,availability").eq("public_profile",true).order("display_name");
+  if(error){playerBox.innerHTML='<p>Player profiles could not be loaded. '+safe(error.message)+'</p>';return}
+  players=data||[];
+  if(!players.length){playerBox.innerHTML="<p>No public player profiles yet.</p>";return}
+  playerBox.innerHTML=players.map(p=>'<article class="ipg-profile-card">'+(p.avatar_url?'<img src="'+safe(p.avatar_url)+'" alt="">':'<div class="ipg-profile-art">⚽</div>')+'<h3>'+safe(p.display_name)+'</h3><p>'+safe(p.country||"")+' · '+safe(p.primary_position||"")+(p.secondary_position?' / '+safe(p.secondary_position):'')+'</p><p>'+safe(p.availability==="free_agent"?"FREE AGENT":p.availability==="under_contract"?"UNDER CONTRACT":"NOT AVAILABLE")+'</p><button type="button" data-player-profile="'+safe(p.user_id)+'">VIEW PLAYER PROFILE</button></article>').join("");
+ }
+ document.querySelectorAll("[data-profile-tab]").forEach(b=>b.addEventListener("click",()=>{
+  document.querySelectorAll("[data-profile-tab]").forEach(x=>x.classList.toggle("active",x===b));
+  const clubsOn=b.dataset.profileTab==="clubs";clubBox.hidden=!clubsOn;playerBox.hidden=clubsOn;detail.hidden=true;
+ }));
+ clubBox.addEventListener("click",e=>{
+  const b=e.target.closest("[data-club-profile]");if(!b)return;
+  const x=clubs.find(v=>v.id===b.dataset.clubProfile);if(!x)return;
+  detail.hidden=false;detail.innerHTML='<h3>'+safe(x.club_name)+'</h3><p>'+safe(x.country||"")+' · Captain: '+safe(x.captain_name||"Not listed")+'</p><div class="ipg-profile-stats">'+stat(x.matches_played,"MATCHES")+stat(x.wins,"WINS")+stat(x.draws,"DRAWS")+stat(x.losses,"LOSSES")+stat(x.goals_for,"GOALS FOR")+stat(x.goals_against,"GOALS AGAINST")+stat(x.roster_size,"SQUAD SIZE")+'</div><p>Member since '+new Date(x.created_at).toLocaleDateString()+'</p>';
+  detail.scrollIntoView({behavior:"smooth",block:"nearest"});
+ });
+ playerBox.addEventListener("click",e=>{
+  const b=e.target.closest("[data-player-profile]");if(!b)return;
+  const p=players.find(v=>v.user_id===b.dataset.playerProfile);if(!p)return;
+  detail.hidden=false;detail.innerHTML='<h3>'+safe(p.display_name)+'</h3><p>'+safe(p.country||"")+' · '+safe(p.primary_position||"")+(p.secondary_position?' / '+safe(p.secondary_position):'')+' · '+safe(p.preferred_foot||"")+' foot</p><p>Shirt number: '+safe(p.shirt_number||"—")+' · '+safe(p.availability==="free_agent"?"Free Agent":p.availability==="under_contract"?"Under Contract":"Not listed")+'</p><p><strong>Play style:</strong> '+safe(p.play_style||"Not specified")+'</p><p><strong>Experience:</strong> '+safe(p.experience||"Not specified")+'</p><p><strong>Former clubs:</strong> '+safe((p.former_clubs||[]).join(", ")||"Not listed")+'</p><p><strong>Achievements:</strong> '+safe(p.achievements||"Not listed")+'</p><p>'+safe(p.bio||"No player bio added.")+'</p>';
+  detail.scrollIntoView({behavior:"smooth",block:"nearest"});
+ });
+ loadClubProfiles();loadPlayerProfiles();
+})();
+</script>
+
+</body>
 </html>
