@@ -930,17 +930,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
 @media(max-width:600px){.ipg-profile-card.ipg-logo-preview{min-height:174px;gap:11px}.ipg-profile-preview-name{font-size:12px!important}}
 </style>
 
-<style id="ipg-header-auth-actions">
-header{gap:22px}
-.ipg-header-auth{display:flex;align-items:center;gap:9px;flex-shrink:0}
-.ipg-header-auth button{min-height:40px;padding:0 15px;border-radius:5px;font-size:11px;font-weight:900;letter-spacing:.1em;cursor:pointer;transition:transform .2s ease,background .2s ease,border-color .2s ease}
-.ipg-header-login{color:#d6deea;background:transparent;border:1px solid rgba(174,187,205,.48)}
-.ipg-header-login:hover{border-color:#ffffff;color:#ffffff}
-.ipg-header-signup{color:#10131a;background:linear-gradient(135deg,#ffffff,#dce5f2);border:1px solid #ffffff}
-.ipg-header-auth button:hover{transform:translateY(-1px)}
-@media(max-width:900px){header{gap:12px}.ipg-header-auth{margin-left:auto}}
-@media(max-width:700px){.ipg-header-auth{width:100%;justify-content:flex-end}.ipg-header-auth button{min-height:38px}header{align-items:center}}
-</style>
+
 
 <style id="ipg-champions-spotlights">
 /* ARENA SPOTLIGHTS — subtle stadium atmosphere */
@@ -1248,6 +1238,59 @@ input:focus,select:focus,textarea:focus{border-color:var(--ipg-orange)!important
       }
     </style>
 
+
+<style id="ipg-arena-pitch-and-hero-type">
+/* IPG stadium atmosphere: subtle pitch geometry and premium typography. */
+.hero{
+  background:
+    radial-gradient(ellipse 31% 48% at 3% 8%,rgba(116,169,225,.19),transparent 74%),
+    radial-gradient(ellipse 31% 48% at 97% 8%,rgba(116,169,225,.17),transparent 74%),
+    linear-gradient(180deg,rgba(5,13,26,.18),rgba(4,10,20,.72)),
+    radial-gradient(circle at 50% 52%,transparent 0 10.7%,rgba(144,180,221,.12) 10.85% 11.05%,transparent 11.2%),
+    linear-gradient(90deg,transparent calc(50% - .7px),rgba(144,180,221,.10) 50%,transparent calc(50% + .7px)),
+    linear-gradient(0deg,transparent calc(50% - .7px),rgba(144,180,221,.07) 50%,transparent calc(50% + .7px)),
+    linear-gradient(90deg,transparent 8%,rgba(144,180,221,.075) 8.1%,transparent 8.25% 91.75%,rgba(144,180,221,.075) 91.9%,transparent 92%),
+    linear-gradient(180deg,#0b1b31 0%,#071426 56%,#050c18 100%) !important;
+  background-size:100% 100%;
+}
+.hero-content{
+  width:min(1120px,100%);
+  max-width:1120px;
+  padding:clamp(34px,6vw,76px) 24px !important;
+}
+.hero h1{
+  max-width:1100px;
+  margin:0 auto 24px !important;
+  font-size:clamp(42px,7.4vw,92px) !important;
+  line-height:1.08 !important;
+  letter-spacing:clamp(.09em,1.15vw,.19em) !important;
+  text-indent:clamp(.09em,1.15vw,.19em);
+}
+.hero h1 span{
+  letter-spacing:clamp(.055em,.8vw,.14em) !important;
+}
+.hero-tagline{
+  letter-spacing:clamp(.16em,.75vw,.27em) !important;
+  line-height:1.9;
+  margin-top:26px !important;
+}
+.hero-description{
+  max-width:660px;
+  margin:22px auto 0 !important;
+  line-height:1.9 !important;
+  letter-spacing:.075em;
+}
+@media(max-width:640px){
+  .hero h1{font-size:clamp(30px,8.2vw,52px) !important;letter-spacing:.075em !important;text-indent:.075em}
+  .hero h1 span{letter-spacing:.045em !important}
+  .hero-tagline{letter-spacing:.12em !important;font-size:11px}
+  .hero-content{padding:42px 16px !important}
+}
+@media(prefers-reduced-motion:reduce){
+  .hero{background-attachment:scroll}
+}
+</style>
+
 </head>
 
 <body>
@@ -1266,13 +1309,8 @@ input:focus,select:focus,textarea:focus{border-color:var(--ipg-orange)!important
      <a href="#" id="tournamentMenuButton">TOURNAMENTS</a>
         <a href="#rankings">RANKINGS</a>
         <a href="#player-marketplace" id="headerProfileButton">PROFILE</a>
-        <a href="account.html?mode=signup">SIGN UP / LOG IN</a>
         <a class="discord-nav" href="https://discord.gg/PNYkEztN5K" target="_blank" rel="noopener noreferrer">JOIN DISCORD ↗</a>
     </nav>
-    <div class="ipg-header-auth">
-        <button type="button" class="ipg-header-login" id="headerLoginButton">LOG IN</button>
-        <button type="button" class="ipg-header-signup" id="headerSignupButton">SIGN UP</button>
-    </div>
 </header>
 <div id="tournamentMenu" class="tournament-menu">
 
@@ -1309,8 +1347,6 @@ input:focus,select:focus,textarea:focus{border-color:var(--ipg-orange)!important
 
     <div class="hero-content">
 
-
-        <img src="ipg-logo.png" alt="IPG Logo" class="hero-logo">
 
         <h1>
             INTERNATIONAL<br>
@@ -2051,8 +2087,6 @@ refreshClubAccount=async function(session){await previousRefreshClubAccount(sess
    window.setTimeout(()=>document.getElementById("playerProfileForm")?.scrollIntoView({behavior:"smooth",block:"center"}),250);
   }
  });
- document.getElementById("headerSignupButton")?.addEventListener("click",()=>{location.href="account.html?mode=signup"});
- document.getElementById("headerLoginButton")?.addEventListener("click",()=>{location.href="account.html?mode=login"});
 })();
 </script>
 
