@@ -18,7 +18,7 @@ input{width:100%;height:48px;border-radius:6px;border:1px solid rgba(174,187,205
 .status{min-height:38px;margin:16px 0 0;color:var(--light);font-size:13px;line-height:1.5;text-align:center}.back{display:block;text-align:center;color:var(--muted);font-size:12px;margin-top:20px;text-decoration:none}.back:hover{color:var(--light)}
 [hidden]{display:none!important}
 @media(max-width:420px){.panel{padding:23px 18px}h1{font-size:22px}}
-</style>
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:0 12px}.field{min-width:0}select{width:100%;height:48px;border-radius:6px;border:1px solid rgba(174,187,205,.3);background:#070d17;color:#fff;padding:0 12px;font-size:15px}select:focus{outline:1px solid var(--gold)}input[type=date]{color-scheme:dark}@media(max-width:420px){.grid{grid-template-columns:1fr}}</style>
 </head>
 <body>
 <main class="wrap">
@@ -28,6 +28,18 @@ input{width:100%;height:48px;border-radius:6px;border:1px solid rgba(174,187,205
 <div class="tabs"><button type="button" id="signupTab" class="active">SIGN UP</button><button type="button" id="loginTab">LOG IN</button></div>
 <div id="typeArea"><label>ACCOUNT TYPE</label><div class="types"><button type="button" data-type="club" class="active">CLUB / MANAGER</button><button type="button" data-type="player">PLAYER</button></div></div>
 <div id="emailArea"><label for="email">EMAIL ADDRESS</label><input id="email" type="email" autocomplete="email" placeholder="name@example.com"></div>
+<div id="playerFields" hidden>
+<div class="grid">
+<div class="field"><label for="username">USERNAME</label><input id="username" maxlength="24" autocomplete="username" placeholder="Your username"></div>
+<div class="field"><label for="playerName">PLAYER NAME</label><input id="playerName" maxlength="40" placeholder="In-game name"></div>
+<div class="field"><label for="password">PASSWORD</label><input id="password" type="password" autocomplete="new-password" minlength="8" placeholder="At least 8 characters"></div>
+<div class="field"><label for="confirmPassword">CONFIRM PASSWORD</label><input id="confirmPassword" type="password" autocomplete="new-password" minlength="8" placeholder="Repeat password"></div>
+<div class="field"><label for="dob">DATE OF BIRTH</label><input id="dob" type="date" autocomplete="bday"></div>
+<div class="field"><label for="country">COUNTRY</label><input id="country" maxlength="56" autocomplete="country-name" placeholder="Country"></div>
+</div>
+<label for="position">POSITION</label><select id="position"><option value="">Select position</option><option>Goalkeeper</option><option>Defender</option><option>Midfielder</option><option>Winger</option><option>Striker</option><option>Any position</option></select>
+<p class="intro" style="margin:12px 0 0;font-size:11px">Your date of birth is used for account administration and will not appear on your public player profile.</p>
+</div>
 <button type="button" class="action" id="sendCode">SEND VERIFICATION CODE</button>
 <div id="otpArea" hidden><label for="otp">8-DIGIT EMAIL CODE</label><input id="otp" inputmode="numeric" autocomplete="one-time-code" maxlength="8" placeholder="Enter code"><button type="button" class="action" id="verify">VERIFY & CONTINUE</button><button type="button" class="secondary" id="resend">SEND A NEW CODE</button></div>
 <p class="status" id="status" role="status" aria-live="polite">Your account is protected with email verification.</p>
@@ -38,15 +50,60 @@ input{width:100%;height:48px;border-radius:6px;border:1px solid rgba(174,187,205
 <script>
 const supabaseClient=window.supabase.createClient("https://anndmcqwvfjbnhsehrom.supabase.co","sb_publishable_4OwZ-opv95mMay8hW-5yMA_gmWhMLDC");
 let mode=new URLSearchParams(location.search).get("mode")==="login"?"login":"signup";
-let accountType="club",pendingEmail="";
+let accountType="club",pendingEmail="",pendingPlayer={};
 const $=id=>document.getElementById(id);
-function renderMode(){ $("signupTab").classList.toggle("active",mode==="signup");$("loginTab").classList.toggle("active",mode==="login");$("heading").textContent=mode==="signup"?"JOIN IPG ESPORTS":"WELCOME BACK";$("intro").textContent=mode==="signup"?"Choose your account type and create your IPG account.":"Log in to your existing IPG account with your email."; $("typeArea").hidden=mode==="login";$("sendCode").textContent=mode==="signup"?"CREATE ACCOUNT & SEND CODE":"SEND LOGIN CODE";history.replaceState(null,"","?mode="+mode);}
-function setMode(v){mode=v;$("otpArea").hidden=true;renderMode();$("status").textContent=mode==="signup"?"Choose your account type and enter your email.":"Enter the email linked to your IPG account.";}
+function renderMode(){
+ $("signupTab").classList.toggle("active",mode==="signup");$("loginTab").classList.toggle("active",mode==="login");
+ $("heading").textContent=mode==="signup"?"JOIN IPG ESPORTS":"WELCOME BACK";
+ $("intro").textContent=mode==="signup"?"Choose your account type and create your IPG account.":"Log in to your existing IPG account with your email.";
+ $("typeArea").hidden=mode==="login";$("playerFields").hidden=!(mode==="signup"&&accountType==="player");
+ $("sendCode").textContent=mode==="signup"?(accountType==="player"?"CREATE PLAYER ACCOUNT":"CREATE ACCOUNT & SEND CODE"):"SEND LOGIN CODE";
+ history.replaceState(null,"","?mode="+mode);
+}
+function setMode(v){mode=v;$("otpArea").hidden=true;$("emailArea").hidden=false;$("sendCode").hidden=false;renderMode();$("status").textContent=mode==="signup"?"Choose your account type and enter your details.":"Enter the email linked to your IPG account.";}
 $("signupTab").addEventListener("click",()=>setMode("signup"));$("loginTab").addEventListener("click",()=>setMode("login"));
-document.querySelectorAll("[data-type]").forEach(b=>b.addEventListener("click",()=>{accountType=b.dataset.type;document.querySelectorAll("[data-type]").forEach(x=>x.classList.toggle("active",x===b));}));
-async function sendCode(){const email=$("email").value.trim();if(!email){$("status").textContent="Enter your email address.";return;}if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){$("status").textContent="Enter a valid email address.";return;}$("status").textContent="Sending your verification code...";const {error}=await supabaseClient.auth.signInWithOtp({email,options:{shouldCreateUser:mode==="signup"}});if(error){$("status").textContent="Could not send code: "+error.message;return;}pendingEmail=email;$("emailArea").hidden=true;$("sendCode").hidden=true;$("otpArea").hidden=false;$("status").textContent="A code has been sent to "+email+". Check your inbox.";}
+document.querySelectorAll("[data-type]").forEach(b=>b.addEventListener("click",()=>{accountType=b.dataset.type;document.querySelectorAll("[data-type]").forEach(x=>x.classList.toggle("active",x===b));renderMode();}));
+function validEmail(v){return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);}
+async function sendCode(){
+ const email=$("email").value.trim();
+ if(!validEmail(email)){$("status").textContent="Enter a valid email address.";return;}
+ $("status").textContent="Preparing your account...";
+ if(mode==="signup"&&accountType==="player"){
+  const username=$("username").value.trim(),playerName=$("playerName").value.trim(),password=$("password").value,confirm=$("confirmPassword").value,dob=$("dob").value,country=$("country").value.trim(),position=$("position").value;
+  if(!/^[a-zA-Z0-9_]{3,24}$/.test(username)){$("status").textContent="Username must be 3–24 characters (letters, numbers or underscore).";return;}
+  if(!playerName||!country||!dob||!position){$("status").textContent="Complete all player fields.";return;}
+  if(password.length<8){$("status").textContent="Password must be at least 8 characters.";return;}
+  if(password!==confirm){$("status").textContent="Passwords do not match.";return;}
+  const birth=new Date(dob+"T00:00:00");
+  if(Number.isNaN(birth.getTime())||birth>new Date()){$("status").textContent="Enter a valid date of birth.";return;}
+  pendingPlayer={username,playerName,dob,country,position};
+  const {data,error}=await supabaseClient.auth.signUp({email,password,options:{data:{username,date_of_birth:dob,account_type:"player",player_name:playerName,country,primary_position:position}}});
+  if(error){$("status").textContent="Could not create account: "+error.message;return;}
+  pendingEmail=email;
+  if(data.session){await savePlayerProfile(data.user.id);return;}
+  $("emailArea").hidden=true;$("playerFields").hidden=true;$("sendCode").hidden=true;$("otpArea").hidden=false;
+  $("status").textContent="Verification email sent to "+email+". Enter the code from your inbox.";
+  return;
+ }
+ const {error}=await supabaseClient.auth.signInWithOtp({email,options:{shouldCreateUser:mode==="signup"}});
+ if(error){$("status").textContent="Could not send code: "+error.message;return;}
+ pendingEmail=email;$("emailArea").hidden=true;$("sendCode").hidden=true;$("otpArea").hidden=false;
+ $("status").textContent="A code has been sent to "+email+". Check your inbox.";
+}
+async function savePlayerProfile(userId){
+ const {error}=await supabaseClient.from("player_profiles").upsert({user_id:userId,display_name:pendingPlayer.playerName,country:pendingPlayer.country,primary_position:pendingPlayer.position,preferred_foot:"Right",former_clubs:[],availability:"free_agent",public_profile:true},{onConflict:"user_id"});
+ if(error){$("status").textContent="Account created, but player profile could not be saved. Contact IPG support: "+error.message;return;}
+ localStorage.setItem("ipg_account_type","player");location.href="index.html";
+}
 $("sendCode").addEventListener("click",sendCode);$("resend").addEventListener("click",sendCode);
-$("verify").addEventListener("click",async()=>{const token=$("otp").value.trim();if(!/^\d{8}$/.test(token)){$("status").textContent="Enter the eight-digit code.";return;} $("status").textContent="Verifying...";const {error}=await supabaseClient.auth.verifyOtp({email:pendingEmail,token,type:"email"});if(error){$("status").textContent="Could not verify code: "+error.message;return;}localStorage.setItem("ipg_account_type",accountType);location.href="index.html";});
+$("verify").addEventListener("click",async()=>{
+ const token=$("otp").value.trim();if(!/^\d{6,8}$/.test(token)){$("status").textContent="Enter the verification code from the email.";return;}
+ $("status").textContent="Verifying...";
+ const {data,error}=await supabaseClient.auth.verifyOtp({email:pendingEmail,token,type:mode==="signup"&&accountType==="player"?"signup":"email"});
+ if(error){$("status").textContent="Could not verify code: "+error.message;return;}
+ if(mode==="signup"&&accountType==="player"){await savePlayerProfile(data.user.id);return;}
+ localStorage.setItem("ipg_account_type",accountType);location.href="index.html";
+});
 renderMode();
-</script>
+</script>>
 </body></html>
