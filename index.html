@@ -1291,6 +1291,52 @@ input:focus,select:focus,textarea:focus{border-color:var(--ipg-orange)!important
 }
 </style>
 
+
+<style id="ipg-championship-experience">
+:root{--ipg-ice:#9fc5ed;--ipg-line:rgba(143,183,226,.22);--ipg-surface:#0a192c}
+html{scroll-behavior:smooth;scroll-padding-top:92px}
+body{background-image:radial-gradient(ellipse at 50% 0%,rgba(35,75,122,.13),transparent 48%)}
+.hero{isolation:isolate}
+.hero:before{animation:ipgHeroSweep 16s ease-in-out infinite alternate}
+@keyframes ipgHeroSweep{0%{opacity:.48;transform:translateX(-.7%)}100%{opacity:.9;transform:translateX(.7%)}}
+.hero h1,.hero-tagline{animation:ipgTitleEnter .95s cubic-bezier(.2,.75,.2,1) both}
+.hero-tagline{animation-delay:.12s}
+@keyframes ipgTitleEnter{from{opacity:0;transform:translateY(18px);filter:blur(5px)}to{opacity:1;transform:translateY(0);filter:blur(0)}}
+.ipg-tournament-spotlight{position:relative;isolation:isolate;overflow:hidden;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(260px,.95fr);gap:30px;align-items:center;max-width:1240px;margin:72px auto 34px;padding:clamp(28px,5vw,62px);border:1px solid var(--ipg-line);background:linear-gradient(112deg,rgba(12,31,54,.98),rgba(5,13,25,.97));}
+.ipg-tournament-spotlight:before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(115deg,transparent 35%,rgba(112,161,218,.09),transparent 68%);pointer-events:none}
+.ipg-spotlight-copy{position:relative;z-index:1}.ipg-spotlight-kicker{margin:18px 0 10px;color:#8eafd4;font-size:10px;font-weight:900;letter-spacing:.24em}
+.ipg-spotlight-copy h2{margin:0;color:#fff;font-size:clamp(30px,4.5vw,58px);line-height:1.04;letter-spacing:.075em}
+.ipg-spotlight-copy>p:not(.ipg-spotlight-kicker){max-width:520px;color:#b9c8db;line-height:1.8}
+.ipg-spotlight-meta{display:flex;flex-wrap:wrap;gap:10px;margin:22px 0}.ipg-spotlight-meta span{padding:8px 11px;border:1px solid var(--ipg-line);color:#c5d9f0;font-size:10px;font-weight:800;letter-spacing:.13em}
+.ipg-spotlight-link{display:inline-flex;gap:18px;align-items:center;color:#fff;text-decoration:none;font-size:11px;font-weight:900;letter-spacing:.16em;border-bottom:1px solid #8eafd4;padding:12px 0}
+.ipg-spotlight-link span{color:var(--ipg-ice);font-size:18px}
+.ipg-spotlight-visual{position:relative;min-height:245px;display:grid;place-items:center;overflow:hidden;background:radial-gradient(ellipse at center,rgba(71,124,184,.2),transparent 66%)}
+.ipg-spotlight-pitch{position:relative;width:min(100%,390px);aspect-ratio:1.48;border:1px solid rgba(155,190,228,.38);background:linear-gradient(90deg,transparent 49.8%,rgba(155,190,228,.28) 50%,transparent 50.2%);box-shadow:0 0 50px rgba(55,110,173,.13),inset 0 0 35px rgba(55,110,173,.08)}
+.ipg-spotlight-pitch:before{content:"";position:absolute;inset:0 50%;border:1px solid rgba(155,190,228,.28);border-radius:50%;transform:translateX(-50%)}
+.ipg-spotlight-pitch:after{content:"";position:absolute;left:50%;top:50%;width:9px;height:9px;border-radius:50%;background:#c9e2ff;box-shadow:0 0 18px 5px rgba(133,185,240,.5);transform:translate(-50%,-50%)}
+.ipg-spotlight-pitch i,.ipg-spotlight-pitch b{position:absolute;top:25%;height:50%;width:13%;border:1px solid rgba(155,190,228,.26)}
+.ipg-spotlight-pitch i{left:0;border-left:0}.ipg-spotlight-pitch b{right:0;border-right:0}
+.ipg-spotlight-pitch em{position:absolute;left:50%;top:50%;width:2px;height:2px;border-radius:50%;box-shadow:0 0 0 75px rgba(155,190,228,.025);transform:translate(-50%,-50%)}
+.ipg-spotlight-orbit{position:absolute;bottom:5px;right:5px;color:rgba(177,205,237,.48);font-size:9px;letter-spacing:.25em}
+.public-tournaments{padding-top:34px}
+.ipg-rankings-section .ipg-ranking-panel{padding:0;overflow:hidden;border:1px solid var(--ipg-line);background:linear-gradient(145deg,rgba(12,29,50,.96),rgba(5,13,24,.98))}
+.ipg-ranking-heading{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding:20px 22px;border-bottom:1px solid var(--ipg-line)}
+.ipg-ranking-heading span{color:#fff;font-size:12px;font-weight:900;letter-spacing:.2em}.ipg-ranking-heading small{color:#8ea9c8;font-size:9px;font-weight:800;letter-spacing:.13em}
+.ipg-ranking-table-wrap{width:100%;overflow-x:auto}.ipg-ranking-table{width:100%;border-collapse:collapse;min-width:560px;text-align:left}
+.ipg-ranking-table th{padding:15px 18px;color:#8eafd4;font-size:9px;letter-spacing:.16em;font-weight:900;border-bottom:1px solid var(--ipg-line)}
+.ipg-ranking-table td{padding:17px 18px;color:#dce7f4;font-size:12px;border-bottom:1px solid rgba(143,183,226,.09)}
+.ipg-ranking-table tbody tr:first-child td:first-child{color:#c5e0ff;font-weight:900}.ipg-ranking-table tbody tr:hover{background:rgba(93,145,203,.08)}
+.ipg-ranking-note{padding:0 22px 18px;color:#8298b3;font-size:10px;line-height:1.6}
+.ipg-championship-close{position:relative;overflow:hidden;margin:70px 0 0;padding:clamp(55px,9vw,112px) 20px;text-align:center;border-top:1px solid var(--ipg-line);background:radial-gradient(ellipse at 50% 100%,rgba(46,91,145,.23),transparent 62%),linear-gradient(180deg,#071426,#050b14)}
+.ipg-championship-close>span{color:#8eafd4;font-size:10px;font-weight:900;letter-spacing:.28em}
+.ipg-championship-close h2{margin:20px 0;color:#fff;font-size:clamp(36px,7vw,82px);line-height:1.02;letter-spacing:.12em}
+.ipg-championship-close h2 strong{color:#a8c9ed;font-weight:900}.ipg-championship-close p{color:#d9e7f8;font-size:11px;font-weight:900;letter-spacing:.35em}
+.ipg-footer{border-top:1px solid var(--ipg-line)}
+.tournament-card,.ipg-profile-card,.ipg-feature-card,.ipg-market-card{transition:transform .28s ease,border-color .28s ease,box-shadow .28s ease}
+@media(max-width:760px){.ipg-tournament-spotlight{grid-template-columns:1fr;margin:42px 14px 22px;padding:25px 20px}.ipg-spotlight-visual{min-height:170px}.ipg-ranking-heading{align-items:flex-start}.ipg-championship-close{margin-top:45px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.hero:before,.hero h1,.hero-tagline{animation:none!important}.hero h1,.hero-tagline{opacity:1;transform:none;filter:none}}
+</style>
+
 </head>
 
 <body>
@@ -1383,7 +1429,19 @@ input:focus,select:focus,textarea:focus{border-color:var(--ipg-orange)!important
 
     <div class="hero-background-glow"></div>
 </section>
-    <section class="public-tournaments" id="tournaments">
+    <section class="ipg-tournament-spotlight" id="tournamentSpotlight" aria-live="polite">
+  <div class="ipg-spotlight-copy">
+    <span class="ipg-eyebrow">THE NEXT CHAPTER STARTS HERE</span>
+    <p class="ipg-spotlight-kicker">IPG FEATURED COMPETITION</p>
+    <h2 id="spotlightTitle">THE ARENA IS WAITING</h2>
+    <p id="spotlightDescription">The next competition will take the spotlight here. Prepare your club.</p>
+    <div class="ipg-spotlight-meta"><span id="spotlightStatus">TOURNAMENT HUB</span><span id="spotlightGame">EA SPORTS FC</span></div>
+    <a href="#tournaments" class="ipg-spotlight-link">EXPLORE COMPETITIONS <span>↗</span></a>
+  </div>
+  <div class="ipg-spotlight-visual" aria-hidden="true"><div class="ipg-spotlight-pitch"><i></i><b></b><em></em></div><span class="ipg-spotlight-orbit">IPG · COMPETE · DOMINATE</span></div>
+</section>
+
+<section class="public-tournaments" id="tournaments">
 
     <div class="public-tournaments-header">
         <span>IPG COMPETITION HUB</span>
@@ -1408,13 +1466,19 @@ input:focus,select:focus,textarea:focus{border-color:var(--ipg-orange)!important
 
 
 
-<section class="ipg-content-section" id="rankings">
+<section class="ipg-content-section ipg-rankings-section" id="rankings">
     <span class="ipg-eyebrow">EARN YOUR PLACE</span>
     <h2>GLOBAL RANKINGS</h2>
-    <p class="ipg-section-intro">Every match is an opportunity to climb. Build your reputation and make your club known across IPG.</p>
+    <p class="ipg-section-intro">Every match is an opportunity to climb. Track the clubs building their record across IPG competitions.</p>
     <div class="ipg-ranking-panel">
-        <div class="ipg-ranking-mark" aria-hidden="true"></div>
-        <p>Official club rankings and tournament points will be displayed here as the IPG competition system develops.</p>
+      <div class="ipg-ranking-heading"><span>CLUB PERFORMANCE</span><small>LIVE CLUB PROFILE DATA · SORTED BY WIN RATE</small></div>
+      <div class="ipg-ranking-table-wrap">
+        <table class="ipg-ranking-table">
+          <thead><tr><th>RANK</th><th>CLUB</th><th>MATCHES</th><th>WINS</th><th>WIN RATE</th></tr></thead>
+          <tbody id="ipgRankingRows"><tr><td colspan="5">Loading club performance…</td></tr></tbody>
+        </table>
+      </div>
+      <p class="ipg-ranking-note">Performance index is calculated from published club profile statistics. It is not an official tournament-points ranking.</p>
     </div>
 </section>
 
@@ -1545,7 +1609,12 @@ input:focus,select:focus,textarea:focus{border-color:var(--ipg-orange)!important
  </div>
 
 </section>
-\n<footer class="ipg-footer">
+\n<section class="ipg-championship-close" aria-label="IPG championship statement">
+  <span>BUILT FOR THE COMPETITIVE</span>
+  <h2>YOUR LEGACY<br><strong>STARTS HERE.</strong></h2>
+  <p>EARNED, NEVER GIVEN.</p>
+</section>
+<footer class="ipg-footer">
     © 2026 INTERNATIONAL PROFESSIONAL GAMING<br>
     COMPETE. DOMINATE. BECOME LEGENDS.<br>
     <a href="https://discord.gg/PNYkEztN5K" target="_blank" rel="noopener noreferrer" style="display:inline-block;margin-top:12px;color:#ffffff;text-decoration:none;font-weight:800;letter-spacing:1.5px;">JOIN THE IPG DISCORD ↗</a>
@@ -1583,6 +1652,20 @@ async function loadPublicTournaments() {
         openContainer.textContent = "Could not load tournaments.";
         console.error(error);
         return;
+    }
+
+    const spotlight = data.find(t => t.status === "live") || data.find(t => t.status === "registration_open");
+    const spotlightTitle = document.getElementById("spotlightTitle");
+    const spotlightDescription = document.getElementById("spotlightDescription");
+    const spotlightStatus = document.getElementById("spotlightStatus");
+    const spotlightGame = document.getElementById("spotlightGame");
+    if (spotlightTitle && spotlightDescription && spotlightStatus && spotlightGame) {
+        spotlightTitle.textContent = spotlight ? spotlight.name : "THE ARENA IS WAITING";
+        spotlightDescription.textContent = spotlight
+            ? (spotlight.description || "A new IPG competition is ready. Explore the details and prepare your club.")
+            : "The next competition will take the spotlight here. Prepare your club.";
+        spotlightStatus.textContent = spotlight ? (spotlight.status === "live" ? "● LIVE NOW" : "REGISTRATION OPEN") : "TOURNAMENT HUB";
+        spotlightGame.textContent = spotlight ? (spotlight.game || "EA SPORTS FC") : "EA SPORTS FC";
     }
 
     const tournamentIds = data.map(t => t.id);
@@ -2005,6 +2088,14 @@ refreshClubAccount=async function(session){await previousRefreshClubAccount(sess
   const {data,error}=await supabaseClient.rpc("get_public_club_profiles");
   if(error){clubBox.innerHTML='<p>Club profiles could not be loaded. '+safe(error.message)+'</p>';return}
   clubs=data||[];
+  const rankingRows=document.getElementById("ipgRankingRows");
+  if(rankingRows){
+    const ranked=[...clubs].map(club=>{
+      const matches=Number(club.matches_played)||0,wins=Number(club.wins)||0;
+      return {...club,_matches:matches,_wins:wins,_rate:matches>0?wins/matches:0};
+    }).filter(club=>club._matches>0).sort((a,b)=>b._rate-a._rate||b._wins-a._wins||b._matches-a._matches);
+    rankingRows.innerHTML=ranked.length?ranked.slice(0,10).map((club,index)=>'<tr><td>#'+(index+1)+'</td><td>'+safe(club.club_name)+'</td><td>'+club._matches+'</td><td>'+club._wins+'</td><td>'+Math.round(club._rate*100)+'%</td></tr>').join(""):'<tr><td colspan="5">Club performance will appear when approved clubs have recorded matches.</td></tr>';
+  }
   if(!clubs.length){clubBox.innerHTML="<p>No approved clubs yet.</p>";return}
   clubBox.innerHTML=clubs.map(x=>'<article class="ipg-profile-card ipg-logo-preview"><button class="ipg-profile-logo-button" type="button" data-club-profile="'+safe(x.id)+'" aria-label="View '+safe(x.club_name)+' profile">'+(x.logo_url?'<img src="'+safe(x.logo_url)+'" alt="'+safe(x.club_name)+' logo">':'<img src="default-club.svg" alt="Default club profile image">')+'</button><h3 class="ipg-profile-preview-name">'+safe(x.club_name)+'</h3></article>').join("");
  }
