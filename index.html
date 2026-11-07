@@ -941,6 +941,43 @@ header{gap:22px}
 @media(max-width:900px){header{gap:12px}.ipg-header-auth{margin-left:auto}}
 @media(max-width:700px){.ipg-header-auth{width:100%;justify-content:flex-end}.ipg-header-auth button{min-height:38px}header{align-items:center}}
 </style>
+
+<style id="ipg-champions-spotlights">
+/* ARENA SPOTLIGHTS — subtle stadium atmosphere */
+body::before{
+ content:"";
+ position:fixed;
+ inset:0;
+ z-index:2;
+ pointer-events:none;
+ opacity:.72;
+ background:
+  radial-gradient(ellipse 24% 58% at -5% 34%,rgba(67,139,255,.19),transparent 72%),
+  radial-gradient(ellipse 22% 54% at 105% 30%,rgba(91,157,255,.17),transparent 72%),
+  radial-gradient(ellipse 34% 30% at 0% 100%,rgba(212,175,55,.09),transparent 74%),
+  radial-gradient(ellipse 34% 30% at 100% 100%,rgba(212,175,55,.09),transparent 74%);
+ background-repeat:no-repeat;
+ animation:ipgArenaGlow 12s ease-in-out infinite alternate;
+}
+@keyframes ipgArenaGlow{
+ 0%{opacity:.48;filter:blur(0)}
+ 100%{opacity:.82;filter:blur(2px)}
+}
+@media(max-width:700px){
+ body::before{
+  opacity:.55;
+  background:
+   radial-gradient(ellipse 34% 42% at -12% 25%,rgba(67,139,255,.16),transparent 72%),
+   radial-gradient(ellipse 34% 42% at 112% 25%,rgba(91,157,255,.15),transparent 72%),
+   radial-gradient(ellipse 45% 22% at 0% 100%,rgba(212,175,55,.07),transparent 74%),
+   radial-gradient(ellipse 45% 22% at 100% 100%,rgba(212,175,55,.07),transparent 74%);
+ }
+}
+@media(prefers-reduced-motion:reduce){
+ body::before{animation:none}
+}
+</style>
+
 </head>
 
 <body>
