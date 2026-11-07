@@ -590,5 +590,28 @@ document.addEventListener("DOMContentLoaded", function () {
 
 });
 </script>
+        <script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const tournamentButton = document.getElementById("tournamentMenuButton");
+    const tournamentMenu = document.getElementById("tournamentMenu");
+
+    if (!tournamentButton || !tournamentMenu) return;
+
+    tournamentButton.addEventListener("click", function (event) {
+        event.preventDefault();
+
+        tournamentMenu.classList.toggle("show");
+
+        if (tournamentMenu.classList.contains("show")) {
+            tournamentMenu.scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            });
+        }
+    });
+
+});
+</script>
 </body>
 </html>
