@@ -559,7 +559,69 @@ const supabaseClient = window.supabase.createClient(
 
 document.getElementById("clubForm").addEventListener("submit", async function(event) {
     event.preventDefault();
+async function loadPublicTournaments() {
+    const activeContainer = document.getElementById("activeTournamentList");
+    const openContainer = document.getElementById("openTournamentList");
 
+    if (!activeContainer || !openContainer) return;
+
+    activeContainer.textContent = "Loading tournaments...";
+    openContainer.textContent = "Loading tournaments...";
+
+    const { data, error } = await supabaseClient
+        .from("tournaments")
+        .select("*")
+        .in("status", ["live", "registration_open"])
+        .order("created_at", { ascending: false });
+
+    if (error) {
+        activeContainer.textContent = "Could not load tournaments.";
+        openContainer.textContent = "Could not load tournaments.";
+        console.error(error);
+        return;
+    }
+
+    renderPublicTournamentCards(
+        data.filter(t => t.status === "live"),
+        activeContainer,
+        "No active tournaments yet."
+    );
+
+    renderPublicTournamentCards(
+        data.filter(t => t.status === "registration_open"),
+        openContainer,
+        "No tournaments open for registration."
+    );
+}
+
+function renderPublicTournamentCards(tournaments, container, emptyMessage) {
+    container.innerHTML = "";
+
+    if (tournaments.length === 0) {
+        container.textContent = emptyMessage;
+        return;
+    }
+
+    tournaments.forEach(tournament => {
+        const card = document.createElement("div");
+        card.className = "tournament-card";
+
+        const title = document.createElement("h3");
+        title.textContent = tournament.name;
+
+        const description = document.createElement("p");
+        description.textContent = tournament.description || "";
+
+        const details = document.createElement("p");
+        details.textContent =
+            (tournament.game || "") + " • " + (tournament.format || "");
+
+        card.append(title, description, details);
+        container.appendChild(card);
+    });
+}
+
+loadPublicTournaments();
     const form = event.target;
     const message = document.getElementById("formMessage");
 
