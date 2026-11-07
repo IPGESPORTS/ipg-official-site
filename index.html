@@ -634,6 +634,17 @@ nav a:hover {
 .ipg-account-panel .account-muted{color:#9da9ba;font-size:13px}
 #clubForm[hidden],#clubAccountDashboard[hidden],#emailOtpForm[hidden]{display:none!important}
 
+    
+/* IPG PLAYER MARKETPLACE */
+#player-marketplace{max-width:1120px;margin:0 auto;padding:70px 22px}
+.ipg-market-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px}
+.ipg-market-card{background:linear-gradient(145deg,#111c30,#080d18);border:1px solid rgba(212,175,55,.25);border-radius:10px;padding:22px;text-align:left}
+.ipg-market-card h3{color:#f0d477;margin-top:0}
+.ipg-market-card p{color:#aebbd0;line-height:1.6}
+.ipg-market-card input,.ipg-market-card select,.ipg-market-card textarea{width:100%;box-sizing:border-box;padding:12px;margin:6px 0 12px;background:#080f1d;border:1px solid #29364b;border-radius:5px;color:#fff}
+.ipg-market-card button{padding:12px 16px;background:linear-gradient(135deg,#f0d477,#b58a25);border:0;border-radius:5px;color:#080d18;font-weight:800;cursor:pointer;margin:5px 5px 5px 0}
+.ipg-market-muted{color:#9da9ba;font-size:13px}
+
     </style>
 </head>
 
@@ -816,6 +827,45 @@ nav a:hover {
         <button class="register-button" type="submit">SUBMIT CLUB REGISTRATION <span>→</span></button>
         <p id="formMessage" class="form-message"></p>
     </form>
+</section>
+
+
+<section id="player-marketplace">
+ <span class="ipg-eyebrow">IPG PLAYER NETWORK</span>
+ <h2 style="text-align:center;color:#fff">FREE AGENTS & PLAYER HUB</h2>
+ <p class="ipg-section-intro">Create your player profile, find a club and manage your applications and contract offers.</p>
+ <div class="ipg-market-grid">
+  <div class="ipg-market-card">
+   <h3>PLAYER ACCOUNT</h3>
+   <p id="playerAuthStatus">Sign in with the email login above in the club account panel to manage your player profile.</p>
+   <form id="playerProfileForm">
+    <label>Player name</label><input name="display_name" required maxlength="70">
+    <label>Country</label><input name="country" required maxlength="60">
+    <label>Primary position</label><select name="primary_position"><option>GK</option><option>CB</option><option>LB</option><option>RB</option><option>CDM</option><option>CM</option><option>CAM</option><option>LM</option><option>RM</option><option>LW</option><option>RW</option><option>ST</option></select>
+    <label>Secondary position</label><input name="secondary_position" maxlength="20" placeholder="Optional">
+    <label>Shirt number</label><input name="shirt_number" type="number" min="1" max="99">
+    <label>Preferred foot</label><select name="preferred_foot"><option>Right</option><option>Left</option><option>Either</option></select>
+    <label>Play style</label><input name="play_style" maxlength="100">
+    <label>Experience</label><input name="experience" maxlength="120" placeholder="Seasons, level or role">
+    <label>Former clubs</label><input name="former_clubs" placeholder="Separate clubs with commas">
+    <label>Achievements</label><textarea name="achievements" rows="2" maxlength="1000"></textarea>
+    <label>Player bio</label><textarea name="bio" rows="3" maxlength="1200"></textarea>
+    <label>Profile image URL (optional)</label><input name="avatar_url" type="url">
+    <label>Availability</label><select name="availability"><option value="free_agent">Free Agent — visible to clubs</option><option value="not_listed">Not listed publicly</option></select>
+    <button type="submit">SAVE PLAYER PROFILE</button>
+   </form>
+   <p class="ipg-market-muted" id="playerProfileMessage" aria-live="polite"></p>
+  </div>
+  <div class="ipg-market-card">
+   <h3>MY APPLICATIONS & OFFERS</h3>
+   <div id="playerActivity"><p class="ipg-market-muted">Sign in to view applications and contract offers.</p></div>
+  </div>
+ </div>
+ <h2 style="color:#fff;text-align:center;margin-top:55px">AVAILABLE FREE AGENTS</h2>
+ <div class="ipg-market-grid" style="margin:22px 0">
+  <div class="ipg-market-card"><label>Position</label><select id="freeAgentPosition"><option value="">All positions</option><option>GK</option><option>CB</option><option>LB</option><option>RB</option><option>CDM</option><option>CM</option><option>CAM</option><option>LM</option><option>RM</option><option>LW</option><option>RW</option><option>ST</option></select><label>Country</label><input id="freeAgentCountry" placeholder="Filter by country"><label>Preferred foot</label><select id="freeAgentFoot"><option value="">Any</option><option>Right</option><option>Left</option><option>Either</option></select><button type="button" id="filterFreeAgents">FILTER PLAYERS</button></div>
+ </div>
+ <div id="freeAgentList" class="ipg-market-grid"><p>Loading free agents...</p></div>
 </section>
 
 <footer class="ipg-footer">
@@ -1123,5 +1173,69 @@ document.addEventListener("DOMContentLoaded", function () {
 
 });
 </script>
+
+<script>
+const playerForm = document.getElementById("playerProfileForm");
+const playerMessage = document.getElementById("playerProfileMessage");
+let playerProfile = null;
+function playerMsg(t){playerMessage.textContent=t}
+async function loadPlayerHub(){
+ const status=document.getElementById("playerAuthStatus"), activity=document.getElementById("playerActivity");
+ if(!currentSession){status.textContent="Use the email login in the club account panel above. Player registration is separate from club registration.";playerForm.querySelectorAll("input,select,textarea,button").forEach(x=>x.disabled=true);activity.textContent="Sign in to view applications and offers.";return}
+ playerForm.querySelectorAll("input,select,textarea,button").forEach(x=>x.disabled=false);
+ status.textContent="Signed in as "+currentSession.user.email+" — complete your player profile.";
+ const {data,error}=await supabaseClient.from("player_profiles").select("*").eq("user_id",currentSession.user.id).maybeSingle();
+ if(error){playerMsg("Could not load profile: "+error.message);return}
+ playerProfile=data;
+ if(data){Object.entries(data).forEach(([k,v])=>{const el=playerForm.elements[k];if(el)el.value=k==="former_clubs"?(v||[]).join(", "):(v??"")});}
+ await loadPlayerActivity();
+}
+playerForm.addEventListener("submit",async e=>{
+ e.preventDefault();if(!currentSession){playerMsg("Sign in first using the email login above.");return}
+ const f=new FormData(playerForm), payload={user_id:currentSession.user.id,display_name:String(f.get("display_name")).trim(),country:String(f.get("country")).trim(),primary_position:f.get("primary_position"),secondary_position:String(f.get("secondary_position")).trim()||null,shirt_number:f.get("shirt_number")?Number(f.get("shirt_number")):null,preferred_foot:f.get("preferred_foot"),play_style:String(f.get("play_style")).trim()||null,experience:String(f.get("experience")).trim()||null,former_clubs:String(f.get("former_clubs")).split(",").map(x=>x.trim()).filter(Boolean),achievements:String(f.get("achievements")).trim()||null,bio:String(f.get("bio")).trim()||null,avatar_url:String(f.get("avatar_url")).trim()||null,availability:f.get("availability"),public_profile:true};
+ playerMsg("Saving profile...");
+ const {error}=await supabaseClient.from("player_profiles").upsert(payload,{onConflict:"user_id"});
+ if(error){playerMsg("Could not save profile: "+error.message);return}
+ playerMsg("Player profile saved.");await loadFreeAgents();
+});
+async function loadFreeAgents(){
+ const box=document.getElementById("freeAgentList");box.textContent="Loading free agents...";
+ let q=supabaseClient.from("player_profiles").select("user_id,display_name,country,primary_position,secondary_position,shirt_number,preferred_foot,play_style,experience,former_clubs,achievements,bio,avatar_url").eq("availability","free_agent").eq("public_profile",true).order("updated_at",{ascending:false});
+ const pos=document.getElementById("freeAgentPosition").value, country=document.getElementById("freeAgentCountry").value.trim(),foot=document.getElementById("freeAgentFoot").value;
+ if(pos)q=q.eq("primary_position",pos);if(country)q=q.ilike("country","%"+country+"%");if(foot)q=q.eq("preferred_foot",foot);
+ const {data,error}=await q;
+ if(error){box.textContent="Could not load free agents: "+error.message;return}
+ if(!data?.length){box.textContent="No free agents match these filters yet.";return}
+ box.innerHTML=data.map(p=>'<article class="ipg-market-card">'+(p.avatar_url?'<img src="'+escPlayer(p.avatar_url)+'" alt="" style="width:76px;height:76px;object-fit:cover;border-radius:50%">':'')+'<h3>'+escPlayer(p.display_name)+'</h3><p>'+escPlayer(p.country)+' · '+escPlayer(p.primary_position)+(p.secondary_position?' / '+escPlayer(p.secondary_position):'')+'</p><p>Foot: '+escPlayer(p.preferred_foot)+' · #'+escPlayer(p.shirt_number||'—')+'</p><p>'+escPlayer(p.play_style||'')+'</p><p>'+escPlayer(p.bio||'')+'</p>'+(currentSession&&currentSession.user.id!==p.user_id?'<button type="button" data-apply-player="'+p.user_id+'">APPLY TO MY CLUB</button>':'')+'</article>').join("");
+}
+function escPlayer(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+document.getElementById("filterFreeAgents").addEventListener("click",loadFreeAgents);
+document.getElementById("freeAgentList").addEventListener("click",async e=>{
+ const b=e.target.closest("[data-apply-player]");if(!b)return;
+ if(!currentSession){alert("Sign in first.");return}
+ const {data:club}=await supabaseClient.from("clubs").select("id,status").eq("owner_id",currentSession.user.id).eq("status","approved").maybeSingle();
+ if(!club){alert("Only an approved club owner can submit a player application. Manager access will be available once your club manager account is linked.");return}
+ const {error}=await supabaseClient.from("player_applications").insert({player_id:b.dataset.applyPlayer,club_id:club.id,message:"Application sent from the IPG Free Agents page."});
+ alert(error?(error.code==="23505"?"You already have a pending application for this player.":"Could not apply: "+error.message):"Application submitted."); 
+});
+async function loadPlayerActivity(){
+ const box=document.getElementById("playerActivity");
+ const [apps,offers]=await Promise.all([
+  supabaseClient.from("player_applications").select("id,status,message,created_at,clubs(club_name)").eq("player_id",currentSession.user.id).order("created_at",{ascending:false}),
+  supabaseClient.from("player_contracts").select("id,status,terms,created_at,clubs(club_name)").eq("player_id",currentSession.user.id).order("created_at",{ascending:false})
+ ]);
+ if(apps.error||offers.error){box.textContent="Could not load account activity.";return}
+ box.innerHTML="<h4>Applications</h4>"+((apps.data||[]).map(a=>"<p>"+escPlayer(a.clubs?.club_name||"Club")+" — "+escPlayer(a.status)+"</p>").join("")||"<p>No applications yet.</p>")+"<h4>Contract offers</h4>"+((offers.data||[]).map(o=>"<div><p>"+escPlayer(o.clubs?.club_name||"Club")+" — "+escPlayer(o.status)+"</p>"+(o.status==="pending"?'<button type="button" data-contract="'+o.id+'" data-answer="active">ACCEPT</button><button type="button" data-contract="'+o.id+'" data-answer="rejected">REJECT</button>':'')+"</div>").join("")||"<p>No contract offers yet.</p>");
+}
+document.getElementById("playerActivity").addEventListener("click",async e=>{
+ const b=e.target.closest("[data-contract]");if(!b)return;
+ const {error}=await supabaseClient.from("player_contracts").update({status:b.dataset.answer,responded_at:new Date().toISOString()}).eq("id",b.dataset.contract).eq("status","pending");
+ if(error){alert("Could not respond: "+error.message);return}await loadPlayerActivity();alert(b.dataset.answer==="active"?"Contract accepted.":"Offer rejected.");
+});
+loadFreeAgents();
+const previousRefreshClubAccount=refreshClubAccount;
+refreshClubAccount=async function(session){await previousRefreshClubAccount(session);await loadPlayerHub()};
+</script>
+
 </body>
 </html>
