@@ -699,6 +699,21 @@ function renderPublicTournamentCards(tournaments, container, emptyMessage) {
 
         card.append(status, title, description, details);
 
+        // Registration button for tournaments accepting registrations
+        if (tournament.status === "registration_open") {
+            const joinButton = document.createElement("button");
+            joinButton.type = "button";
+            joinButton.className = "join-tournament";
+            joinButton.textContent = "REGISTER YOUR CLUB →";
+            joinButton.addEventListener("click", () => {
+                document.getElementById("register").scrollIntoView({
+                    behavior: "smooth",
+                    block: "start"
+                });
+            });
+            card.appendChild(joinButton);
+        }
+
         if (tournament.start_date) {
             const date = document.createElement("p");
             date.textContent = "START: " +
