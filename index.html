@@ -6,103 +6,38 @@
     <title>IPG | International Professional Gaming</title>
 
     <style> 
-     .hero {
-    min-height: 85vh;
+.logo img {
+    height: 55px;
+    width: auto;
+    max-width: 160px;
+    display: block;
+}       
+    header {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-    background:
-        radial-gradient(ellipse at center, #17243b 0%, #080d18 55%, #05070c 100%);
-    padding: 70px 20px;
+    padding: 15px 6%;
+    background: #080d18;
+    border-bottom: 1px solid rgba(212,175,55,0.3);
 }
 
-.hero-content {
-    position: relative;
-    z-index: 2;
-    max-width: 950px;
+nav {
+    display: flex;
+    align-items: center;
+    gap: 30px;
 }
 
-.hero-badge {
-    color: #d4af37;
-    letter-spacing: 4px;
-    font-size: 11px;
-    margin-bottom: 25px;
-}
-
-.hero-logo {
-    width: 145px;
-    height: 145px;
-    object-fit: contain;
-    margin-bottom: 25px;
-    filter: drop-shadow(0 0 25px rgba(212,175,55,0.25));
-}
-
-.hero h1 {
+nav a {
     color: white;
-    font-size: clamp(30px, 5vw, 58px);
-    font-weight: 900;
-    letter-spacing: 2px;
-    line-height: 1.15;
-}
-
-.hero h1 span {
-    color: #d4af37;
-}
-
-.hero-line {
-    width: 100px;
-    height: 3px;
-    background: #d4af37;
-    margin: 25px auto;
-}
-
-.hero-tagline {
-    color: white;
-    font-size: 17px;
-    letter-spacing: 4px;
-    font-weight: bold;
-}
-
-.hero-description {
-    color: #aeb7c7;
-    font-size: 15px;
-    line-height: 1.8;
-    max-width: 600px;
-    margin: 20px auto 35px;
-}
-
-.hero-button {
-    display: inline-block;
-    padding: 16px 32px;
-    background: linear-gradient(135deg, #f0d477, #b58a25);
-    color: #080d18;
     text-decoration: none;
-    font-weight: 900;
+    font-size: 13px;
+    font-weight: bold;
     letter-spacing: 1px;
-    border-radius: 4px;
-    transition: 0.3s ease;
+    transition: 0.3s;
 }
 
-.hero-button:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 30px rgba(212,175,55,0.3);
-}
-
-.hero-button span {
-    margin-left: 12px;
-}
-
-.hero-background-glow {
-    position: absolute;
-    width: 500px;
-    height: 500px;
-    background: rgba(212,175,55,0.06);
-    filter: blur(100px);
-    border-radius: 50%;
-    pointer-events: none;
+nav a:hover {
+    color: #d4af37;
 }
     </style>
 </head>
