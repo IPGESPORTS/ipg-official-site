@@ -717,6 +717,8 @@ button:hover{filter:brightness(1.08);transform:translateY(-1px)}
 .ipg-profile-tab{padding:12px 20px;border:1px solid rgba(212,175,55,.4);border-radius:6px;background:#101827;color:#fff;font-weight:900;letter-spacing:.06em;cursor:pointer}
 .ipg-profile-tab.active{background:linear-gradient(135deg,#f0d477,#b58a25);color:#080d18}
 .ipg-profile-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(245px,1fr));gap:18px;text-align:left}
+/* Keep inactive profile tabs and closed detail panels hidden despite grid display rules. */
+.ipg-profile-grid[hidden],.ipg-profile-detail[hidden]{display:none!important}
 .ipg-profile-card{padding:22px;border:1px solid rgba(212,175,55,.25);border-radius:12px;background:linear-gradient(145deg,#14223a,#080d18)}
 .ipg-profile-card h3{color:#f0d477;margin:12px 0 7px}
 .ipg-profile-card p{color:#b8c2d3;line-height:1.6;margin:6px 0}
