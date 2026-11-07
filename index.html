@@ -1120,7 +1120,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
             <input name="country" placeholder="Country" required>
             <input name="captain_name" placeholder="Captain Name" required>
             <input name="captain_discord" placeholder="Captain Discord" required>
-            <input name="logo_url" type="url" placeholder="Club Logo URL (optional)">
+            <input name="logo_url" type="url" placeholder="Club Logo URL (optional — default badge used if empty)">
         </div>
         <button class="register-button" type="submit" id="clubFormSubmit">SUBMIT CLUB REGISTRATION →</button>
         <button type="button" id="cancelClubEdit" hidden>CANCEL</button>
@@ -1149,7 +1149,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
     <label>Former clubs</label><input name="former_clubs" placeholder="Separate clubs with commas">
     <label>Achievements</label><textarea name="achievements" rows="2" maxlength="1000"></textarea>
     <label>Player bio</label><textarea name="bio" rows="3" maxlength="1200"></textarea>
-    <label>Profile image URL (optional)</label><input name="avatar_url" type="url">
+    <label>Profile image URL (optional — default image used if empty)</label><input name="avatar_url" type="url">
     <label>Availability</label><select name="availability"><option value="free_agent">Free Agent — visible to clubs</option><option value="not_listed">Not listed publicly</option></select>
     <button type="submit">SAVE PLAYER PROFILE</button>
    </form>
@@ -1659,7 +1659,7 @@ refreshClubAccount=async function(session){await priorRefreshForManager(session)
   if(error){clubBox.innerHTML='<p>Club profiles could not be loaded. '+safe(error.message)+'</p>';return}
   clubs=data||[];
   if(!clubs.length){clubBox.innerHTML="<p>No approved clubs yet. Be among the first to join IPG.</p>";return}
-  clubBox.innerHTML=clubs.map(x=>'<article class="ipg-profile-card ipg-logo-preview"><button class="ipg-profile-logo-button" type="button" data-club-profile="'+safe(x.id)+'" aria-label="View '+safe(x.club_name)+' profile">'+(x.logo_url?'<img src="'+safe(x.logo_url)+'" alt="'+safe(x.club_name)+' logo">':'<span class="ipg-profile-art" aria-hidden="true">CLUB</span>')+'</button><h3 class="ipg-profile-preview-name">'+safe(x.club_name)+'</h3></article>').join("");
+  clubBox.innerHTML=clubs.map(x=>'<article class="ipg-profile-card ipg-logo-preview"><button class="ipg-profile-logo-button" type="button" data-club-profile="'+safe(x.id)+'" aria-label="View '+safe(x.club_name)+' profile">'+(x.logo_url?'<img src="'+safe(x.logo_url)+'" alt="'+safe(x.club_name)+' logo">':'<img src="default-club.svg" alt="Default club profile image">')+'</button><h3 class="ipg-profile-preview-name">'+safe(x.club_name)+'</h3></article>').join("");
  }
  async function loadPlayerProfiles(){
   playerBox.innerHTML="<p>Loading public player profiles...</p>";
@@ -1667,7 +1667,7 @@ refreshClubAccount=async function(session){await priorRefreshForManager(session)
   if(error){playerBox.innerHTML='<p>Player profiles could not be loaded. '+safe(error.message)+'</p>';return}
   players=data||[];
   if(!players.length){playerBox.innerHTML="<p>No public player profiles yet.</p>";return}
-  playerBox.innerHTML=players.map(p=>'<article class="ipg-profile-card ipg-logo-preview"><button class="ipg-profile-logo-button" type="button" data-player-profile="'+safe(p.user_id)+'" aria-label="View '+safe(p.display_name)+' profile">'+(p.avatar_url?'<img src="'+safe(p.avatar_url)+'" alt="'+safe(p.display_name)+' avatar">':'<span class="ipg-profile-art" aria-hidden="true">PLAYER</span>')+'</button><h3 class="ipg-profile-preview-name">'+safe(p.display_name)+'</h3></article>').join("");
+  playerBox.innerHTML=players.map(p=>'<article class="ipg-profile-card ipg-logo-preview"><button class="ipg-profile-logo-button" type="button" data-player-profile="'+safe(p.user_id)+'" aria-label="View '+safe(p.display_name)+' profile">'+(p.avatar_url?'<img src="'+safe(p.avatar_url)+'" alt="'+safe(p.display_name)+' avatar">':'<img src="default-player.svg" alt="Default player profile image">')+'</button><h3 class="ipg-profile-preview-name">'+safe(p.display_name)+'</h3></article>').join("");
  }
  document.querySelectorAll("[data-profile-tab]").forEach(b=>b.addEventListener("click",()=>{
   document.querySelectorAll("[data-profile-tab]").forEach(x=>x.classList.toggle("active",x===b));
