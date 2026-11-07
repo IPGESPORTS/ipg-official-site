@@ -929,6 +929,18 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
 .ipg-profile-preview-name{margin:0!important;color:#aeb7c5!important;font-size:13px!important;font-weight:800!important;letter-spacing:.13em;text-align:center;text-transform:uppercase;line-height:1.4;overflow-wrap:anywhere}
 @media(max-width:600px){.ipg-profile-card.ipg-logo-preview{min-height:174px;gap:11px}.ipg-profile-preview-name{font-size:12px!important}}
 </style>
+
+<style id="ipg-header-auth-actions">
+header{gap:22px}
+.ipg-header-auth{display:flex;align-items:center;gap:9px;flex-shrink:0}
+.ipg-header-auth button{min-height:40px;padding:0 15px;border-radius:5px;font-size:11px;font-weight:900;letter-spacing:.1em;cursor:pointer;transition:transform .2s ease,background .2s ease,border-color .2s ease}
+.ipg-header-login{color:#d6deea;background:transparent;border:1px solid rgba(174,187,205,.48)}
+.ipg-header-login:hover{border-color:#d4af37;color:#f0d477}
+.ipg-header-signup{color:#10131a;background:linear-gradient(135deg,#f0d477,#b58a25);border:1px solid #d4af37}
+.ipg-header-auth button:hover{transform:translateY(-1px)}
+@media(max-width:900px){header{gap:12px}.ipg-header-auth{margin-left:auto}}
+@media(max-width:700px){.ipg-header-auth{width:100%;justify-content:flex-end}.ipg-header-auth button{min-height:38px}header{align-items:center}}
+</style>
 </head>
 
 <body>
@@ -948,6 +960,10 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
         <a href="#register">REGISTER</a>
         <a class="discord-nav" href="https://discord.gg/PNYkEztN5K" target="_blank" rel="noopener noreferrer">JOIN DISCORD ↗</a>
     </nav>
+    <div class="ipg-header-auth">
+        <button type="button" class="ipg-header-login" id="headerLoginButton">LOG IN</button>
+        <button type="button" class="ipg-header-signup" id="headerSignupButton">SIGN UP</button>
+    </div>
 </header>
 <div id="tournamentMenu" class="tournament-menu">
 
@@ -1726,6 +1742,28 @@ refreshClubAccount=async function(session){await priorRefreshForManager(session)
     });
   },{threshold:0.12,rootMargin:"0px 0px -45px 0px"});
   nodes.forEach(el=>{if(el.classList.contains("ipg-scroll-reveal")) observer.observe(el)});
+})();
+</script>
+
+<script id="ipg-header-auth-navigation">
+(()=>{
+ const goToAccount=(mode)=>{
+  const section=document.getElementById("register");
+  if(!section)return;
+  section.scrollIntoView({behavior:"smooth",block:"start"});
+  window.setTimeout(()=>{
+   if(mode==="signup"){
+    document.getElementById("accountTypeChooser")?.scrollIntoView({behavior:"smooth",block:"center"});
+    document.querySelector("[data-account-type]")?.focus({preventScroll:true});
+   }else if(window.selectedAccountType){
+    document.getElementById("accountEmail")?.focus({preventScroll:true});
+   }else{
+    document.getElementById("accountTypeChooser")?.scrollIntoView({behavior:"smooth",block:"center"});
+   }
+  },350);
+ };
+ document.getElementById("headerSignupButton")?.addEventListener("click",()=>goToAccount("signup"));
+ document.getElementById("headerLoginButton")?.addEventListener("click",()=>goToAccount("login"));
 })();
 </script>
 </body>
