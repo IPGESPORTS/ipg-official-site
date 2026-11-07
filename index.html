@@ -1366,7 +1366,7 @@ header{gap:22px}
 .ipg-profile-dialog h2{margin:10px 0 8px;font-size:clamp(24px,4vw,36px);letter-spacing:.1em}.ipg-profile-close{position:absolute;right:16px;top:12px;border:0;background:transparent;color:#fff;font-size:32px;cursor:pointer}.ipg-profile-summary{color:#9fb5d0;font-size:13px;margin-bottom:22px}
 #ipg-profile-form-slot .ipg-market-card{display:block!important;width:100%;padding:0;border:0;background:transparent;box-shadow:none}#ipg-profile-form-slot form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 14px}
 #ipg-profile-form-slot form label{grid-column:1/-1;color:#b9cce2;font-size:10px;font-weight:800;letter-spacing:.12em;text-transform:uppercase}#ipg-profile-form-slot form input,#ipg-profile-form-slot form select,#ipg-profile-form-slot form textarea{grid-column:1/-1;width:100%;min-width:0;background:#071426;color:#fff;border:1px solid rgba(143,183,226,.25);padding:12px}
-#ipg-profile-form-slot form button{grid-column:1/-1;padding:14px;background:#dce8f7;color:#071426;border:0;font-weight:900;letter-spacing:.1em;cursor:pointer}.ipg-profile-activity{margin-top:26px;padding-top:18px;border-top:1px solid rgba(143,183,226,.2)}.ipg-profile-activity h3{font-size:13px;letter-spacing:.14em}#ipg-profile-activity-slot{color:#c5d5e8;font-size:13px}.ipg-profile-signout{margin-top:24px;padding:11px 16px;border:1px solid rgba(174,187,205,.45);background:transparent;color:#fff;font-weight:800;cursor:pointer}
+#ipg-profile-form-slot form button{grid-column:1/-1;padding:14px;background:#dce8f7;color:#071426;border:0;font-weight:900;letter-spacing:.1em;cursor:pointer}.ipg-profile-signout{margin-top:24px;padding:11px 16px;border:1px solid rgba(174,187,205,.45);background:transparent;color:#fff;font-weight:800;cursor:pointer}
 @media(max-width:600px){.ipg-profile-dialog{max-height:92vh}#ipg-profile-form-slot form{grid-template-columns:1fr}}
 </style>
 
@@ -1397,7 +1397,7 @@ header{gap:22px}
     </div>
 </header>
 
-<div id="ipg-profile-modal" class="ipg-profile-modal" hidden aria-hidden="true"><div class="ipg-profile-backdrop" data-profile-close></div><section class="ipg-profile-dialog" role="dialog" aria-modal="true" aria-labelledby="ipg-profile-title"><button type="button" class="ipg-profile-close" data-profile-close aria-label="Close profile">×</button><span class="ipg-eyebrow">IPG PLAYER NETWORK</span><h2 id="ipg-profile-title">MY PLAYER PROFILE</h2><p id="ipg-profile-summary" class="ipg-profile-summary">Loading your profile…</p><div id="ipg-profile-form-slot"></div><div class="ipg-profile-activity"><h3>MY APPLICATIONS & OFFERS</h3><div id="ipg-profile-activity-slot"></div></div><button type="button" id="ipg-profile-signout" class="ipg-profile-signout">SIGN OUT</button></section></div>
+<div id="ipg-profile-modal" class="ipg-profile-modal" hidden aria-hidden="true"><div class="ipg-profile-backdrop" data-profile-close></div><section class="ipg-profile-dialog" role="dialog" aria-modal="true" aria-labelledby="ipg-profile-title"><button type="button" class="ipg-profile-close" data-profile-close aria-label="Close profile">×</button><span class="ipg-eyebrow">IPG PLAYER NETWORK</span><h2 id="ipg-profile-title">MY PLAYER PROFILE</h2><p id="ipg-profile-summary" class="ipg-profile-summary">Loading your profile…</p><div id="ipg-profile-form-slot"></div><button type="button" id="ipg-profile-signout" class="ipg-profile-signout">SIGN OUT</button></section></div>
 
 <div id="tournamentMenu" class="tournament-menu">
 
@@ -1561,7 +1561,7 @@ header{gap:22px}
             <p id="clubAccountDetails"></p>
             <div id="playerAccountChoices" class="ipg-account-choices">
                 <p>WHAT WOULD YOU LIKE TO DO?</p>
-                <p class="account-muted">Player profiles and club applications are available in the IPG Player Network.</p>
+                <p class="account-muted">Player profiles are available in the IPG Player Network.</p>
             </div>
             <button type="button" id="editClubProfileButton" hidden>EDIT CLUB PROFILE</button>
             <button type="button" id="signOutButton">SIGN OUT</button>
@@ -1624,7 +1624,7 @@ header{gap:22px}
 <section id="player-marketplace">
  <span class="ipg-eyebrow">IPG PLAYER NETWORK</span>
  
- <p class="ipg-section-intro">Create your player profile, find a club and manage your applications and contract offers.</p>
+ <p class="ipg-section-intro">Create your player profile and connect with clubs.</p>
  <div class="ipg-market-grid">
   <div class="ipg-market-card">
    <h3>PLAYER ACCOUNT</h3>
@@ -1647,11 +1647,7 @@ header{gap:22px}
    </form>
    <p class="ipg-market-muted" id="playerProfileMessage" aria-live="polite"></p>
   </div>
-  <div class="ipg-market-card">
-   <h3>MY APPLICATIONS & OFFERS</h3>
-   <div id="playerActivity"><p class="ipg-market-muted">Sign in to view applications and contract offers.</p></div>
-  </div>
- </div>
+   </div>
 
 </section>
 \n<section class="ipg-championship-close" aria-label="IPG championship statement">
@@ -2109,15 +2105,15 @@ const playerMessage = document.getElementById("playerProfileMessage");
 let playerProfile = null;
 function playerMsg(t){playerMessage.textContent=t}
 async function loadPlayerHub(){
- const status=document.getElementById("playerAuthStatus"), activity=document.getElementById("playerActivity");
- if(!currentSession || selectedAccountType!=="player"){status.textContent=selectedAccountType==="club"?"You are signed in as a club/manager. Switch to Player above to manage a player profile.":"Choose Player above and sign in to manage your player profile.";playerForm.querySelectorAll("input,select,textarea,button").forEach(x=>x.disabled=true);activity.textContent="Sign in as a player to view applications and offers.";return}
+ const status=document.getElementById("playerAuthStatus");
+ if(!currentSession || selectedAccountType!=="player"){status.textContent=selectedAccountType==="club"?"You are signed in as a club/manager. Switch to Player above to manage a player profile.":"Choose Player above and sign in to manage your player profile.";playerForm.querySelectorAll("input,select,textarea,button").forEach(x=>x.disabled=true);return}
  playerForm.querySelectorAll("input,select,textarea,button").forEach(x=>x.disabled=false);
  status.textContent="Signed in as "+currentSession.user.email+" — complete your player profile.";
  const {data,error}=await supabaseClient.from("player_profiles").select("*").eq("user_id",currentSession.user.id).maybeSingle();
  if(error){playerMsg("Could not load profile: "+error.message);return}
  playerProfile=data;
  if(data){Object.entries(data).forEach(([k,v])=>{const el=playerForm.elements[k];if(el)el.value=k==="former_clubs"?(v||[]).join(", "):(v??"")});}
- await loadPlayerActivity();
+
 }
 playerForm.addEventListener("submit",async e=>{
  e.preventDefault();if(!currentSession || selectedAccountType!=="player"){playerMsg("Choose Player and sign in before saving a player profile.");return}
@@ -2128,20 +2124,7 @@ playerForm.addEventListener("submit",async e=>{
  playerMsg("Player profile saved. You can edit these details any time while signed in.");
 });
 function escPlayer(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
-async function loadPlayerActivity(){
- const box=document.getElementById("playerActivity");
- const [apps,offers]=await Promise.all([
-  supabaseClient.from("player_applications").select("id,status,message,created_at,clubs(club_name)").eq("player_id",currentSession.user.id).order("created_at",{ascending:false}),
-  supabaseClient.from("player_contracts").select("id,status,terms,created_at,clubs(club_name)").eq("player_id",currentSession.user.id).order("created_at",{ascending:false})
- ]);
- if(apps.error||offers.error){box.textContent="Could not load account activity.";return}
- box.innerHTML="<h4>Applications</h4>"+((apps.data||[]).map(a=>"<p>"+escPlayer(a.clubs?.club_name||"Club")+" — "+escPlayer(a.status)+"</p>").join("")||"<p>No applications yet.</p>")+"<h4>Contract offers</h4>"+((offers.data||[]).map(o=>"<div><p>"+escPlayer(o.clubs?.club_name||"Club")+" — "+escPlayer(o.status)+"</p>"+(o.status==="pending"?'<button type="button" data-contract="'+o.id+'" data-answer="active">ACCEPT</button><button type="button" data-contract="'+o.id+'" data-answer="rejected">REJECT</button>':'')+"</div>").join("")||"<p>No contract offers yet.</p>");
-}
-document.getElementById("playerActivity").addEventListener("click",async e=>{
- const b=e.target.closest("[data-contract]");if(!b)return;
- const {error}=await supabaseClient.from("player_contracts").update({status:b.dataset.answer,responded_at:new Date().toISOString()}).eq("id",b.dataset.contract).eq("status","pending");
- if(error){alert("Could not respond: "+error.message);return}await loadPlayerActivity();alert(b.dataset.answer==="active"?"Contract accepted.":"Offer rejected.");
-});
+
 const previousRefreshClubAccount=refreshClubAccount;
 refreshClubAccount=async function(session){await previousRefreshClubAccount(session);await loadPlayerHub()};
 </script>
@@ -2395,7 +2378,7 @@ refreshClubAccount=async function(session){await previousRefreshClubAccount(sess
 </script>
 
 
-<script id="ipg-profile-modal-events">(()=>{const modal=document.getElementById("ipg-profile-modal"),avatar=document.getElementById("headerAvatarButton"),form=document.getElementById("playerProfileForm"),activity=document.getElementById("playerActivity");if(form)document.getElementById("ipg-profile-form-slot").appendChild(form);if(activity)document.getElementById("ipg-profile-activity-slot").appendChild(activity);const close=()=>{modal.hidden=true;modal.setAttribute("aria-hidden","true");document.body.style.overflow="";};const open=async()=>{if(!window.currentSession){location.href="account.html?mode=login&next=profile";return;}modal.hidden=false;modal.setAttribute("aria-hidden","false");document.body.style.overflow="hidden";const m=window.currentSession.user.user_metadata||{};document.getElementById("ipg-profile-summary").textContent=(m.player_name||m.username||"IPG MEMBER")+" · "+(window.currentSession.user.email||"");if(typeof loadPlayerHub==="function")await loadPlayerHub();};avatar?.addEventListener("click",open);document.getElementById("headerProfileButton")?.addEventListener("click",e=>{e.preventDefault();open();});modal?.querySelectorAll("[data-profile-close]").forEach(el=>el.addEventListener("click",close));document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!modal.hidden)close();});document.getElementById("ipg-profile-signout")?.addEventListener("click",async()=>{const {error}=await supabaseClient.auth.signOut();if(error){document.getElementById("ipg-profile-summary").textContent="Could not sign out: "+error.message;return;}close();await refreshClubAccount(null);});})();</script>
+<script id="ipg-profile-modal-events">(()=>{const modal=document.getElementById("ipg-profile-modal"),avatar=document.getElementById("headerAvatarButton"),form=document.getElementById("playerProfileForm");if(form)document.getElementById("ipg-profile-form-slot").appendChild(form);const close=()=>{modal.hidden=true;modal.setAttribute("aria-hidden","true");document.body.style.overflow="";};const open=async()=>{if(!window.currentSession){location.href="account.html?mode=login&next=profile";return;}modal.hidden=false;modal.setAttribute("aria-hidden","false");document.body.style.overflow="hidden";const m=window.currentSession.user.user_metadata||{};document.getElementById("ipg-profile-summary").textContent=(m.player_name||m.username||"IPG MEMBER")+" · "+(window.currentSession.user.email||"");if(typeof loadPlayerHub==="function")await loadPlayerHub();};avatar?.addEventListener("click",open);document.getElementById("headerProfileButton")?.addEventListener("click",e=>{e.preventDefault();open();});modal?.querySelectorAll("[data-profile-close]").forEach(el=>el.addEventListener("click",close));document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!modal.hidden)close();});document.getElementById("ipg-profile-signout")?.addEventListener("click",async()=>{const {error}=await supabaseClient.auth.signOut();if(error){document.getElementById("ipg-profile-summary").textContent="Could not sign out: "+error.message;return;}close();await refreshClubAccount(null);});})();</script>
 
 </body>
 </html>
