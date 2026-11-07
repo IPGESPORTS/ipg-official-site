@@ -786,7 +786,7 @@ nav a:hover {
         <div id="magicLinkForm">
             <input id="accountEmail" type="email" placeholder="Your club contact email" autocomplete="email" required>
             <button type="button" id="sendMagicLink">EMAIL ME A LOGIN CODE →</button>
-            <p class="account-muted">We will email you a six-digit, one-time login code.</p>
+            <p class="account-muted">We will email you a eight-digit, one-time login code.</p>
         </div>
         <div id="emailOtpForm" hidden>
             <input id="emailOtpCode" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="8" placeholder="Enter your 8-digit code">
@@ -984,7 +984,7 @@ let pendingOtpEmail = "";
 async function sendEmailOtp() {
     const email = document.getElementById("accountEmail").value.trim();
     if (!email) { setAccountMessage("Enter your email address first."); return; }
-    setAccountMessage("Sending your six-digit login code...");
+    setAccountMessage("Sending your eight-digit login code...");
     const { error } = await supabaseClient.auth.signInWithOtp({
         email,
         options: { shouldCreateUser: true }
