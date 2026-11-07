@@ -187,6 +187,102 @@ nav a:hover {
     color: white;
     text-align: center;
 }
+  /* IPG TOURNAMENT MENU */
+
+.tournament-menu {
+    display: none;
+    max-width: 950px;
+    margin: 50px auto;
+    padding: 35px;
+    background: linear-gradient(145deg, #111c30, #080d18);
+    border: 1px solid rgba(212,175,55,0.3);
+    border-radius: 10px;
+}
+
+.tournament-menu.show {
+    display: block;
+}
+
+.tournament-menu-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.tournament-menu-header span {
+    color: #d4af37;
+    font-size: 11px;
+    letter-spacing: 3px;
+}
+
+.tournament-menu-header h2 {
+    color: white;
+    font-size: 32px;
+    margin: 12px 0;
+}
+
+.tournament-menu-header p {
+    color: #aeb7c7;
+}
+
+.tournament-category {
+    margin-top: 35px;
+}
+
+.tournament-category h3 {
+    color: #d4af37;
+    font-size: 15px;
+    letter-spacing: 2px;
+    margin-bottom: 18px;
+}
+
+.tournament-card {
+    background: #0a1220;
+    border: 1px solid #29364b;
+    border-radius: 7px;
+    padding: 25px;
+    margin-bottom: 15px;
+}
+
+.tournament-card h4 {
+    color: white;
+    font-size: 19px;
+    margin: 15px 0 8px;
+}
+
+.tournament-card p {
+    color: #aeb7c7;
+    font-size: 14px;
+}
+
+.status-live {
+    color: #ff6262;
+    font-size: 11px;
+    font-weight: bold;
+}
+
+.status-open {
+    color: #d4af37;
+    font-size: 11px;
+    font-weight: bold;
+}
+
+.join-tournament {
+    margin-top: 15px;
+    padding: 13px 22px;
+    background: linear-gradient(135deg, #f0d477, #b58a25);
+    border: none;
+    border-radius: 4px;
+    color: #080d18;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+@media (max-width: 600px) {
+    .tournament-menu {
+        margin: 25px 12px;
+        padding: 22px;
+    }
+}
     </style>
 </head>
 
@@ -370,6 +466,29 @@ document.getElementById("clubForm").addEventListener("submit", async function(ev
         message.textContent = "Registration submitted! Await admin approval.";
         form.reset();
     }
+});
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const tournamentButton = document.getElementById("tournamentMenuButton");
+    const tournamentMenu = document.getElementById("tournamentMenu");
+
+    if (!tournamentButton || !tournamentMenu) return;
+
+    tournamentButton.addEventListener("click", function (event) {
+        event.preventDefault();
+
+        tournamentMenu.classList.toggle("show");
+
+        if (tournamentMenu.classList.contains("show")) {
+            tournamentMenu.scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            });
+        }
+    });
+
 });
 </script>
 </body>
