@@ -632,7 +632,7 @@ nav a:hover {
 .ipg-account-panel input{width:100%;box-sizing:border-box;padding:14px;margin:8px 0;background:#080f1d;border:1px solid #29364b;border-radius:5px;color:white}
 .ipg-account-panel button,.ipg-account-panel .account-button{padding:13px 20px;background:linear-gradient(135deg,#f0d477,#b58a25);border:0;border-radius:5px;color:#080d18;font-weight:800;cursor:pointer}
 .ipg-account-panel .account-muted{color:#9da9ba;font-size:13px}
-#clubForm[hidden],#clubAccountDashboard[hidden]{display:none!important}
+#clubForm[hidden],#clubAccountDashboard[hidden],#emailOtpForm[hidden]{display:none!important}
 
     </style>
 </head>
@@ -785,8 +785,14 @@ nav a:hover {
         <p id="accountStatus">Sign in with your email to register your club or access an existing club.</p>
         <div id="magicLinkForm">
             <input id="accountEmail" type="email" placeholder="Your club contact email" autocomplete="email" required>
-            <button type="button" id="sendMagicLink">EMAIL ME A SIGN-IN LINK →</button>
-            <p class="account-muted">No password needed. We will email you a secure one-time sign-in link.</p>
+            <button type="button" id="sendMagicLink">EMAIL ME A LOGIN CODE →</button>
+            <p class="account-muted">We will email you a six-digit, one-time login code.</p>
+        </div>
+        <div id="emailOtpForm" hidden>
+            <input id="emailOtpCode" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="Enter your 6-digit code">
+            <button type="button" id="verifyEmailOtp">VERIFY CODE →</button>
+            <button type="button" id="resendEmailOtp" style="margin-left:8px">SEND NEW CODE</button>
+            <p class="account-muted">Enter the code sent to <span id="otpEmailLabel"></span>.</p>
         </div>
         <div id="clubAccountDashboard" hidden>
             <p id="clubAccountDetails"></p>
@@ -973,15 +979,48 @@ async function refreshClubAccount(session) {
     setAccountMessage("Signed in as " + session.user.email);
 }
 
-document.getElementById("sendMagicLink").addEventListener("click", async () => {
+let pendingOtpEmail = "";
+
+async function sendEmailOtp() {
     const email = document.getElementById("accountEmail").value.trim();
     if (!email) { setAccountMessage("Enter your email address first."); return; }
-    setAccountMessage("Sending your secure sign-in link...");
+    setAccountMessage("Sending your six-digit login code...");
     const { error } = await supabaseClient.auth.signInWithOtp({
         email,
-        options: { emailRedirectTo: window.location.href }
+        options: { shouldCreateUser: true }
     });
-    setAccountMessage(error ? "Could not send link: " + error.message : "Check your inbox. Open the IPG sign-in link on this device to continue.");
+    if (error) {
+        setAccountMessage("Could not send code: " + error.message);
+        return;
+    }
+    pendingOtpEmail = email;
+    document.getElementById("otpEmailLabel").textContent = email;
+    document.getElementById("magicLinkForm").hidden = true;
+    document.getElementById("emailOtpForm").hidden = false;
+    document.getElementById("emailOtpCode").value = "";
+    setAccountMessage("Code sent. Check your inbox and enter the six digits below.");
+}
+
+document.getElementById("sendMagicLink").addEventListener("click", sendEmailOtp);
+document.getElementById("resendEmailOtp").addEventListener("click", sendEmailOtp);
+
+document.getElementById("verifyEmailOtp").addEventListener("click", async () => {
+    const token = document.getElementById("emailOtpCode").value.trim();
+    if (!pendingOtpEmail) { setAccountMessage("Request a login code first."); return; }
+    if (!/^\\d{6}$/.test(token)) { setAccountMessage("Enter the six-digit code from your email."); return; }
+    setAccountMessage("Verifying your login code...");
+    const { data, error } = await supabaseClient.auth.verifyOtp({
+        email: pendingOtpEmail,
+        token,
+        type: "email"
+    });
+    if (error) {
+        setAccountMessage("Could not verify code: " + error.message);
+        return;
+    }
+    document.getElementById("emailOtpForm").hidden = true;
+    pendingOtpEmail = "";
+    await refreshClubAccount(data.session);
 });
 
 document.getElementById("signOutButton").addEventListener("click", async () => {
