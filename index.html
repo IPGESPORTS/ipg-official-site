@@ -1161,16 +1161,10 @@ nav a:hover, nav a:focus-visible {
 
 <section class="section" id="register">
     <h2>JOIN INTERNATIONAL PROFESSIONAL GAMING</h2>
-    <p>Choose your account type. Your email login is the same for both account types.</p>
+    <p>Log in or create your player account to access IPG ESPORTS. You can apply to create a club after signing in.</p>
 
     <div class="ipg-account-panel" id="clubAccountPanel">
-        <h3>1. CHOOSE ACCOUNT TYPE</h3>
-        <div id="accountTypeChooser" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin:18px 0">
-            <button type="button" class="account-type-button" data-account-type="club">CLUB / MANAGER<br><small>Register a club and request approval</small></button>
-            <button type="button" class="account-type-button" data-account-type="player">PLAYER<br><small>Create a player profile and become a Free Agent</small></button>
-        </div>
-        <p id="accountTypeDescription" class="account-muted">Select whether you are registering as a club manager or a player.</p>
-        <p id="accountStatus">Choose an account type to continue.</p>
+        <p id="accountStatus">Enter your email to receive a secure eight-digit login code.</p>
         <div id="magicLinkForm" hidden>
             <h3>2. EMAIL LOGIN</h3>
             <input id="accountEmail" type="email" placeholder="Your email address" autocomplete="email" required>
@@ -1397,7 +1391,7 @@ function renderPublicTournamentCards(tournaments, container, emptyMessage, teams
     });
 }
 
-let selectedAccountType = localStorage.getItem("ipg_account_type") || "";
+let selectedAccountType = localStorage.getItem("ipg_account_type") || "player";
 function chooseAccountType(type) {
     selectedAccountType = type;
     localStorage.setItem("ipg_account_type", type);
@@ -1411,7 +1405,7 @@ function chooseAccountType(type) {
     if (currentSession && typeof refreshClubAccount === "function") refreshClubAccount(currentSession);
 }
 document.querySelectorAll("[data-account-type]").forEach(b => b.addEventListener("click", () => chooseAccountType(b.dataset.accountType)));
-if (selectedAccountType) chooseAccountType(selectedAccountType);
+chooseAccountType(selectedAccountType);
 
 function setAccountMessage(text) {
     document.getElementById("accountStatus").textContent = text;
