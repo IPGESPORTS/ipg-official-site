@@ -1223,7 +1223,12 @@ async function joinTournament(tournament) {
         console.error(error);
         alert("Could not join tournament: " + error.message);
     } else {
-        alert("Your club has successfully joined " + tournament.name + "!");
+        const { data: { session } } = await supabaseClient.auth.getSession();
+        const { error: notifyError } = await supabaseClient.functions.invoke("ipg-discord-notify", {
+            body: { event: "tournament_entry_changed", tournament_id: tournament.id, club_id: currentClub.id }
+        });
+        if (notifyError) console.warn("Discord team list update failed:", notifyError.message);
+        alert("Your club has successfully joined " + tournament.name + "!" + (notifyError ? " Discord list update could not be confirmed; please contact an admin." : ""));
     }
 }
 
