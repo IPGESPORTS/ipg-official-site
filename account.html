@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>IPG ESPORTS | Account</title>
+<style>
+:root{color-scheme:dark;--gold:#d4af37;--light:#f0d477;--muted:#aeb7c5}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 50% 0%,#182944 0,#080d18 58%);color:#f4f6fa;font-family:Arial,sans-serif;display:grid;place-items:center;padding:28px 16px}
+.wrap{width:min(100%,470px)}.brand{text-align:center;margin-bottom:26px}.brand img{width:100px;height:70px;object-fit:contain}.brand p{font-size:11px;letter-spacing:.2em;color:var(--muted);font-weight:700}
+.panel{background:linear-gradient(145deg,rgba(20,34,58,.97),rgba(8,13,24,.98));border:1px solid rgba(212,175,55,.28);border-radius:12px;padding:30px;box-shadow:0 22px 70px rgba(0,0,0,.35)}
+h1{font-size:25px;letter-spacing:.07em;text-align:center;margin:0 0 8px}.intro{text-align:center;color:var(--muted);font-size:13px;line-height:1.6;margin:0 0 24px}
+.tabs,.types{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:18px}.tabs button,.types button,.action{min-height:46px;border-radius:6px;font-weight:800;letter-spacing:.08em;cursor:pointer}
+.tabs button,.types button{background:#0b1423;border:1px solid rgba(174,187,205,.28);color:#dce3ed}.tabs button.active,.types button.active{border-color:var(--gold);color:var(--light);background:rgba(212,175,55,.09)}
+label{display:block;color:var(--muted);font-size:11px;font-weight:800;letter-spacing:.12em;margin:17px 0 8px}
+input{width:100%;height:48px;border-radius:6px;border:1px solid rgba(174,187,205,.3);background:#070d17;color:#fff;padding:0 14px;font-size:16px;outline:none}input:focus{border-color:var(--gold)}
+.action{width:100%;margin-top:18px;border:1px solid var(--gold);background:linear-gradient(135deg,var(--light),#b58a25);color:#10131a}
+.secondary{width:100%;margin-top:10px;min-height:42px;background:transparent;border:1px solid rgba(174,187,205,.3);color:#dce3ed;border-radius:6px;cursor:pointer}
+.status{min-height:38px;margin:16px 0 0;color:var(--light);font-size:13px;line-height:1.5;text-align:center}.back{display:block;text-align:center;color:var(--muted);font-size:12px;margin-top:20px;text-decoration:none}.back:hover{color:var(--light)}
+[hidden]{display:none!important}
+@media(max-width:420px){.panel{padding:23px 18px}h1{font-size:22px}}
+</style>
+</head>
+<body>
+<main class="wrap">
+<div class="brand"><a href="index.html"><img src="ipg-logo.png" alt="IPG ESPORTS"></a><p>COMPETE. DOMINATE. BECOME LEGENDS.</p></div>
+<section class="panel">
+<h1 id="heading">JOIN IPG ESPORTS</h1><p class="intro" id="intro">Choose your account type and create your IPG account.</p>
+<div class="tabs"><button type="button" id="signupTab" class="active">SIGN UP</button><button type="button" id="loginTab">LOG IN</button></div>
+<div id="typeArea"><label>ACCOUNT TYPE</label><div class="types"><button type="button" data-type="club" class="active">CLUB / MANAGER</button><button type="button" data-type="player">PLAYER</button></div></div>
+<div id="emailArea"><label for="email">EMAIL ADDRESS</label><input id="email" type="email" autocomplete="email" placeholder="name@example.com"></div>
+<button type="button" class="action" id="sendCode">SEND VERIFICATION CODE</button>
+<div id="otpArea" hidden><label for="otp">8-DIGIT EMAIL CODE</label><input id="otp" inputmode="numeric" autocomplete="one-time-code" maxlength="8" placeholder="Enter code"><button type="button" class="action" id="verify">VERIFY & CONTINUE</button><button type="button" class="secondary" id="resend">SEND A NEW CODE</button></div>
+<p class="status" id="status" role="status" aria-live="polite">Your account is protected with email verification.</p>
+</section>
+<a class="back" href="index.html">← BACK TO IPG ESPORTS</a>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const supabaseClient=window.supabase.createClient("https://anndmcqwvfjbnhsehrom.supabase.co","sb_publishable_4OwZ-opv95mMay8hW-5yMA_gmWhMLDC");
+let mode=new URLSearchParams(location.search).get("mode")==="login"?"login":"signup";
+let accountType="club",pendingEmail="";
+const $=id=>document.getElementById(id);
+function renderMode(){ $("signupTab").classList.toggle("active",mode==="signup");$("loginTab").classList.toggle("active",mode==="login");$("heading").textContent=mode==="signup"?"JOIN IPG ESPORTS":"WELCOME BACK";$("intro").textContent=mode==="signup"?"Choose your account type and create your IPG account.":"Log in to your existing IPG account with your email."; $("typeArea").hidden=mode==="login";$("sendCode").textContent=mode==="signup"?"CREATE ACCOUNT & SEND CODE":"SEND LOGIN CODE";history.replaceState(null,"","?mode="+mode);}
+function setMode(v){mode=v;$("otpArea").hidden=true;renderMode();$("status").textContent=mode==="signup"?"Choose your account type and enter your email.":"Enter the email linked to your IPG account.";}
+$("signupTab").addEventListener("click",()=>setMode("signup"));$("loginTab").addEventListener("click",()=>setMode("login"));
+document.querySelectorAll("[data-type]").forEach(b=>b.addEventListener("click",()=>{accountType=b.dataset.type;document.querySelectorAll("[data-type]").forEach(x=>x.classList.toggle("active",x===b));}));
+async function sendCode(){const email=$("email").value.trim();if(!email){$("status").textContent="Enter your email address.";return;}if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){$("status").textContent="Enter a valid email address.";return;}$("status").textContent="Sending your verification code...";const {error}=await supabaseClient.auth.signInWithOtp({email,options:{shouldCreateUser:mode==="signup"}});if(error){$("status").textContent="Could not send code: "+error.message;return;}pendingEmail=email;$("emailArea").hidden=true;$("sendCode").hidden=true;$("otpArea").hidden=false;$("status").textContent="A code has been sent to "+email+". Check your inbox.";}
+$("sendCode").addEventListener("click",sendCode);$("resend").addEventListener("click",sendCode);
+$("verify").addEventListener("click",async()=>{const token=$("otp").value.trim();if(!/^\d{8}$/.test(token)){$("status").textContent="Enter the eight-digit code.";return;} $("status").textContent="Verifying...";const {error}=await supabaseClient.auth.verifyOtp({email:pendingEmail,token,type:"email"});if(error){$("status").textContent="Could not verify code: "+error.message;return;}localStorage.setItem("ipg_account_type",accountType);location.href="index.html";});
+renderMode();
+</script>
+</body></html>
