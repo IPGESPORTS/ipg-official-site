@@ -1,432 +1,77 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>IPG Admin Panel</title>
-
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>IPG Admin Dashboard</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 <style>
-* { box-sizing: border-box; }
-
-body {
-    margin: 0;
-    background: #080a0f;
-    color: white;
-    font-family: Arial, sans-serif;
-}
-
-header {
-    padding: 25px;
-    border-bottom: 1px solid #333;
-    display: flex;
-    justify-content: space-between;
-}
-
-.logo {
-    color: #d4af37;
-    font-size: 25px;
-    font-weight: bold;
-}
-
-main {
-    max-width: 1000px;
-    margin: 50px auto;
-    padding: 20px;
-}
-
-h1, h2 {
-    color: #d4af37;
-}
-
-.panel, .club {
-    background: #151922;
-    padding: 25px;
-    margin: 20px 0;
-    border: 1px solid #333;
-    border-radius: 8px;
-}
-
-input {
-    display: block;
-    width: 100%;
-    padding: 14px;
-    margin: 15px 0;
-    background: #080a0f;
-    color: white;
-    border: 1px solid #555;
-    border-radius: 5px;
-}
-
-button {
-    background: #d4af37;
-    color: black;
-    padding: 12px 20px;
-    border: none;
-    border-radius: 4px;
-    font-weight: bold;
-    cursor: pointer;
-    margin: 5px;
-}
-
-.reject {
-    background: #a83232;
-    color: white;
-}
-
-.hidden {
-    display: none;
-}
-
-.muted {
-    color: #aaa;
-}
-
+:root{--bg:#080a0f;--panel:#151922;--gold:#d4af37;--muted:#aab0bd;--line:#303642;--red:#a83232;--green:#237a52}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:#fff;font-family:Arial,sans-serif}header{padding:20px 4%;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}.logo{color:var(--gold);font-weight:900;font-size:24px;letter-spacing:1px}main{max-width:1150px;margin:35px auto;padding:0 18px}h1,h2,h3{color:var(--gold)}.panel,.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:20px;margin:15px 0}.hidden{display:none!important}.muted,.hint{color:var(--muted)}input,textarea,select{width:100%;padding:12px;margin:7px 0 13px;background:#090c12;color:#fff;border:1px solid #48505d;border-radius:6px;font:inherit}textarea{min-height:85px;resize:vertical}button{border:0;border-radius:6px;padding:11px 15px;margin:4px;background:var(--gold);color:#111;font-weight:800;cursor:pointer}button.secondary{background:#343c49;color:white}button.danger{background:var(--red);color:white}button.good{background:var(--green);color:white}.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:22px 0}.tabs button{background:#202632;color:#fff}.tabs button.active{background:var(--gold);color:#111}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}.stat{background:#10151e;padding:16px;border:1px solid var(--line);border-radius:8px}.stat strong{display:block;font-size:27px;color:var(--gold);margin-top:7px}.row{display:flex;gap:10px;flex-wrap:wrap}.row>*{flex:1;min-width:180px}.badge{display:inline-block;padding:4px 9px;border-radius:30px;background:#303846;color:#fff;font-size:12px}.badge.pending{background:#765c1c}.badge.approved,.badge.live{background:#205c43}.badge.rejected,.badge.completed{background:#713535}.badge.registration_open{background:#285a78}.empty{padding:20px;color:var(--muted);text-align:center;border:1px dashed var(--line);border-radius:8px}.actions{display:flex;gap:6px;flex-wrap:wrap}label{font-size:13px;color:var(--muted)}@media(max-width:600px){header{align-items:flex-start;gap:10px}.logo{font-size:19px}main{margin:20px auto}.panel,.card{padding:15px}}
 </style>
 </head>
-
 <body>
-
-<header>
-    <div class="logo">IPG ADMIN</div>
-    <button id="logoutButton" class="hidden">LOG OUT</button>
-</header>
-
+<header><div class="logo">IPG ADMIN</div><button id="logoutButton" class="secondary hidden">LOG OUT</button></header>
 <main>
-
 <section id="loginSection" class="panel">
-    <h1>ADMIN LOGIN</h1>
-
-    <form id="loginForm">
-        <input
-            type="email"
-            id="email"
-            placeholder="Admin Email"
-            required
-        >
-
-        <input
-            type="password"
-            id="password"
-            placeholder="Password"
-            required
-        >
-
-        <button type="submit">LOGIN</button>
-    </form>
-
-    <p id="loginMessage" class="muted"></p>
+<h1>ADMIN LOGIN</h1><form id="loginForm"><label>Email</label><input type="email" id="email" required autocomplete="username"><label>Password</label><input type="password" id="password" required autocomplete="current-password"><button type="submit">LOGIN</button></form><p id="loginMessage" class="muted" aria-live="polite"></p>
 </section>
-
 <section id="dashboard" class="hidden">
-
-    <h1>ADMIN DASHBOARD</h1>
-    <p>Manage International Professional Gaming.</p>
-
-    <div class="panel">
-        <h2>CLUB MANAGEMENT</h2>
-        <p id="clubCount">Loading clubs...</p>
-    </div>
-
-    <h2>PENDING REGISTRATIONS</h2>
-    <div id="pendingClubs"></div>
-
-    <h2>APPROVED CLUBS</h2>
-    <div id="approvedClubs"></div>
-    <hr>
-
-<h2>CREATE TOURNAMENT</h2>
-
-<div class="tournament-admin-form">
-
-    <input
-        type="text"
-        id="tournamentName"
-        placeholder="Tournament name"
-    >
-
-    <textarea
-        id="tournamentDescription"
-        placeholder="Tournament description"
-    ></textarea>
-
-    <select id="tournamentStatus">
-        <option value="upcoming">UPCOMING</option>
-        <option value="registration_open">REGISTRATION OPEN</option>
-        <option value="live">LIVE</option>
-        <option value="completed">COMPLETED</option>
-    </select>
-
-    <button type="button" id="createTournamentButton">
-        CREATE TOURNAMENT
-    </button>
-
-</div>
-
-<h2>ALL TOURNAMENTS</h2>
-<div id="tournamentList"></div>
-
-    <p id="dashboardMessage" class="muted"></p>
-
+<h1>ADMIN DASHBOARD</h1><p class="muted">Manage International Professional Gaming.</p>
+<div class="grid" id="stats"></div>
+<nav class="tabs" aria-label="Admin sections">
+<button class="active" data-tab="overview">OVERVIEW</button><button data-tab="clubs">CLUB MANAGEMENT</button><button data-tab="tournaments">TOURNAMENTS</button><button data-tab="entries">TOURNAMENT ENTRIES</button><button data-tab="results">RESULTS & RANKINGS</button>
+</nav>
+<section id="tab-overview" class="tab-panel"><div class="panel"><h2>Platform overview</h2><p class="muted">Use the sections above to manage clubs, competitions, registrations and match results.</p><div id="recentSummary"></div></div></section>
+<section id="tab-clubs" class="tab-panel hidden"><h2>Club management</h2><div class="row"><div><label>Filter clubs</label><select id="clubFilter"><option value="all">All clubs</option><option value="pending">Pending</option><option value="approved">Approved</option><option value="rejected">Rejected</option></select></div><div><label>Search</label><input id="clubSearch" placeholder="Club name, country or email"></div></div><div id="clubList"></div></section>
+<section id="tab-tournaments" class="tab-panel hidden"><h2 id="tournamentFormTitle">Create tournament</h2><div class="panel"><input type="hidden" id="tournamentId"><label>Tournament name</label><input id="tournamentName" placeholder="Tournament name"><label>Description</label><textarea id="tournamentDescription" placeholder="Tournament description"></textarea><div class="row"><div><label>Game</label><input id="tournamentGame" value="EA SPORTS FC 27"></div><div><label>Format</label><select id="tournamentFormat"><option>11v11</option><option>8v8</option><option>1v1</option><option>2v2</option><option>3v3</option><option>5v5</option></select></div></div><div class="row"><div><label>Start date</label><input type="datetime-local" id="tournamentStart"></div><div><label>Registration deadline</label><input type="datetime-local" id="tournamentDeadline"></div></div><label>Status</label><select id="tournamentStatus"><option value="upcoming">UPCOMING</option><option value="registration_open">REGISTRATION OPEN</option><option value="live">LIVE</option><option value="completed">COMPLETED</option></select><div class="actions"><button id="saveTournament">CREATE TOURNAMENT</button><button id="cancelEdit" class="secondary hidden">CANCEL EDIT</button></div></div><h2>All tournaments</h2><div id="tournamentList"></div></section>
+<section id="tab-entries" class="tab-panel hidden"><h2>Tournament entries</h2><label>Select tournament</label><select id="entryTournamentFilter"><option value="all">All tournaments</option></select><div id="entryList"></div></section>
+<section id="tab-results" class="tab-panel hidden"><h2>Record match result</h2><div class="panel"><label>Tournament</label><select id="resultTournament"></select><div class="row"><div><label>Home club</label><select id="homeClub"></select></div><div><label>Away club</label><select id="awayClub"></select></div></div><div class="row"><div><label>Home score</label><input type="number" min="0" step="1" id="homeScore" value="0"></div><div><label>Away score</label><input type="number" min="0" step="1" id="awayScore" value="0"></div></div><button id="saveResult">SAVE RESULT</button><p class="hint">Only clubs approved by an admin are available for selection.</p></div><h2>Recorded results</h2><div id="resultList"></div><h2>Club rankings</h2><div id="rankingList"></div></section>
+<p id="dashboardMessage" class="muted" aria-live="polite"></p>
 </section>
-
 </main>
-
 <script>
-
-const SUPABASE_URL = "https://anndmcqwvfjbnhsehrom.supabase.co";
-const SUPABASE_KEY = "sb_publishable_4OwZ-opv95mMay8hW-5yMA_gmWhMLDC";
-
-const supabaseClient = window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-);
-
-const loginSection = document.getElementById("loginSection");
-const dashboard = document.getElementById("dashboard");
-const logoutButton = document.getElementById("logoutButton");
-
-async function checkAdmin() {
-
-    const { data: { session } } =
-        await supabaseClient.auth.getSession();
-
-    if (!session) {
-        showLogin();
-        return;
-    }
-
-    const { data, error } =
-        await supabaseClient.rpc("is_ipg_admin");
-
-    if (error || data !== true) {
-        await supabaseClient.auth.signOut();
-        showLogin();
-        document.getElementById("loginMessage").textContent =
-            "Access denied. Admin account required.";
-        return;
-    }
-
-    loginSection.classList.add("hidden");
-    dashboard.classList.remove("hidden");
-    logoutButton.classList.remove("hidden");
-
-    loadClubs();
+const SUPABASE_URL="https://anndmcqwvfjbnhsehrom.supabase.co";
+const SUPABASE_KEY="sb_publishable_4OwZ-opv95mMay8hW-5yMA_gmWhMLDC";
+const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+const $=id=>document.getElementById(id);
+let clubs=[],tournaments=[],entries=[],results=[];
+function msg(t){$("dashboardMessage").textContent=t}
+function esc(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function dateVal(v){if(!v)return "";const d=new Date(v);return isNaN(d)? "":d.toLocaleString()}
+function localInput(v){if(!v)return "";const d=new Date(v);if(isNaN(d))return "";const p=n=>String(n).padStart(2,"0");return d.getFullYear()+"-"+p(d.getMonth()+1)+"-"+p(d.getDate())+"T"+p(d.getHours())+":"+p(d.getMinutes())}
+function badge(v){return '<span class="badge '+esc(v)+'">'+esc(String(v).replaceAll("_"," ").toUpperCase())+'</span>'}
+function showLogin(){ $("loginSection").classList.remove("hidden");$("dashboard").classList.add("hidden");$("logoutButton").classList.add("hidden")}
+async function checkAdmin(){
+ const {data:{session}}=await db.auth.getSession();if(!session){showLogin();return}
+ const {data,error}=await db.rpc("is_ipg_admin");if(error||data!==true){await db.auth.signOut();showLogin();$("loginMessage").textContent="Access denied. Admin account required.";return}
+ $("loginSection").classList.add("hidden");$("dashboard").classList.remove("hidden");$("logoutButton").classList.remove("hidden");await refreshAll()
 }
-
-function showLogin() {
-    loginSection.classList.remove("hidden");
-    dashboard.classList.add("hidden");
-    logoutButton.classList.add("hidden");
-}
-
-document.getElementById("loginForm").addEventListener(
-    "submit",
-    async function(event) {
-
-        event.preventDefault();
-
-        const email = document.getElementById("email").value;
-        const password = document.getElementById("password").value;
-
-        document.getElementById("loginMessage").textContent =
-            "Logging in...";
-
-        const { error } = await supabaseClient.auth.signInWithPassword({
-            email,
-            password
-        });
-
-        if (error) {
-            document.getElementById("loginMessage").textContent =
-                "Login failed. Check your email and password.";
-            return;
-        }
-
-        document.getElementById("password").value = "";
-
-        checkAdmin();
-    }
-);
-
-logoutButton.addEventListener("click", async function() {
-    await supabaseClient.auth.signOut();
-    showLogin();
-});
-
-async function loadClubs() {
-
-    const { data, error } = await supabaseClient
-        .from("clubs")
-        .select("*")
-        .order("created_at", { ascending: false });
-
-    if (error) {
-        document.getElementById("dashboardMessage").textContent =
-            "Could not load clubs: " + error.message;
-        return;
-    }
-
-    const pending = data.filter(club => club.status === "pending");
-    const approved = data.filter(club => club.status === "approved");
-
-    document.getElementById("clubCount").textContent =
-        data.length + " total clubs registered";
-async function createTournament() {
-    const name = document.getElementById("tournamentName").value.trim();
-    const description = document.getElementById("tournamentDescription").value.trim();
-    const status = document.getElementById("tournamentStatus").value;
-    const message = document.getElementById("dashboardMessage");
-
-    if (!name) {
-        message.textContent = "Enter a tournament name.";
-        return;
-    }
-
-    message.textContent = "Creating tournament...";
-
-    const { error } = await supabaseClient
-        .from("tournaments")
-        .insert([{
-            name: name,
-            description: description,
-            status: status
-        }]);
-
-    if (error) {
-        message.textContent = "Could not create tournament: " + error.message;
-        return;
-    }
-
-    document.getElementById("tournamentName").value = "";
-    document.getElementById("tournamentDescription").value = "";
-
-    message.textContent = "Tournament created successfully!";
-    loadTournaments();
-}
-
-async function loadTournaments() {
-    const container = document.getElementById("tournamentList");
-
-    const { data, error } = await supabaseClient
-        .from("tournaments")
-        .select("*")
-        .order("created_at", { ascending: false });
-
-    if (error) {
-        container.textContent = "Could not load tournaments: " + error.message;
-        return;
-    }
-
-    container.innerHTML = "";
-
-    if (data.length === 0) {
-        container.textContent = "No tournaments created yet.";
-        return;
-    }
-
-    data.forEach(tournament => {
-        const card = document.createElement("div");
-        card.className = "club";
-
-        const title = document.createElement("h3");
-        title.textContent = tournament.name;
-
-        const description = document.createElement("p");
-        description.textContent = tournament.description || "";
-
-        const status = document.createElement("p");
-        status.textContent = "Status: " + tournament.status;
-
-        card.append(title, description, status);
-        container.appendChild(card);
-    });
-}
-
-document.getElementById("createTournamentButton")
-    .addEventListener("click", createTournament);
-    renderClubs(pending, "pendingClubs");
-    renderClubs(approved, "approvedClubs");
-}
-
-function renderClubs(clubs, elementId) {
-
-    const container = document.getElementById(elementId);
-    container.innerHTML = "";
-
-    if (clubs.length === 0) {
-        container.innerHTML = '<p class="muted">No clubs found.</p>';
-        return;
-    }
-
-    clubs.forEach(club => {
-
-        const card = document.createElement("div");
-        card.className = "club";
-
-        const title = document.createElement("h3");
-        title.textContent = club.club_name;
-
-        const details = document.createElement("p");
-        details.textContent =
-            "Country: " + club.country +
-            " | Captain: " + club.captain_name +
-            " | Discord: " + club.captain_discord;
-
-        const status = document.createElement("p");
-        status.textContent = "Status: " + club.status;
-
-        card.append(title, details, status);
-
-        if (club.status === "pending") {
-
-            const approve = document.createElement("button");
-            approve.textContent = "APPROVE";
-            approve.onclick = () => updateStatus(club.id, "approved");
-
-            const reject = document.createElement("button");
-            reject.textContent = "REJECT";
-            reject.className = "reject";
-            reject.onclick = () => updateStatus(club.id, "rejected");
-
-            card.append(approve, reject);
-        }
-
-        container.appendChild(card);
-    });
-}
-
-async function updateStatus(id, status) {
-
-    const message = document.getElementById("dashboardMessage");
-    message.textContent = "Updating club...";
-
-    const { error } = await supabaseClient
-        .from("clubs")
-        .update({ status: status })
-        .eq("id", id)
-        .eq("status", "pending");
-
-    if (error) {
-        message.textContent = "Update failed: " + error.message;
-        return;
-    }
-
-    message.textContent = "Club status updated!";
-    loadClubs();
-    LoadTournaments();
-}
-
-supabaseClient.auth.onAuthStateChange((event, session) => {
-    if (event === "SIGNED_OUT") {
-        showLogin();
-    }
-});
-
-checkAdmin();
-
+$("loginForm").addEventListener("submit",async e=>{e.preventDefault();$("loginMessage").textContent="Logging in...";const {error}=await db.auth.signInWithPassword({email:$("email").value,password:$("password").value});if(error){$("loginMessage").textContent="Login failed. Check your email and password.";return}$("password").value="";await checkAdmin()});
+$("logoutButton").addEventListener("click",async()=>{await db.auth.signOut();showLogin()});
+document.querySelectorAll("[data-tab]").forEach(b=>b.addEventListener("click",()=>{document.querySelectorAll("[data-tab]").forEach(x=>x.classList.toggle("active",x===b));document.querySelectorAll(".tab-panel").forEach(x=>x.classList.add("hidden"));$("tab-"+b.dataset.tab).classList.remove("hidden")}));
+async function refreshAll(){msg("Loading admin data...");await Promise.all([loadClubs(),loadTournaments(),loadEntries(),loadResults()]);renderStats();msg("Dashboard updated.")}
+async function loadClubs(){const {data,error}=await db.from("clubs").select("*").order("created_at",{ascending:false});if(error){msg("Could not load clubs: "+error.message);return}clubs=data||[];renderClubs();renderClubSelects()}
+function renderClubs(){const f=$("clubFilter").value,q=$("clubSearch").value.trim().toLowerCase();const list=clubs.filter(c=>(f==="all"||c.status===f)&&[c.club_name,c.country,c.contact_email,c.captain_name].some(x=>String(x||"").toLowerCase().includes(q)));$("clubList").innerHTML=list.length?list.map(c=>'<article class="card"><div class="row"><div><h3>'+esc(c.club_name)+'</h3><p>'+esc(c.country)+' · Captain: '+esc(c.captain_name)+'</p><p class="muted">'+esc(c.contact_email)+' · Discord: '+esc(c.captain_discord)+'</p>'+badge(c.status)+'</div><div class="actions">'+(c.status!=="approved"?'<button class="good" data-club="'+c.id+'" data-status="approved">APPROVE</button>':'')+(c.status!=="rejected"?'<button class="danger" data-club="'+c.id+'" data-status="rejected">REJECT</button>':'')+(c.status!=="pending"?'<button class="secondary" data-club="'+c.id+'" data-status="pending">SET PENDING</button>':'')+'<button class="danger" data-delete-club="'+c.id+'">DELETE</button></div></div></article>').join(""):'<div class="empty">No clubs match this filter.</div>'}
+$("clubFilter").addEventListener("change",renderClubs);$("clubSearch").addEventListener("input",renderClubs);
+$("clubList").addEventListener("click",async e=>{const b=e.target.closest("button");if(!b)return;if(b.dataset.club){if(!confirm("Change club status to "+b.dataset.status+"?"))return;const {error}=await db.from("clubs").update({status:b.dataset.status}).eq("id",b.dataset.club);if(error){msg("Club update failed: "+error.message);return}await loadClubs();msg("Club status updated.")}if(b.dataset.deleteClub){if(!confirm("Permanently delete this club? This also removes its tournament entries and results."))return;const {error}=await db.from("clubs").delete().eq("id",b.dataset.deleteClub);if(error){msg("Delete failed: "+error.message);return}await refreshAll();msg("Club deleted.")}});
+async function loadTournaments(){const {data,error}=await db.from("tournaments").select("*").order("created_at",{ascending:false});if(error){msg("Could not load tournaments: "+error.message);return}tournaments=data||[];renderTournaments();fillTournamentSelects()}
+function renderTournaments(){$("tournamentList").innerHTML=tournaments.length?tournaments.map(t=>'<article class="card"><div class="row"><div><h3>'+esc(t.name)+'</h3><p>'+esc(t.game||"EA SPORTS FC 27")+' · '+esc(t.format||"11v11")+'</p><p>'+esc(t.description||"")+'</p><p>Start: '+esc(dateVal(t.start_date))+' · Deadline: '+esc(dateVal(t.registration_deadline))+'</p>'+badge(t.status)+'</div><div class="actions"><button data-edit-tournament="'+t.id+'">EDIT</button><button class="danger" data-delete-tournament="'+t.id+'">DELETE</button></div></div></article>').join(""):'<div class="empty">No tournaments created yet.</div>'}
+function fillTournamentSelects(){const opts=tournaments.map(t=>'<option value="'+t.id+'">'+esc(t.name)+'</option>').join("");$("entryTournamentFilter").innerHTML='<option value="all">All tournaments</option>'+opts;$("resultTournament").innerHTML=opts||'<option value="">Create a tournament first</option>';renderEntries();renderResults()}
+function clearTournamentForm(){$("tournamentId").value="";$("tournamentName").value="";$("tournamentDescription").value="";$("tournamentGame").value="EA SPORTS FC 27";$("tournamentFormat").value="11v11";$("tournamentStart").value="";$("tournamentDeadline").value="";$("tournamentStatus").value="upcoming";$("tournamentFormTitle").textContent="Create tournament";$("saveTournament").textContent="CREATE TOURNAMENT";$("cancelEdit").classList.add("hidden")}
+$("saveTournament").addEventListener("click",async()=>{const name=$("tournamentName").value.trim();if(!name){msg("Enter a tournament name.");return}const payload={name,description:$("tournamentDescription").value.trim(),game:$("tournamentGame").value.trim()||"EA SPORTS FC 27",format:$("tournamentFormat").value,status:$("tournamentStatus").value,start_date:$("tournamentStart").value?new Date($("tournamentStart").value).toISOString():null,registration_deadline:$("tournamentDeadline").value?new Date($("tournamentDeadline").value).toISOString():null};const id=$("tournamentId").value;const {error}=id?await db.from("tournaments").update(payload).eq("id",id):await db.from("tournaments").insert(payload);if(error){msg("Could not save tournament: "+error.message);return}clearTournamentForm();await loadTournaments();msg(id?"Tournament updated.":"Tournament created.")});
+$("cancelEdit").addEventListener("click",clearTournamentForm);
+$("tournamentList").addEventListener("click",async e=>{const b=e.target.closest("button");if(!b)return;if(b.dataset.editTournament){const t=tournaments.find(x=>x.id===b.dataset.editTournament);if(!t)return;$("tournamentId").value=t.id;$("tournamentName").value=t.name;$("tournamentDescription").value=t.description||"";$("tournamentGame").value=t.game||"EA SPORTS FC 27";$("tournamentFormat").value=t.format||"11v11";$("tournamentStart").value=localInput(t.start_date);$("tournamentDeadline").value=localInput(t.registration_deadline);$("tournamentStatus").value=t.status;$("tournamentFormTitle").textContent="Edit tournament";$("saveTournament").textContent="SAVE CHANGES";$("cancelEdit").classList.remove("hidden");window.scrollTo({top:0,behavior:"smooth"})}if(b.dataset.deleteTournament){if(!confirm("Delete this tournament and all its entries/results?"))return;const {error}=await db.from("tournaments").delete().eq("id",b.dataset.deleteTournament);if(error){msg("Delete failed: "+error.message);return}await refreshAll();msg("Tournament deleted.")}});
+async function loadEntries(){const {data,error}=await db.from("tournament_entries").select("id,tournament_id,club_id,status,created_at,clubs(club_name,country),tournaments(name)").order("created_at",{ascending:false});if(error){msg("Could not load entries: "+error.message);return}entries=data||[];renderEntries()}
+function renderEntries(){const filter=$("entryTournamentFilter").value;const list=entries.filter(e=>filter==="all"||e.tournament_id===filter);$("entryList").innerHTML=list.length?list.map(e=>'<article class="card"><div class="row"><div><h3>'+esc(e.clubs?.club_name||"Unknown club")+'</h3><p>'+esc(e.tournaments?.name||"Unknown tournament")+' · '+esc(e.clubs?.country||"")+'</p><p>Joined: '+esc(dateVal(e.created_at))+' · '+badge(e.status)+'</p></div><div class="actions"><button class="danger" data-remove-entry="'+e.id+'">REMOVE ENTRY</button></div></div></article>').join(""):'<div class="empty">No entries found.</div>'}
+$("entryTournamentFilter").addEventListener("change",renderEntries);
+$("entryList").addEventListener("click",async e=>{const b=e.target.closest("[data-remove-entry]");if(!b)return;if(!confirm("Remove this club from the tournament?"))return;const {error}=await db.from("tournament_entries").delete().eq("id",b.dataset.removeEntry);if(error){msg("Could not remove entry: "+error.message);return}await loadEntries();msg("Tournament entry removed.")});
+function renderClubSelects(){const opts=clubs.filter(c=>c.status==="approved").map(c=>'<option value="'+c.id+'">'+esc(c.club_name)+'</option>').join("");$("homeClub").innerHTML=opts;$("awayClub").innerHTML=opts}
+async function loadResults(){const {data,error}=await db.from("tournament_results").select("*,tournaments(name),home:clubs!tournament_results_home_club_id_fkey(club_name),away:clubs!tournament_results_away_club_id_fkey(club_name)").order("played_at",{ascending:false});if(error){msg("Could not load results: "+error.message);return}results=data||[];renderResults()}
+$("resultTournament").addEventListener("change",()=>{});
+$("saveResult").addEventListener("click",async()=>{const tournament_id=$("resultTournament").value,home_club_id=$("homeClub").value,away_club_id=$("awayClub").value,home_score=Number($("homeScore").value),away_score=Number($("awayScore").value);if(!tournament_id||!home_club_id||!away_club_id||home_club_id===away_club_id||!Number.isInteger(home_score)||!Number.isInteger(away_score)||home_score<0||away_score<0){msg("Choose a tournament, two different clubs and valid scores.");return}const {error}=await db.from("tournament_results").insert({tournament_id,home_club_id,away_club_id,home_score,away_score});if(error){msg("Could not save result: "+error.message);return}await loadResults();msg("Match result saved.")});
+function renderResults(){$("resultList").innerHTML=results.length?results.map(r=>'<article class="card"><h3>'+esc(r.tournaments?.name||"Tournament")+'</h3><p>'+esc(r.home?.club_name||"Club")+' <strong>'+r.home_score+' – '+r.away_score+'</strong> '+esc(r.away?.club_name||"Club")+'</p><p class="muted">'+esc(dateVal(r.played_at))+'</p><button class="danger" data-delete-result="'+r.id+'">DELETE RESULT</button></article>').join(""):'<div class="empty">No results recorded yet.</div>';const table={};results.forEach(r=>{for(const id of [r.home_club_id,r.away_club_id]){if(!table[id])table[id]={name:id,played:0,w:0,d:0,l:0,gf:0,ga:0,pts:0}}const h=table[r.home_club_id],a=table[r.away_club_id];h.played++;a.played++;h.gf+=r.home_score;h.ga+=r.away_score;a.gf+=r.away_score;a.ga+=r.home_score;if(r.home_score>r.away_score){h.w++;h.pts+=3;a.l++}else if(r.home_score<r.away_score){a.w++;a.pts+=3;h.l++}else{h.d++;a.d++;h.pts++;a.pts++}});const rank=Object.values(table).map(x=>({...x,name:clubs.find(c=>c.id===x.name)?.club_name||"Club"})).sort((a,b)=>b.pts-a.pts||(b.gf-b.ga)-(a.gf-a.ga));$("rankingList").innerHTML=rank.length?'<div class="card"><div class="row"><strong>Club</strong><strong>MP · W · D · L</strong><strong>GD · PTS</strong></div>'+rank.map((x,i)=>'<div class="row" style="padding:10px;border-top:1px solid #303642"><span>'+(i+1)+'. '+esc(x.name)+'</span><span>'+x.played+' · '+x.w+' · '+x.d+' · '+x.l+'</span><span>'+(x.gf-x.ga)+' · <strong>'+x.pts+'</strong></span></div>').join("")+'</div>':'<div class="empty">Rankings appear after results are recorded.</div>'}
+$("resultList").addEventListener("click",async e=>{const b=e.target.closest("[data-delete-result]");if(!b)return;if(!confirm("Delete this match result?"))return;const {error}=await db.from("tournament_results").delete().eq("id",b.dataset.deleteResult);if(error){msg("Delete failed: "+error.message);return}await loadResults();msg("Result deleted.")});
+function renderStats(){$("stats").innerHTML=[["Clubs",clubs.length],["Pending approvals",clubs.filter(c=>c.status==="pending").length],["Tournaments",tournaments.length],["Tournament entries",entries.length],["Recorded matches",results.length]].map(x=>'<div class="stat">'+x[0]+'<strong>'+x[1]+'</strong></div>').join("");$("recentSummary").textContent=clubs.filter(c=>c.status==="pending").length+" clubs awaiting review · "+tournaments.filter(t=>t.status==="registration_open").length+" tournaments accepting entries."}
+db.auth.onAuthStateChange((event)=>{if(event==="SIGNED_OUT")showLogin()});checkAdmin();
 </script>
-
-</body>
-</html>
+</body></html>
