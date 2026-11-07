@@ -678,6 +678,12 @@ nav a:hover{transform:translateY(-1px)}
 .ipg-feature-card:hover,.ipg-market-card:hover,.tournament-card:hover{transform:translateY(-3px);border-color:rgba(240,212,119,.48)!important;box-shadow:0 20px 48px rgba(0,0,0,.28)}
 .ipg-feature-art{font-size:36px;filter:drop-shadow(0 5px 12px rgba(212,175,55,.2))}
 .public-tournaments{padding:72px 6%;background:linear-gradient(180deg,#0a1120,#080d18)}
+.registered-teams{margin-top:18px;padding:15px 16px;border:1px solid rgba(240,212,119,.2);border-radius:8px;background:rgba(5,10,18,.55);text-align:left}
+.registered-teams h4{margin:0 0 10px;color:var(--ipg-gold-light);font-size:12px;font-weight:900;letter-spacing:.12em}
+.registered-teams ol{margin:0;padding-left:22px;color:#e7ebf2;line-height:1.9}
+.registered-teams li{padding-left:4px}
+.registered-teams .no-registered-teams{margin:0;color:#9ca8ba;font-size:13px}
+
 #player-marketplace,#ipg-manager-hub{padding-top:72px!important;padding-bottom:72px!important}
 #player-marketplace h2,#ipg-manager-hub h2{letter-spacing:.04em}
 .ipg-market-card{padding:22px!important}
@@ -967,16 +973,32 @@ async function loadPublicTournaments() {
         return;
     }
 
+    const tournamentIds = data.map(t => t.id);
+    const { data: registeredTeams, error: teamsError } = tournamentIds.length
+        ? await supabaseClient.rpc("get_public_tournament_teams", { p_tournament_ids: tournamentIds })
+        : { data: [], error: null };
+
+    if (teamsError) {
+        console.error("Could not load public registered teams:", teamsError);
+    }
+    const teamsByTournament = new Map();
+    (registeredTeams || []).forEach(row => {
+        if (!teamsByTournament.has(row.tournament_id)) teamsByTournament.set(row.tournament_id, []);
+        teamsByTournament.get(row.tournament_id).push(row.club_name);
+    });
+
     renderPublicTournamentCards(
         data.filter(t => t.status === "live"),
         activeContainer,
-        "No active tournaments yet."
+        "No active tournaments yet.",
+        teamsByTournament
     );
 
     renderPublicTournamentCards(
         data.filter(t => t.status === "registration_open"),
         openContainer,
-        "No tournaments open for registration."
+        "No tournaments open for registration.",
+        teamsByTournament
     );
 }
 
@@ -984,7 +1006,7 @@ async function loadPublicTournaments() {
 let currentSession = null;
 let currentClub = null;
 
-function renderPublicTournamentCards(tournaments, container, emptyMessage) {
+function renderPublicTournamentCards(tournaments, container, emptyMessage, teamsByTournament = new Map()) {
     container.innerHTML = "";
     if (!tournaments.length) {
         container.textContent = emptyMessage;
@@ -1003,6 +1025,29 @@ function renderPublicTournamentCards(tournaments, container, emptyMessage) {
         const details = document.createElement("p");
         details.textContent = (tournament.game || "EA SPORTS FC 27") + " • " + (tournament.format || "11v11");
         card.append(status, title, description, details);
+
+        const teams = teamsByTournament.get(tournament.id) || [];
+        const teamsSection = document.createElement("div");
+        teamsSection.className = "registered-teams";
+        const teamsHeading = document.createElement("h4");
+        teamsHeading.textContent = "REGISTERED TEAMS (" + teams.length + ")";
+        teamsSection.appendChild(teamsHeading);
+
+        if (teams.length) {
+            const teamsList = document.createElement("ol");
+            teams.forEach(teamName => {
+                const item = document.createElement("li");
+                item.textContent = teamName;
+                teamsList.appendChild(item);
+            });
+            teamsSection.appendChild(teamsList);
+        } else {
+            const noTeams = document.createElement("p");
+            noTeams.className = "no-registered-teams";
+            noTeams.textContent = "No teams registered yet.";
+            teamsSection.appendChild(noTeams);
+        }
+        card.appendChild(teamsSection);
 
         if (tournament.status === "registration_open") {
             const joinButton = document.createElement("button");
@@ -1024,24 +1069,6 @@ function renderPublicTournamentCards(tournaments, container, emptyMessage) {
         }
         container.appendChild(card);
     });
-}
-
-async function loadPublicTournaments() {
-    const activeContainer = document.getElementById("activeTournamentList");
-    const openContainer = document.getElementById("openTournamentList");
-    if (!activeContainer || !openContainer) return;
-    activeContainer.textContent = "Loading tournaments...";
-    openContainer.textContent = "Loading tournaments...";
-    const { data, error } = await supabaseClient.from("tournaments").select("*")
-        .in("status", ["live", "registration_open"]).order("created_at", { ascending: false });
-    if (error) {
-        activeContainer.textContent = "Could not load tournaments.";
-        openContainer.textContent = "Could not load tournaments.";
-        console.error(error);
-        return;
-    }
-    renderPublicTournamentCards(data.filter(t => t.status === "live"), activeContainer, "No active tournaments yet.");
-    renderPublicTournamentCards(data.filter(t => t.status === "registration_open"), openContainer, "No tournaments open for registration.");
 }
 
 let selectedAccountType = localStorage.getItem("ipg_account_type") || "";
@@ -1223,12 +1250,8 @@ async function joinTournament(tournament) {
         console.error(error);
         alert("Could not join tournament: " + error.message);
     } else {
-        const { data: { session } } = await supabaseClient.auth.getSession();
-        const { error: notifyError } = await supabaseClient.functions.invoke("ipg-discord-notify", {
-            body: { event: "tournament_entry_changed", tournament_id: tournament.id, club_id: currentClub.id }
-        });
-        if (notifyError) console.warn("Discord team list update failed:", notifyError.message);
-        alert("Your club has successfully joined " + tournament.name + "!" + (notifyError ? " Discord list update could not be confirmed; please contact an admin." : ""));
+        await loadPublicTournaments();
+        alert("Your club has successfully joined " + tournament.name + "!");
     }
 }
 
