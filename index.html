@@ -1051,7 +1051,7 @@ nav a:hover,.hero h1 span,.hero-tagline,.ipg-eyebrow,.public-tournaments-header>
 input:focus,select:focus,textarea:focus,.registration-form input:focus{outline:2px solid rgba(254,127,45,.48)!important;border-color:#FE7F2D!important;box-shadow:0 0 12px rgba(254,127,45,.15)!important}
 .ipg-feature-art{border-color:rgba(254,127,45,.62)!important;color:#fff!important;box-shadow:0 0 16px rgba(254,127,45,.12)}
 .ipg-footer{border-top-color:rgba(254,127,45,.35)!important}
-.ipg-ranking-mark{color:#fff!important;text-shadow:0 0 18px rgba(254,127,45,.55)}
+.ipg-ranking-mark{color:#fff!important;text-shadow:0 0 18px rgba(73,119,174,.42)}
 .status-open{color:#fff!important}
 @media(max-width:700px){.hero:before{opacity:.42}}
 @media(prefers-reduced-motion:reduce){.hero:before{filter:none}}
@@ -1082,12 +1082,12 @@ nav a:not(.discord-nav):hover{color:var(--ipg-orange)!important;text-shadow:0 0 
 .ipg-feature-card,.ipg-market-card,.tournament-card,.ipg-profile-card,.ipg-ranking-panel,.ipg-club-banner{position:relative;isolation:isolate;overflow:hidden}
 .ipg-feature-card:before,.ipg-market-card:before,.tournament-card:before,.ipg-profile-card:before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(360px circle at var(--ipg-pointer-x,50%) var(--ipg-pointer-y,0%),rgba(254,127,45,.14),transparent 62%);opacity:0;transition:opacity .25s ease}
 .ipg-feature-card:hover:before,.ipg-market-card:hover:before,.tournament-card:hover:before,.ipg-profile-card:hover:before{opacity:1}
-.ipg-feature-card:hover,.ipg-market-card:hover,.tournament-card:hover,.ipg-profile-card:hover{border-color:rgba(254,127,45,.55)!important;box-shadow:0 18px 48px rgba(0,0,0,.3),0 0 24px rgba(254,127,45,.08)!important}
+.ipg-feature-card:hover,.ipg-market-card:hover,.tournament-card:hover,.ipg-profile-card:hover{border-color:rgba(73,119,174,.42)!important;box-shadow:0 18px 48px rgba(0,0,0,.3),0 0 24px rgba(254,127,45,.08)!important}
 .ipg-feature-art{border-color:rgba(254,127,45,.5)!important;color:#fff!important;box-shadow:inset 0 0 22px rgba(254,127,45,.08),0 0 20px rgba(254,127,45,.08)}
 .ipg-eyebrow,.public-tournaments-header>span,.registered-teams h4{color:var(--ipg-orange)!important}
 input:focus,select:focus,textarea:focus{border-color:var(--ipg-orange)!important;box-shadow:0 0 0 3px rgba(254,127,45,.12)!important;outline:none}
 #ipg-particle-canvas{opacity:.72}
-.ipg-orange-edge{height:1px;max-width:760px;margin:0 auto;background:linear-gradient(90deg,transparent,rgba(254,127,45,.9),rgba(255,255,255,.8),rgba(254,127,45,.9),transparent);box-shadow:0 0 14px rgba(254,127,45,.55)}
+.ipg-orange-edge{height:1px;max-width:760px;margin:0 auto;background:linear-gradient(90deg,transparent,rgba(254,127,45,.9),rgba(255,255,255,.8),rgba(254,127,45,.9),transparent);box-shadow:0 0 14px rgba(73,119,174,.42)}
 @keyframes ipgOrbitBreath{0%,100%{transform:scale(.98);opacity:.72}50%{transform:scale(1.025);opacity:1}}
 @keyframes ipgLinePulse{0%,100%{opacity:.55;filter:brightness(.8)}50%{opacity:1;filter:brightness(1.5)}}
 @media(max-width:700px){.hero-content{padding-bottom:82px}.hero:after{width:88vw;box-shadow:0 0 0 22px rgba(254,127,45,.025),0 0 0 48px rgba(255,255,255,.012)!important}.ipg-feature-card:hover,.ipg-market-card:hover,.tournament-card:hover{transform:none}}
@@ -1168,6 +1168,83 @@ input:focus,select:focus,textarea:focus{border-color:var(--ipg-orange)!important
       }
       @media (prefers-reduced-motion: reduce) {
         html { scroll-behavior: auto; }
+      }
+    </style>
+
+
+    <style id="ipg-premium-navy-refresh">
+      :root {
+        --ipg-orange: #173f73;
+        --ipg-orange-soft: rgba(45,105,174,.16);
+        --ipg-navy: #071426;
+        --ipg-premium-blue: #24558a;
+        --ipg-premium-blue-light: #6f9bc9;
+        --ipg-premium-line: rgba(116,157,204,.28);
+      }
+      body { background-color:#050b14 !important; color:#f4f7fb; }
+      header {
+        border-bottom:1px solid rgba(105,145,190,.24) !important;
+        box-shadow:0 8px 28px rgba(0,0,0,.28) !important;
+      }
+      nav a:not(.discord-nav):hover,
+      .ipg-eyebrow,.public-tournaments-header>span,.registered-teams h4 {
+        color:#9bb9dc !important;
+        text-shadow:0 0 14px rgba(71,119,177,.22) !important;
+      }
+      .hero:before {
+        background:linear-gradient(112deg,transparent 0 19%,rgba(63,111,168,0) 19.2%,rgba(63,111,168,.55) 19.35%,rgba(63,111,168,.08) 19.55%,transparent 19.8% 79%,rgba(63,111,168,.08) 79.2%,rgba(63,111,168,.5) 79.4%,transparent 79.8%) !important;
+      }
+      .hero:after {
+        border-color:rgba(83,132,190,.28) !important;
+        box-shadow:0 0 26px rgba(44,91,148,.12),0 0 0 42px rgba(55,101,156,.035),0 0 0 90px rgba(55,101,156,.018) !important;
+      }
+      .hero-content:after {
+        background:linear-gradient(90deg,transparent,#315f91,#a9c4e3,#315f91,transparent) !important;
+        box-shadow:0 0 12px rgba(73,121,177,.28) !important;
+      }
+      .hero-button,.ipg-gold-link,.register-button,.join-tournament,
+      .ipg-market-card button,.ipg-account-panel button,.ipg-account-panel .account-button {
+        border-color:rgba(107,151,202,.62) !important;
+        box-shadow:0 0 0 1px rgba(74,119,172,.08),0 8px 24px rgba(0,0,0,.24) !important;
+      }
+      .hero-button:hover,.ipg-gold-link:hover,.register-button:hover,
+      .join-tournament:hover,.ipg-market-card button:hover,
+      .ipg-account-panel button:hover,.ipg-account-panel .account-button:hover {
+        box-shadow:0 0 22px rgba(66,113,169,.24),0 14px 32px rgba(0,0,0,.3) !important;
+      }
+      .ipg-feature-card:hover,.ipg-market-card:hover,.tournament-card:hover,.ipg-profile-card:hover {
+        border-color:rgba(105,151,202,.58) !important;
+        box-shadow:0 18px 48px rgba(0,0,0,.34),0 0 22px rgba(51,100,157,.10) !important;
+      }
+      .ipg-feature-art {
+        border-color:rgba(105,151,202,.48) !important;
+        box-shadow:inset 0 0 22px rgba(51,100,157,.07),0 0 18px rgba(51,100,157,.08) !important;
+      }
+      input:focus,select:focus,textarea:focus,.registration-form input:focus {
+        border-color:#6f9bc9 !important;
+        box-shadow:0 0 0 3px rgba(77,124,179,.14) !important;
+        outline:none;
+      }
+      .ipg-orange-edge {
+        background:linear-gradient(90deg,transparent,rgba(89,133,184,.72),rgba(210,225,243,.65),rgba(89,133,184,.72),transparent) !important;
+        box-shadow:0 0 12px rgba(67,112,166,.25) !important;
+      }
+      .ipg-champions-cta {
+        border-color:rgba(110,153,202,.65) !important;
+        box-shadow:0 0 18px rgba(47,91,145,.16),inset 0 0 16px rgba(47,91,145,.08) !important;
+        background:linear-gradient(110deg,#091629,#142b49,#091629) !important;
+      }
+      .ipg-champions-cta:hover {
+        box-shadow:0 0 24px rgba(76,124,181,.3),inset 0 0 20px rgba(76,124,181,.12) !important;
+      }
+      .ipg-champions-star,.ipg-champions-arrow {
+        color:#a8c3e2 !important;
+        text-shadow:0 0 12px rgba(87,133,186,.4) !important;
+      }
+      .ipg-footer { border-top-color:rgba(105,145,190,.24) !important; }
+      a:focus-visible,button:focus-visible { outline-color:#8fb2d9 !important; }
+      @media(prefers-reduced-motion:reduce) {
+        .hero:after { animation:none !important; }
       }
     </style>
 
@@ -2078,9 +2155,9 @@ refreshClubAccount=async function(session){await priorRefreshForManager(session)
    if(p.x<-8)p.x=w+8;
    if(p.x>w+8)p.x=-8;
    ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-   ctx.fillStyle=p.gold?`rgba(254,127,45,${p.alpha})`:`rgba(255,190,145,${p.alpha})`;
+   ctx.fillStyle=p.gold?`rgba(93,139,194,${p.alpha})`:`rgba(183,207,235,${p.alpha})`;
    ctx.shadowBlur=p.r>1.3?9:4;
-   ctx.shadowColor=p.gold?"rgba(254,127,45,.55)":"rgba(254,127,45,.65)";
+   ctx.shadowColor=p.gold?"rgba(73,119,174,.42)":"rgba(73,119,174,.5)";
    ctx.fill();
   }
   ctx.shadowBlur=0;
