@@ -1337,6 +1337,27 @@ body{background-image:radial-gradient(ellipse at 50% 0%,rgba(35,75,122,.13),tran
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.hero:before,.hero h1,.hero-tagline{animation:none!important}.hero h1,.hero-tagline{opacity:1;transform:none;filter:none}}
 </style>
 
+
+<style id="ipg-header-auth-actions">
+header{gap:22px}
+.ipg-header-auth{display:flex;align-items:center;gap:9px;flex-shrink:0}
+.ipg-header-auth button{min-height:40px;padding:0 15px;border-radius:5px;font-size:11px;font-weight:900;letter-spacing:.1em;cursor:pointer;transition:transform .2s ease,background .2s ease,border-color .2s ease}
+.ipg-header-login{color:#d6deea;background:transparent;border:1px solid rgba(174,187,205,.48)}
+.ipg-header-login:hover{border-color:#fff;color:#fff}
+.ipg-header-signup{color:#10131a;background:linear-gradient(135deg,#fff,#dce5f2);border:1px solid #fff}
+.ipg-header-auth button:hover{transform:translateY(-1px)}
+@media(max-width:900px){header{gap:12px}.ipg-header-auth{margin-left:auto}}
+@media(max-width:700px){.ipg-header-auth{width:100%;justify-content:flex-end}.ipg-header-auth button{min-height:38px}header{align-items:center}}
+</style>
+
+
+<style id="ipg-center-homepage-title">
+.hero-content{width:100%!important;max-width:1120px!important;margin-left:auto!important;margin-right:auto!important;text-align:center!important}
+.hero h1{display:block!important;width:100%!important;max-width:100%!important;margin-left:auto!important;margin-right:auto!important;text-align:center!important;text-indent:0!important;letter-spacing:clamp(.035em,.55vw,.09em)!important}
+.hero h1 span{display:block!important;text-align:center!important;letter-spacing:clamp(.025em,.4vw,.065em)!important}
+@media(max-width:640px){.hero h1{letter-spacing:.025em!important}.hero h1 span{letter-spacing:.015em!important}}
+</style>
+
 </head>
 
 <body>
@@ -1357,6 +1378,10 @@ body{background-image:radial-gradient(ellipse at 50% 0%,rgba(35,75,122,.13),tran
         <a href="#player-marketplace" id="headerProfileButton">PROFILE</a>
         <a class="discord-nav" href="https://discord.gg/PNYkEztN5K" target="_blank" rel="noopener noreferrer">JOIN DISCORD ↗</a>
     </nav>
+    <div class="ipg-header-auth">
+        <button type="button" class="ipg-header-login" id="headerLoginButton">LOG IN</button>
+        <button type="button" class="ipg-header-signup" id="headerSignupButton">SIGN UP</button>
+    </div>
 </header>
 <div id="tournamentMenu" class="tournament-menu">
 
@@ -2316,6 +2341,14 @@ refreshClubAccount=async function(session){await previousRefreshClubAccount(sess
   });
   card.addEventListener("pointerleave",()=>{card.style.transform="";});
  });
+})();
+</script>
+
+
+<script>
+(function(){
+  document.getElementById("headerSignupButton")?.addEventListener("click",()=>{location.href="account.html?mode=signup"});
+  document.getElementById("headerLoginButton")?.addEventListener("click",()=>{location.href="account.html?mode=login"});
 })();
 </script>
 
