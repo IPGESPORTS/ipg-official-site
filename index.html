@@ -732,6 +732,8 @@ button:hover{filter:brightness(1.08);transform:translateY(-1px)}
 .ipg-profile-stat strong{display:block;color:#ffffff;font-size:22px}
 .ipg-profile-stat span{color:#9da9ba;font-size:11px;letter-spacing:.08em}
 
+/* Ensure hidden authentication controls stay hidden on mobile browsers. */
+.ipg-header-auth button[hidden], #ipg-profile-modal[hidden] { display: none !important; }
 </style>
 <style id="ipg-clean-ui">
 /* IPG CLEAN UI PASS — visual-only refinement; existing functionality preserved */
@@ -1669,7 +1671,8 @@ const SUPABASE_KEY = "sb_publishable_4OwZ-opv95mMay8hW-5yMA_gmWhMLDC";
 
 const supabaseClient = window.supabase.createClient(
     SUPABASE_URL,
-    SUPABASE_KEY
+    SUPABASE_KEY,
+    { auth: { storageKey: "ipg-auth-token", persistSession: true, autoRefreshToken: true, detectSessionInUrl: true } }
 );
 
 // LOAD PUBLIC TOURNAMENTS
