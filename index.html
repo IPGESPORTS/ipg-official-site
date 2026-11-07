@@ -44,6 +44,23 @@ nav a {
 nav a:hover {
     color: #d4af37;
 }
+nav a.discord-nav {
+    padding: 11px 16px;
+    border: 1px solid #d4af37;
+    border-radius: 5px;
+    color: #080d18;
+    background: linear-gradient(135deg, #f0d477, #b58a25);
+}
+nav a.discord-nav:hover {
+    color: #080d18;
+    box-shadow: 0 6px 18px rgba(212,175,55,.22);
+}
+@media (max-width: 700px) {
+    header { flex-wrap: wrap; gap: 14px; }
+    nav { gap: 12px; flex-wrap: wrap; justify-content: flex-end; }
+    nav a { font-size: 11px; }
+    nav a.discord-nav { padding: 9px 11px; }
+}
    .hero-logo {
     width: 120px !important;
     height: 120px !important;
@@ -634,6 +651,7 @@ nav a:hover {
      <a href="#" id="tournamentMenuButton">TOURNAMENTS</a>
         <a href="#rankings">RANKINGS</a>
         <a href="#clubs">CLUBS</a>
+        <a class="discord-nav" href="https://discord.gg/PNYkEztN5K" target="_blank" rel="noopener noreferrer">JOIN DISCORD ↗</a>
     </nav>
 </header>
 <div id="tournamentMenu" class="tournament-menu">
@@ -796,7 +814,8 @@ nav a:hover {
 
 <footer class="ipg-footer">
     © 2026 INTERNATIONAL PROFESSIONAL GAMING<br>
-    COMPETE. DOMINATE. BECOME LEGENDS.
+    COMPETE. DOMINATE. BECOME LEGENDS.<br>
+    <a href="https://discord.gg/PNYkEztN5K" target="_blank" rel="noopener noreferrer" style="display:inline-block;margin-top:12px;color:#f0d477;text-decoration:none;font-weight:800;letter-spacing:1.5px;">JOIN THE IPG DISCORD ↗</a>
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
