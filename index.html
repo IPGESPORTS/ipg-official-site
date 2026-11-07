@@ -956,7 +956,7 @@ header{gap:22px}
         <a href="#home">HOME</a>
      <a href="#" id="tournamentMenuButton">TOURNAMENTS</a>
         <a href="#rankings">RANKINGS</a>
-        <a href="#profiles">PROFILES</a>
+        <a href="#player-marketplace" id="headerProfileButton">PROFILE</a>
         <a href="#register">REGISTER</a>
         <a class="discord-nav" href="https://discord.gg/PNYkEztN5K" target="_blank" rel="noopener noreferrer">JOIN DISCORD ↗</a>
     </nav>
@@ -1770,6 +1770,18 @@ refreshClubAccount=async function(session){await priorRefreshForManager(session)
    }
   },350);
  };
+ document.getElementById("headerProfileButton")?.addEventListener("click",(event)=>{
+  event.preventDefault();
+  if(!window.currentSession){
+   location.href="account.html?mode=login&next=profile";
+   return;
+  }
+  const profileSection=document.getElementById("player-marketplace");
+  if(profileSection){
+   profileSection.scrollIntoView({behavior:"smooth",block:"start"});
+   window.setTimeout(()=>document.getElementById("playerProfileForm")?.scrollIntoView({behavior:"smooth",block:"center"}),250);
+  }
+ });
  document.getElementById("headerSignupButton")?.addEventListener("click",()=>{location.href="account.html?mode=signup"});
  document.getElementById("headerLoginButton")?.addEventListener("click",()=>{location.href="account.html?mode=login"});
 })();
