@@ -789,7 +789,7 @@ nav a:hover {
             <p class="account-muted">We will email you a six-digit, one-time login code.</p>
         </div>
         <div id="emailOtpForm" hidden>
-            <input id="emailOtpCode" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="Enter your 6-digit code">
+            <input id="emailOtpCode" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="8" placeholder="Enter your 8-digit code">
             <button type="button" id="verifyEmailOtp">VERIFY CODE →</button>
             <button type="button" id="resendEmailOtp" style="margin-left:8px">SEND NEW CODE</button>
             <p class="account-muted">Enter the code sent to <span id="otpEmailLabel"></span>.</p>
@@ -998,7 +998,7 @@ async function sendEmailOtp() {
     document.getElementById("magicLinkForm").hidden = true;
     document.getElementById("emailOtpForm").hidden = false;
     document.getElementById("emailOtpCode").value = "";
-    setAccountMessage("Code sent. Check your inbox and enter the six digits below.");
+    setAccountMessage("Code sent. Check your inbox and enter the eight digits below.");
 }
 
 document.getElementById("sendMagicLink").addEventListener("click", sendEmailOtp);
@@ -1007,7 +1007,7 @@ document.getElementById("resendEmailOtp").addEventListener("click", sendEmailOtp
 document.getElementById("verifyEmailOtp").addEventListener("click", async () => {
     const token = document.getElementById("emailOtpCode").value.trim();
     if (!pendingOtpEmail) { setAccountMessage("Request a login code first."); return; }
-    if (!/^\d{6}$/.test(token)) { setAccountMessage("Enter the six-digit code from your email."); return; }
+    if (!/^\d{8}$/.test(token)) { setAccountMessage("Enter the eight-digit code from your email."); return; }
     setAccountMessage("Verifying your login code...");
     const { data, error } = await supabaseClient.auth.verifyOtp({
         email: pendingOtpEmail,
