@@ -906,6 +906,11 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
 .ipg-prestige-copy small{font-size:8px;letter-spacing:.16em;color:#b9a66b}
 @media(max-width:480px){.ipg-prestige-seal{gap:9px;padding:9px 10px}.ipg-prestige-copy small{font-size:7px;letter-spacing:.1em}}
 @media(prefers-reduced-motion:no-preference){.ipg-prestige-icon{animation:ipgCrownGlow 3.8s ease-in-out infinite}@keyframes ipgCrownGlow{0%,100%{filter:drop-shadow(0 0 2px rgba(240,212,119,.15));transform:translateY(0)}50%{filter:drop-shadow(0 0 9px rgba(240,212,119,.65));transform:translateY(-2px)}}}
+
+/* IPG SCROLL REVEAL — subtle premium entrance */
+.ipg-scroll-reveal{opacity:0;transform:translate3d(0,26px,0);transition:opacity .72s cubic-bezier(.2,.7,.2,1),transform .72s cubic-bezier(.2,.7,.2,1);transition-delay:var(--ipg-reveal-delay,0ms);will-change:opacity,transform}
+.ipg-scroll-reveal.ipg-in-view{opacity:1;transform:translate3d(0,0,0);will-change:auto}
+@media(prefers-reduced-motion:reduce){.ipg-scroll-reveal{opacity:1!important;transform:none!important;transition:none!important;will-change:auto}}
 </style>
 </head>
 
@@ -1667,5 +1672,44 @@ refreshClubAccount=async function(session){await priorRefreshForManager(session)
 })();
 </script>
 
+
+<script>
+/* IPG scroll reveal: progressive enhancement with a visible fallback */
+(function(){
+  const reduce=window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if(reduce || !("IntersectionObserver" in window)) return;
+  const selectors=[
+    ".ipg-content-section > *",
+    ".ipg-feature-card",
+    ".ipg-ranking-panel",
+    ".ipg-club-banner",
+    ".public-tournaments-header",
+    ".tournament-card",
+    ".ipg-market-card",
+    ".ipg-profile-card",
+    ".ipg-profile-detail",
+    ".ipg-account-panel",
+    ".registration-form",
+    "#player-marketplace > *",
+    "#ipg-manager-hub > *"
+  ];
+  const nodes=[...new Set(selectors.flatMap(sel=>Array.from(document.querySelectorAll(sel))))];
+  nodes.forEach((el,i)=>{
+    if(el.closest(".hero") || el.classList.contains("ipg-scroll-reveal")) return;
+    el.classList.add("ipg-scroll-reveal");
+    const delay=(i%4)*75;
+    el.style.setProperty("--ipg-reveal-delay",delay+"ms");
+  });
+  const observer=new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){
+        entry.target.classList.add("ipg-in-view");
+        observer.unobserve(entry.target);
+      }
+    });
+  },{threshold:0.12,rootMargin:"0px 0px -45px 0px"});
+  nodes.forEach(el=>{if(el.classList.contains("ipg-scroll-reveal")) observer.observe(el)});
+})();
+</script>
 </body>
 </html>
