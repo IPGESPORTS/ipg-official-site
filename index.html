@@ -2045,11 +2045,33 @@ async function joinTournament(tournament) {
 }
 
 async function initializeIPGAccount() {
-    const { data: { session } } = await supabaseClient.auth.getSession();
-    await refreshClubAccount(session);
+    // Subscribe before reading the stored session so a login event cannot be missed.
+    let authStateRevision = 0;
     supabaseClient.auth.onAuthStateChange((_event, session) => {
-        setTimeout(() => refreshClubAccount(session), 0);
+        authStateRevision += 1;
+        setTimeout(() => {
+            refreshClubAccount(session).catch(error => {
+                console.error("Could not refresh IPG account after auth change:", error);
+            });
+        }, 0);
     });
+
+    try {
+        const revisionAtStart = authStateRevision;
+        const { data, error } = await supabaseClient.auth.getSession();
+        if (error) throw error;
+
+        // If an auth event arrived while getSession was running, its newer session wins.
+        if (revisionAtStart === authStateRevision) {
+            await refreshClubAccount(data.session || null);
+        }
+    } catch (error) {
+        console.error("Could not restore IPG login session:", error);
+        currentSession = null;
+        window.currentSession = null;
+        updateIPGHeaderAuth(null);
+        setAccountMessage("Could not check your login session. Please refresh the page and try again.");
+    }
 }
 
 // START
