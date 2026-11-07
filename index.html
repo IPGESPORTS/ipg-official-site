@@ -1015,6 +1015,7 @@ function chooseAccountType(type) {
         : "Player selected. You can create a profile and list yourself as a Free Agent without club approval.";
     document.getElementById("accountEmail").placeholder = type === "club" ? "Club contact email" : "Player email address";
     setAccountMessage("Enter your email to receive a secure eight-digit login code.");
+    if (currentSession && typeof refreshClubAccount === "function") refreshClubAccount(currentSession);
 }
 document.querySelectorAll("[data-account-type]").forEach(b => b.addEventListener("click", () => chooseAccountType(b.dataset.accountType)));
 if (selectedAccountType) chooseAccountType(selectedAccountType);
