@@ -896,6 +896,7 @@ button:hover{filter:brightness(1.08);transform:translateY(-1px)}
         </div>
         <div id="clubAccountDashboard" hidden>
             <p id="clubAccountDetails"></p>
+            <button type="button" id="editClubProfileButton" hidden>EDIT CLUB PROFILE</button>
             <button type="button" id="signOutButton">SIGN OUT</button>
         </div>
     </div>
@@ -903,7 +904,7 @@ button:hover{filter:brightness(1.08);transform:translateY(-1px)}
     <form id="clubForm" class="registration-form" hidden>
         <div class="form-header">
             <span class="form-label">IPG OFFICIAL REGISTRATION</span>
-            <h2>REGISTER YOUR CLUB</h2>
+            <h2 id="clubFormHeading">REGISTER YOUR CLUB</h2>
             <p>Your verified email will be used as the club contact email.</p>
         </div>
         <div class="form-fields">
@@ -913,7 +914,8 @@ button:hover{filter:brightness(1.08);transform:translateY(-1px)}
             <input name="captain_discord" placeholder="Captain Discord" required>
             <input name="logo_url" type="url" placeholder="Club Logo URL (optional)">
         </div>
-        <button class="register-button" type="submit">SUBMIT CLUB REGISTRATION <span>→</span></button>
+        <button class="register-button" type="submit" id="clubFormSubmit">SUBMIT CLUB REGISTRATION →</button>
+        <button type="button" id="cancelClubEdit" hidden>CANCEL</button>
         <p id="formMessage" class="form-message"></p>
     </form>
 </section>
@@ -1166,6 +1168,7 @@ async function refreshClubAccount(session) {
     dashboard.hidden = false;
     clubForm.hidden = true;
     if (!club) {
+        document.getElementById("editClubProfileButton").hidden = true;
         dashboard.hidden = true;
         clubForm.hidden = false;
         setAccountMessage("You are signed in. Complete the club registration below.");
@@ -1176,6 +1179,7 @@ async function refreshClubAccount(session) {
         (club.status === "approved" ? " — Your club can now join open tournaments." :
          club.status === "pending" ? " — Waiting for admin approval." :
          " — Contact IPG administration for help.");
+    document.getElementById("editClubProfileButton").hidden = false;
     setAccountMessage("Signed in as " + session.user.email);
 }
 
@@ -1229,33 +1233,42 @@ document.getElementById("signOutButton").addEventListener("click", async () => {
     await refreshClubAccount(null);
 });
 
-document.getElementById("clubForm").addEventListener("submit", async function(event) {
-    event.preventDefault();
-    if (!currentSession || selectedAccountType!=="club") { setAccountMessage("Choose Club / Manager and sign in before registering a club."); return; }
-    const form = event.target;
-    const message = document.getElementById("formMessage");
-    const club = {
-        owner_id: currentSession.user.id,
-        club_name: form.club_name.value.trim(),
-        country: form.country.value.trim(),
-        captain_name: form.captain_name.value.trim(),
-        captain_discord: form.captain_discord.value.trim(),
-        contact_email: currentSession.user.email,
-        logo_url: form.logo_url.value.trim() || null,
-        status: "pending"
-    };
-    message.textContent = "Submitting club registration...";
-    const { error } = await supabaseClient.from("clubs").insert([club]);
-    if (error) {
-        message.textContent = "Could not register: " + error.message;
-        console.error(error);
-    } else {
-        message.textContent = "Club submitted! Await admin approval.";
-        form.reset();
-        await refreshClubAccount(currentSession);
-    }
+document.getElementById("editClubProfileButton").addEventListener("click",()=>{
+ if(!currentClub)return;
+ const form=document.getElementById("clubForm");
+ ["club_name","country","captain_name","captain_discord","logo_url"].forEach(k=>form.elements[k].value=currentClub[k]||"");
+ form.hidden=false;document.getElementById("clubFormHeading").textContent="EDIT CLUB PROFILE";
+ document.getElementById("clubFormSubmit").textContent="SAVE CLUB CHANGES";
+ document.getElementById("cancelClubEdit").hidden=false;
+ document.getElementById("formMessage").textContent="Approval status cannot be changed here.";
+ form.scrollIntoView({behavior:"smooth",block:"center"});
 });
-
+document.getElementById("cancelClubEdit").addEventListener("click",()=>{
+ document.getElementById("clubForm").hidden=true;
+ document.getElementById("clubFormHeading").textContent="REGISTER YOUR CLUB";
+ document.getElementById("clubFormSubmit").textContent="SUBMIT CLUB REGISTRATION →";
+ document.getElementById("cancelClubEdit").hidden=true;
+});
+document.getElementById("clubForm").addEventListener("submit",async function(event){
+ event.preventDefault();
+ if(!currentSession||selectedAccountType!=="club"){setAccountMessage("Choose Club / Manager and sign in before saving a club profile.");return}
+ const form=event.target,message=document.getElementById("formMessage");
+ const values={p_club_name:form.club_name.value.trim(),p_country:form.country.value.trim(),p_captain_name:form.captain_name.value.trim(),p_captain_discord:form.captain_discord.value.trim(),p_logo_url:form.logo_url.value.trim()};
+ message.textContent=currentClub?"Saving club profile...":"Submitting club registration...";
+ if(currentClub){
+  const {error}=await supabaseClient.rpc("update_my_club_profile",values);
+  if(error){message.textContent="Could not update profile: "+error.message;return}
+  message.textContent="Club profile updated. Approval status has not changed.";
+  form.hidden=true;document.getElementById("clubFormHeading").textContent="REGISTER YOUR CLUB";
+  document.getElementById("clubFormSubmit").textContent="SUBMIT CLUB REGISTRATION →";
+  document.getElementById("cancelClubEdit").hidden=true;await refreshClubAccount(currentSession);
+ }else{
+  const club={owner_id:currentSession.user.id,club_name:values.p_club_name,country:values.p_country,captain_name:values.p_captain_name,captain_discord:values.p_captain_discord,contact_email:currentSession.user.email,logo_url:values.p_logo_url||null,status:"pending"};
+  const {error}=await supabaseClient.from("clubs").insert([club]);
+  if(error){message.textContent="Could not register: "+error.message;console.error(error)}
+  else{message.textContent="Club submitted! Await admin approval.";form.reset();await refreshClubAccount(currentSession)}
+ }
+});
 async function joinTournament(tournament) {
     if (!currentSession) {
         setAccountMessage("Sign in with your club contact email before joining a tournament.");
@@ -1348,7 +1361,7 @@ playerForm.addEventListener("submit",async e=>{
  playerMsg("Saving profile...");
  const {error}=await supabaseClient.from("player_profiles").upsert(payload,{onConflict:"user_id"});
  if(error){playerMsg("Could not save profile: "+error.message);return}
- playerMsg("Player profile saved.");await loadFreeAgents();
+ playerMsg("Player profile saved. You can edit these details any time while signed in.");await loadFreeAgents();
 });
 async function loadFreeAgents(){
  const box=document.getElementById("freeAgentList");box.textContent="Loading free agents...";
