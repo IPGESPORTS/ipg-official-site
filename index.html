@@ -607,6 +607,16 @@ nav a:hover {
     .ipg-feature-card { min-height: 0; padding: 25px; }
 }
 
+
+/* IPG ACCOUNT AND JOIN FLOW */
+.ipg-account-panel{max-width:560px;margin:28px auto 0;padding:28px;background:linear-gradient(145deg,#111c30,#080d18);border:1px solid rgba(212,175,55,.28);border-radius:10px;text-align:left}
+.ipg-account-panel h3{color:#f0d477;margin:0 0 10px}
+.ipg-account-panel p{color:#aebbd0;line-height:1.6}
+.ipg-account-panel input{width:100%;box-sizing:border-box;padding:14px;margin:8px 0;background:#080f1d;border:1px solid #29364b;border-radius:5px;color:white}
+.ipg-account-panel button,.ipg-account-panel .account-button{padding:13px 20px;background:linear-gradient(135deg,#f0d477,#b58a25);border:0;border-radius:5px;color:#080d18;font-weight:800;cursor:pointer}
+.ipg-account-panel .account-muted{color:#9da9ba;font-size:13px}
+#clubForm[hidden],#clubAccountDashboard[hidden]{display:none!important}
+
     </style>
 </head>
 
@@ -752,30 +762,36 @@ nav a:hover {
     <h2>REGISTER YOUR CLUB</h2>
     <p>Join the International Professional Gaming community.</p>
 
-    <form id="clubForm" class="registration-form">
-
-    <div class="form-header">
-        <span class="form-label">IPG OFFICIAL REGISTRATION</span>
-        <h2>REGISTER YOUR CLUB</h2>
-        <p>Join the competition. Represent your club.</p>
+    <div class="ipg-account-panel" id="clubAccountPanel">
+        <h3>YOUR IPG CLUB ACCOUNT</h3>
+        <p id="accountStatus">Sign in with your email to register your club or access an existing club.</p>
+        <div id="magicLinkForm">
+            <input id="accountEmail" type="email" placeholder="Your club contact email" autocomplete="email" required>
+            <button type="button" id="sendMagicLink">EMAIL ME A SIGN-IN LINK →</button>
+            <p class="account-muted">No password needed. We will email you a secure one-time sign-in link.</p>
+        </div>
+        <div id="clubAccountDashboard" hidden>
+            <p id="clubAccountDetails"></p>
+            <button type="button" id="signOutButton">SIGN OUT</button>
+        </div>
     </div>
 
-    <div class="form-fields">
-        <input name="club_name" placeholder="Club Name" required>
-        <input name="country" placeholder="Country" required>
-        <input name="captain_name" placeholder="Captain Name" required>
-        <input name="captain_discord" placeholder="Captain Discord" required>
-        <input name="contact_email" type="email" placeholder="Contact Email" required>
-        <input name="logo_url" type="url" placeholder="Club Logo URL (optional)">
-    </div>
-
-    <button class="register-button" type="submit">
-        SUBMIT REGISTRATION <span>→</span>
-    </button>
-
-    <p id="formMessage" class="form-message"></p>
-
-</form>
+    <form id="clubForm" class="registration-form" hidden>
+        <div class="form-header">
+            <span class="form-label">IPG OFFICIAL REGISTRATION</span>
+            <h2>REGISTER YOUR CLUB</h2>
+            <p>Your verified email will be used as the club contact email.</p>
+        </div>
+        <div class="form-fields">
+            <input name="club_name" placeholder="Club Name" required>
+            <input name="country" placeholder="Country" required>
+            <input name="captain_name" placeholder="Captain Name" required>
+            <input name="captain_discord" placeholder="Captain Discord" required>
+            <input name="logo_url" type="url" placeholder="Club Logo URL (optional)">
+        </div>
+        <button class="register-button" type="submit">SUBMIT CLUB REGISTRATION <span>→</span></button>
+        <p id="formMessage" class="form-message"></p>
+    </form>
 </section>
 
 <footer class="ipg-footer">
@@ -831,104 +847,195 @@ async function loadPublicTournaments() {
 }
 
 // RENDER TOURNAMENTS
+let currentSession = null;
+let currentClub = null;
+
 function renderPublicTournamentCards(tournaments, container, emptyMessage) {
     container.innerHTML = "";
-
-    if (tournaments.length === 0) {
+    if (!tournaments.length) {
         container.textContent = emptyMessage;
         return;
     }
-
     tournaments.forEach(tournament => {
         const card = document.createElement("div");
         card.className = "tournament-card";
-
         const status = document.createElement("span");
-        status.className = tournament.status === "live"
-            ? "status-live"
-            : "status-open";
-
-        status.textContent = tournament.status === "live"
-            ? "● LIVE"
-            : "REGISTRATION OPEN";
-
+        status.className = tournament.status === "live" ? "status-live" : "status-open";
+        status.textContent = tournament.status === "live" ? "● LIVE" : "REGISTRATION OPEN";
         const title = document.createElement("h3");
         title.textContent = tournament.name;
-
         const description = document.createElement("p");
-        description.textContent =
-            tournament.description || "Get ready for the competition.";
-
+        description.textContent = tournament.description || "Get ready for the competition.";
         const details = document.createElement("p");
-        details.textContent =
-            (tournament.game || "EA SPORTS FC 27") +
-            " • " +
-            (tournament.format || "11v11");
-
+        details.textContent = (tournament.game || "EA SPORTS FC 27") + " • " + (tournament.format || "11v11");
         card.append(status, title, description, details);
 
-        // Registration button for tournaments accepting registrations
         if (tournament.status === "registration_open") {
             const joinButton = document.createElement("button");
             joinButton.type = "button";
             joinButton.className = "join-tournament";
-            joinButton.textContent = "REGISTER YOUR CLUB →";
-            joinButton.addEventListener("click", () => {
-                document.getElementById("register").scrollIntoView({
-                    behavior: "smooth",
-                    block: "start"
-                });
-            });
+            joinButton.textContent = "JOIN TOURNAMENT →";
+            joinButton.addEventListener("click", () => joinTournament(tournament));
             card.appendChild(joinButton);
         }
-
         if (tournament.start_date) {
             const date = document.createElement("p");
-            date.textContent = "START: " +
-                new Date(tournament.start_date).toLocaleDateString("sv-SE");
+            date.textContent = "START: " + new Date(tournament.start_date).toLocaleDateString("sv-SE");
             card.appendChild(date);
         }
-
         if (tournament.registration_deadline) {
             const deadline = document.createElement("p");
-            deadline.textContent = "REGISTRATION DEADLINE: " +
-                new Date(tournament.registration_deadline).toLocaleDateString("sv-SE");
+            deadline.textContent = "REGISTRATION DEADLINE: " + new Date(tournament.registration_deadline).toLocaleDateString("sv-SE");
             card.appendChild(deadline);
         }
-
         container.appendChild(card);
     });
 }
-// CLUB REGISTRATION
+
+async function loadPublicTournaments() {
+    const activeContainer = document.getElementById("activeTournamentList");
+    const openContainer = document.getElementById("openTournamentList");
+    if (!activeContainer || !openContainer) return;
+    activeContainer.textContent = "Loading tournaments...";
+    openContainer.textContent = "Loading tournaments...";
+    const { data, error } = await supabaseClient.from("tournaments").select("*")
+        .in("status", ["live", "registration_open"]).order("created_at", { ascending: false });
+    if (error) {
+        activeContainer.textContent = "Could not load tournaments.";
+        openContainer.textContent = "Could not load tournaments.";
+        console.error(error);
+        return;
+    }
+    renderPublicTournamentCards(data.filter(t => t.status === "live"), activeContainer, "No active tournaments yet.");
+    renderPublicTournamentCards(data.filter(t => t.status === "registration_open"), openContainer, "No tournaments open for registration.");
+}
+
+function setAccountMessage(text) {
+    document.getElementById("accountStatus").textContent = text;
+}
+
+async function refreshClubAccount(session) {
+    currentSession = session;
+    const dashboard = document.getElementById("clubAccountDashboard");
+    const magicForm = document.getElementById("magicLinkForm");
+    const clubForm = document.getElementById("clubForm");
+    if (!session) {
+        currentClub = null;
+        dashboard.hidden = true;
+        magicForm.hidden = false;
+        clubForm.hidden = true;
+        setAccountMessage("Sign in with your email to register your club or access an existing club.");
+        return;
+    }
+    magicForm.hidden = true;
+    setAccountMessage("Checking your club account...");
+    const { data: claimed, error: claimError } = await supabaseClient.rpc("claim_existing_club");
+    if (claimError) console.error("Club claim check:", claimError);
+    let club = Array.isArray(claimed) ? claimed[0] : claimed;
+    if (!club) {
+        const { data, error } = await supabaseClient.from("clubs").select("*").eq("owner_id", session.user.id).maybeSingle();
+        if (error) console.error(error);
+        club = data;
+    }
+    currentClub = club || null;
+    dashboard.hidden = false;
+    clubForm.hidden = true;
+    if (!club) {
+        dashboard.hidden = true;
+        clubForm.hidden = false;
+        setAccountMessage("You are signed in. Complete the club registration below.");
+        return;
+    }
+    document.getElementById("clubAccountDetails").textContent =
+        club.club_name + " • " + club.status.toUpperCase() +
+        (club.status === "approved" ? " — Your club can now join open tournaments." :
+         club.status === "pending" ? " — Waiting for admin approval." :
+         " — Contact IPG administration for help.");
+    setAccountMessage("Signed in as " + session.user.email);
+}
+
+document.getElementById("sendMagicLink").addEventListener("click", async () => {
+    const email = document.getElementById("accountEmail").value.trim();
+    if (!email) { setAccountMessage("Enter your email address first."); return; }
+    setAccountMessage("Sending your secure sign-in link...");
+    const { error } = await supabaseClient.auth.signInWithOtp({
+        email,
+        options: { emailRedirectTo: window.location.href }
+    });
+    setAccountMessage(error ? "Could not send link: " + error.message : "Check your inbox. Open the IPG sign-in link on this device to continue.");
+});
+
+document.getElementById("signOutButton").addEventListener("click", async () => {
+    await supabaseClient.auth.signOut();
+    await refreshClubAccount(null);
+});
+
 document.getElementById("clubForm").addEventListener("submit", async function(event) {
     event.preventDefault();
-
+    if (!currentSession) { setAccountMessage("Sign in before registering a club."); return; }
     const form = event.target;
     const message = document.getElementById("formMessage");
-
     const club = {
+        owner_id: currentSession.user.id,
         club_name: form.club_name.value.trim(),
         country: form.country.value.trim(),
         captain_name: form.captain_name.value.trim(),
         captain_discord: form.captain_discord.value.trim(),
-        contact_email: form.contact_email.value.trim(),
-        logo_url: form.logo_url.value.trim() || null
+        contact_email: currentSession.user.email,
+        logo_url: form.logo_url.value.trim() || null,
+        status: "pending"
     };
-
-    message.textContent = "Submitting registration...";
-
-    const { error } = await supabaseClient
-        .from("clubs")
-        .insert([club]);
-
+    message.textContent = "Submitting club registration...";
+    const { error } = await supabaseClient.from("clubs").insert([club]);
     if (error) {
-        message.textContent = "Error: " + error.message;
+        message.textContent = "Could not register: " + error.message;
         console.error(error);
     } else {
-        message.textContent = "Registration submitted! Await admin approval.";
+        message.textContent = "Club submitted! Await admin approval.";
         form.reset();
+        await refreshClubAccount(currentSession);
     }
 });
+
+async function joinTournament(tournament) {
+    if (!currentSession) {
+        setAccountMessage("Sign in with your club contact email before joining a tournament.");
+        document.getElementById("register").scrollIntoView({behavior:"smooth",block:"start"});
+        return;
+    }
+    if (!currentClub) {
+        setAccountMessage("Register or claim your club account before joining.");
+        document.getElementById("register").scrollIntoView({behavior:"smooth",block:"start"});
+        return;
+    }
+    if (currentClub.status !== "approved") {
+        alert(currentClub.status === "pending" ? "Your club is awaiting admin approval." : "Your club is not approved. Contact IPG administration.");
+        return;
+    }
+    const confirmed = window.confirm("Are you sure you want to join " + tournament.name + " as " + currentClub.club_name + "?");
+    if (!confirmed) return;
+    const { error } = await supabaseClient.from("tournament_entries").insert([{
+        tournament_id: tournament.id,
+        club_id: currentClub.id,
+        status: "joined"
+    }]);
+    if (error && error.code === "23505") {
+        alert("Your club has already joined this tournament.");
+    } else if (error) {
+        console.error(error);
+        alert("Could not join tournament: " + error.message);
+    } else {
+        alert("Your club has successfully joined " + tournament.name + "!");
+    }
+}
+
+async function initializeIPGAccount() {
+    const { data: { session } } = await supabaseClient.auth.getSession();
+    await refreshClubAccount(session);
+    supabaseClient.auth.onAuthStateChange((_event, session) => {
+        setTimeout(() => refreshClubAccount(session), 0);
+    });
+}
 
 // START
 loadPublicTournaments();
