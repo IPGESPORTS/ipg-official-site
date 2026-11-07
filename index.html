@@ -450,6 +450,163 @@ nav a:hover {
     transform: translateY(-3px);
     box-shadow: 0 8px 22px rgba(212, 175, 55, 0.3);
 }
+
+/* IPG LOWER PAGE REDESIGN */
+.ipg-content-section {
+    position: relative;
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 90px 24px;
+    text-align: center;
+}
+.ipg-eyebrow {
+    display: inline-block;
+    color: #d4af37;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 3px;
+    margin-bottom: 14px;
+}
+.ipg-content-section h2 {
+    color: #fff;
+    font-size: clamp(28px, 4vw, 42px);
+    font-weight: 900;
+    letter-spacing: 1px;
+    margin: 0 0 14px;
+}
+.ipg-section-intro {
+    max-width: 620px;
+    margin: 0 auto 38px;
+    color: #aebbd0;
+    font-size: 15px;
+    line-height: 1.8;
+}
+.ipg-feature-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 22px;
+    text-align: left;
+}
+.ipg-feature-card {
+    position: relative;
+    overflow: hidden;
+    min-height: 230px;
+    padding: 30px;
+    border: 1px solid rgba(212,175,55,.25);
+    border-radius: 12px;
+    background:
+        radial-gradient(ellipse at 85% 15%, rgba(212,175,55,.18), transparent 42%),
+        linear-gradient(145deg, #14223a, #080d18 78%);
+    box-shadow: 0 18px 45px rgba(0,0,0,.22);
+    transition: transform .25s ease, border-color .25s ease;
+}
+.ipg-feature-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(212,175,55,.7);
+}
+.ipg-feature-art {
+    height: 82px;
+    width: 82px;
+    display: grid;
+    place-items: center;
+    margin-bottom: 24px;
+    border: 1px solid rgba(212,175,55,.45);
+    border-radius: 18px;
+    color: #f0d477;
+    font-size: 34px;
+    background: linear-gradient(145deg, rgba(212,175,55,.18), rgba(255,255,255,.025));
+}
+.ipg-feature-card h3 {
+    color: #fff;
+    font-size: 21px;
+    margin: 0 0 10px;
+}
+.ipg-feature-card p {
+    color: #aebbd0;
+    line-height: 1.75;
+    margin: 0;
+}
+.ipg-ranking-panel {
+    max-width: 760px;
+    margin: 34px auto 0;
+    padding: 34px 28px;
+    border: 1px solid rgba(212,175,55,.25);
+    border-radius: 12px;
+    background: linear-gradient(145deg, #111c30, #080d18);
+}
+.ipg-ranking-mark {
+    color: #f0d477;
+    font-size: 42px;
+    margin-bottom: 12px;
+}
+.ipg-ranking-panel p {
+    color: #aebbd0;
+    line-height: 1.8;
+    margin: 0;
+}
+.ipg-club-banner {
+    max-width: 1000px;
+    margin: 20px auto 0;
+    padding: 48px 28px;
+    border: 1px solid rgba(212,175,55,.35);
+    border-radius: 14px;
+    background:
+        radial-gradient(ellipse at 50% 0%, rgba(212,175,55,.2), transparent 55%),
+        linear-gradient(120deg, #14223a, #080d18);
+}
+.ipg-club-banner p {
+    max-width: 600px;
+    margin: 0 auto 24px;
+    color: #b8c2d3;
+    line-height: 1.8;
+}
+.ipg-gold-link {
+    display: inline-block;
+    padding: 14px 26px;
+    border-radius: 5px;
+    border: 1px solid #f2d778;
+    background: linear-gradient(135deg, #e6c65a, #b8942e);
+    color: #080d18 !important;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 900;
+    letter-spacing: 1.2px;
+    transition: transform .2s ease, box-shadow .2s ease;
+}
+.ipg-gold-link:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(212,175,55,.25);
+}
+#register {
+    padding: 70px 20px;
+    text-align: center;
+    background: linear-gradient(180deg, #080d18, #0c1424);
+}
+#register > h2 {
+    color: #fff;
+    text-align: center;
+    font-size: 30px;
+}
+#register > p {
+    color: #aebbd0;
+    text-align: center;
+}
+.ipg-footer {
+    padding: 32px 20px;
+    text-align: center;
+    color: #8794a9;
+    background: #050912;
+    border-top: 1px solid rgba(212,175,55,.2);
+    font-size: 12px;
+    letter-spacing: 1px;
+    line-height: 1.8;
+}
+@media (max-width: 700px) {
+    .ipg-content-section { padding: 65px 18px; }
+    .ipg-feature-grid { grid-template-columns: 1fr; }
+    .ipg-feature-card { min-height: 0; padding: 25px; }
+}
+
     </style>
 </head>
 
@@ -554,37 +711,43 @@ nav a:hover {
 </section>
 </section>
 
-<section class="section" id="tournaments">
+<section class="ipg-content-section" id="featured-events">
+    <span class="ipg-eyebrow">THE IPG COMPETITIVE SCENE</span>
     <h2>TOURNAMENTS</h2>
+    <p class="ipg-section-intro">From weekly leagues to major championship events, take your club to the next level.</p>
 
-    <div class="cards">
-        <div class="card">
+    <div class="ipg-feature-grid">
+        <article class="ipg-feature-card">
+            <div class="ipg-feature-art" aria-hidden="true">⚽</div>
             <h3>IPG WEEKEND LEAGUE</h3>
-            <p>Compete against clubs from around the world.</p>
-        </div>
-
-        <div class="card">
+            <p>Regular competition, big rivalries and a chance to prove what your club can do.</p>
+        </article>
+        <article class="ipg-feature-card">
+            <div class="ipg-feature-art" aria-hidden="true">🏆</div>
             <h3>CHAMPIONS CUP</h3>
-            <p>Fight for your place among the best.</p>
-        </div>
+            <p>Step onto the biggest stage and compete for a place among the top clubs.</p>
+        </article>
     </div>
 </section>
 
-<section class="section" id="rankings">
+<section class="ipg-content-section" id="rankings">
+    <span class="ipg-eyebrow">EARN YOUR PLACE</span>
     <h2>GLOBAL RANKINGS</h2>
-    <p>Club rankings and tournament points will appear here.</p>
+    <p class="ipg-section-intro">Every match is an opportunity to climb. Build your reputation and make your club known across IPG.</p>
+    <div class="ipg-ranking-panel">
+        <div class="ipg-ranking-mark" aria-hidden="true">✦</div>
+        <p>Official club rankings and tournament points will be displayed here as the IPG competition system develops.</p>
+    </div>
 </section>
 
-<section class="section" id="clubs">
-    <h2>REGISTER YOUR CLUB</h2>
-    <p>Join the IPG competitive community.</p>
+<section class="ipg-content-section" id="clubs">
+    <span class="ipg-eyebrow">REPRESENT YOUR CLUB</span>
+    <div class="ipg-club-banner">
+        <h2>READY TO COMPETE?</h2>
+        <p>Bring your squad into the IPG community. Register your club and get ready for the next competition.</p>
+        <a class="ipg-gold-link" href="#register">REGISTER YOUR CLUB →</a>
+    </div>
 </section>
-
-<footer>
-    © 2026 INTERNATIONAL PROFESSIONAL GAMING
-    <br><br>
-    COMPETE. DOMINATE. BECOME LEGENDS.
-</footer>
 <section class="section" id="register">
     <h2>REGISTER YOUR CLUB</h2>
     <p>Join the International Professional Gaming community.</p>
@@ -614,6 +777,11 @@ nav a:hover {
 
 </form>
 </section>
+
+<footer class="ipg-footer">
+    © 2026 INTERNATIONAL PROFESSIONAL GAMING<br>
+    COMPETE. DOMINATE. BECOME LEGENDS.
+</footer>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
