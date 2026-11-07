@@ -134,6 +134,38 @@ button {
 
     <h2>APPROVED CLUBS</h2>
     <div id="approvedClubs"></div>
+    <hr>
+
+<h2>CREATE TOURNAMENT</h2>
+
+<div class="tournament-admin-form">
+
+    <input
+        type="text"
+        id="tournamentName"
+        placeholder="Tournament name"
+    >
+
+    <textarea
+        id="tournamentDescription"
+        placeholder="Tournament description"
+    ></textarea>
+
+    <select id="tournamentStatus">
+        <option value="upcoming">UPCOMING</option>
+        <option value="registration_open">REGISTRATION OPEN</option>
+        <option value="live">LIVE</option>
+        <option value="completed">COMPLETED</option>
+    </select>
+
+    <button type="button" id="createTournamentButton">
+        CREATE TOURNAMENT
+    </button>
+
+</div>
+
+<h2>ALL TOURNAMENTS</h2>
+<div id="tournamentList"></div>
 
     <p id="dashboardMessage" class="muted"></p>
 
