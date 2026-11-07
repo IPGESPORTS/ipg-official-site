@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IPG | International Professional Gaming</title>
+    <!-- INTER FONT -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
 
     <style> 
 .logo img {
@@ -52,7 +57,7 @@ nav a:hover {
     margin: 0 !important;
     background: #070b16 !important;
     color: #ffffff !important;
-    font-family: Arial, sans-serif !important;
+   font-family: 'Inter', sans-serif !important;
 }
 
 .hero {
@@ -244,11 +249,34 @@ nav a:hover {
 }
 
 .tournament-card {
-    background: #0a1220;
-    border: 1px solid #29364b;
-    border-radius: 7px;
-    padding: 25px;
-    margin-bottom: 15px;
+    position: relative;
+    background: linear-gradient(135deg, #111c30, #080d18);
+    border: 1px solid rgba(212, 175, 55, 0.25);
+    border-radius: 10px;
+    padding: 28px;
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+}
+
+.tournament-card:hover {
+    transform: translateY(-5px);
+    border-color: #d4af37;
+    box-shadow: 0 12px 35px rgba(212, 175, 55, 0.12);
+}
+
+.tournament-card h3,
+.tournament-card h4 {
+    color: #ffffff;
+    font-size: 21px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    margin: 16px 0 10px;
+}
+
+.tournament-card p {
+    color: #aeb7c7;
+    line-height: 1.7;
 }
 
 .tournament-card h4 {
@@ -263,9 +291,18 @@ nav a:hover {
 }
 
 .status-live {
-    color: #ff6262;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 13px;
+    background: rgba(255, 55, 55, 0.12);
+    border: 1px solid rgba(255, 55, 55, 0.4);
+    border-radius: 4px;
+    color: #ff5555;
     font-size: 11px;
-    font-weight: bold;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    box-shadow: 0 0 15px rgba(255, 55, 55, 0.12);
 }
 
 .status-open {
