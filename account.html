@@ -28,6 +28,7 @@ input{width:100%;height:48px;border-radius:6px;border:1px solid rgba(174,187,205
 <div class="tabs"><button type="button" id="signupTab" class="active">SIGN UP</button><button type="button" id="loginTab">LOG IN</button></div>
 <div id="typeArea"><label>ACCOUNT TYPE</label><div class="types"><button type="button" data-type="club" class="active">CLUB / MANAGER</button><button type="button" data-type="player">PLAYER</button></div></div>
 <div id="emailArea"><label for="email">EMAIL ADDRESS</label><input id="email" type="email" autocomplete="email" placeholder="name@example.com"></div>
+<div id="loginPasswordArea" hidden><label for="loginPassword">PASSWORD</label><input id="loginPassword" type="password" autocomplete="current-password" placeholder="Your password"></div>
 <div id="playerFields" hidden>
 <div class="grid">
 <div class="field"><label for="username">USERNAME</label><input id="username" maxlength="24" autocomplete="username" placeholder="Your username"></div>
@@ -50,17 +51,17 @@ input{width:100%;height:48px;border-radius:6px;border:1px solid rgba(174,187,205
 <script>
 const supabaseClient=window.supabase.createClient("https://anndmcqwvfjbnhsehrom.supabase.co","sb_publishable_4OwZ-opv95mMay8hW-5yMA_gmWhMLDC");
 const params=new URLSearchParams(location.search);
-let mode=params.get("mode")==="login"?"login":"signup",accountType=localStorage.getItem("ipg_account_type")||"player",pendingEmail="";
+let mode=params.get("mode")==="login"?"login":"signup",accountType=localStorage.getItem("ipg_account_type")||"player",pendingEmail="",pendingSignupProfile=null;
 const $=id=>document.getElementById(id);
 function renderMode(){
  $("signupTab").classList.toggle("active",mode==="signup");$("loginTab").classList.toggle("active",mode==="login");
  $("heading").textContent=mode==="signup"?"JOIN IPG ESPORTS":"WELCOME BACK";
  $("intro").textContent=mode==="signup"?"Choose your account type and create your IPG account.":"Log in to your existing IPG account with your email.";
- $("typeArea").hidden=true;$("playerFields").hidden=mode!=="signup";
- $("sendCode").textContent=mode==="signup"?(accountType==="player"?"CREATE PLAYER ACCOUNT":"CREATE ACCOUNT & SEND CODE"):"SEND LOGIN CODE";
+ $("typeArea").hidden=true;$("playerFields").hidden=mode!=="signup";$("loginPasswordArea").hidden=mode!=="login";
+ $("sendCode").textContent=mode==="signup"?"CREATE PLAYER ACCOUNT & SEND CODE":"LOG IN";
  if(mode!=="complete")history.replaceState(null,"","?mode="+mode);
 }
-function setMode(v){mode=v;$("otpArea").hidden=true;$("emailArea").hidden=false;$("sendCode").hidden=false;renderMode();$("status").textContent=mode==="signup"?"Enter your player details to create your account.":"Enter the email linked to your IPG account.";}
+function setMode(v){mode=v;$("otpArea").hidden=true;$("emailArea").hidden=false;$("loginPasswordArea").hidden=v!=="login";$("sendCode").hidden=false;renderMode();$("status").textContent=mode==="signup"?"Enter your details. We will email you a verification code.":"Enter your email and password to log in."; }
 $("signupTab").addEventListener("click",()=>setMode("signup"));$("loginTab").addEventListener("click",()=>setMode("login"));
 document.querySelectorAll("[data-type]").forEach(b=>b.addEventListener("click",()=>{accountType=b.dataset.type;document.querySelectorAll("[data-type]").forEach(x=>x.classList.toggle("active",x===b));renderMode();}));
 function validEmail(v){return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);}
@@ -70,66 +71,69 @@ async function savePlayerProfile(userId,profile){
  localStorage.removeItem("ipg_pending_player_profile");localStorage.setItem("ipg_account_type","player");location.href="index.html";
 }
 async function sendCode(){
- const email=$("email").value.trim();if(!validEmail(email)){$("status").textContent="Enter a valid email address.";return;}
- $("status").textContent="Preparing your account...";
- if(mode==="signup"&&accountType==="player"){
+ const email=$("email").value.trim();
+ if(!validEmail(email)){$("status").textContent="Enter a valid email address.";return;}
+ const button=$("sendCode");button.disabled=true;
+ try{
+  if(mode==="login"){
+   const password=$("loginPassword").value;
+   if(!password){$("status").textContent="Enter your password.";return;}
+   $("status").textContent="Logging in...";
+   const {data,error}=await supabaseClient.auth.signInWithPassword({email,password});
+   if(error)throw error;
+   let session=data.session||null;
+   if(!session){const {data:sd,error:se}=await supabaseClient.auth.getSession();if(se)throw se;session=sd.session||null;}
+   if(!session)throw new Error("No active session was created. Please try again.");
+   localStorage.setItem("ipg_account_type","player");
+   $("status").textContent="Login successful. Opening IPG...";
+   location.replace("index.html");return;
+  }
   const username=$("username").value.trim(),playerName=$("playerName").value.trim(),password=$("password").value,confirm=$("confirmPassword").value,dob=$("dob").value,country=$("country").value.trim(),position=$("position").value;
   if(!/^[a-zA-Z0-9_]{3,24}$/.test(username)){$("status").textContent="Username must be 3–24 characters (letters, numbers or underscore).";return;}
   if(!playerName||!country||!dob||!position){$("status").textContent="Complete all player fields.";return;}
   if(password.length<8){$("status").textContent="Password must be at least 8 characters.";return;}
   if(password!==confirm){$("status").textContent="Passwords do not match.";return;}
   const birth=new Date(dob+"T00:00:00");if(Number.isNaN(birth.getTime())||birth>new Date()){$("status").textContent="Enter a valid date of birth.";return;}
-  const profile={username,playerName,dob,country,position};localStorage.setItem("ipg_pending_player_profile",JSON.stringify(profile));
-  const {data,error}=await supabaseClient.auth.signUp({email,password,options:{data:{username,date_of_birth:dob,account_type:"player",player_name:playerName,country,primary_position:position},emailRedirectTo:location.origin+location.pathname+"?mode=complete"}});
-  if(error){localStorage.removeItem("ipg_pending_player_profile");$("status").textContent="Could not create account: "+error.message;return;}
-  if(data.session){await savePlayerProfile(data.user.id,profile);return;}
-  $("emailArea").hidden=true;$("playerFields").hidden=true;$("sendCode").hidden=true;
-  $("status").textContent="Confirmation email sent to "+email+". Open the email and click its confirmation link to activate your player account.";
-  return;
- }
- const {error}=await supabaseClient.auth.signInWithOtp({email,options:{shouldCreateUser:mode==="signup"}});
- if(error){$("status").textContent="Could not send code: "+error.message;return;}
- pendingEmail=email;$("emailArea").hidden=true;$("sendCode").hidden=true;$("otpArea").hidden=false;
- $("status").textContent="A code has been sent to "+email+". Check your inbox.";
+  pendingSignupProfile={username,playerName,dob,country,position};pendingEmail=email;
+  localStorage.setItem("ipg_pending_player_profile",JSON.stringify(pendingSignupProfile));
+  $("status").textContent="Creating your account and sending a verification code...";
+  const {data,error}=await supabaseClient.auth.signUp({email,password,options:{data:{username,date_of_birth:dob,account_type:"player",player_name:playerName,country,primary_position:position}}});
+  if(error)throw error;
+  if(data.session&&data.user){await savePlayerProfile(data.user.id,pendingSignupProfile);return;}
+  $("emailArea").hidden=true;$("playerFields").hidden=true;$("sendCode").hidden=true;$("otpArea").hidden=false;$("otp").focus();
+  $("status").textContent="A verification code has been sent to "+email+". Enter it to activate your account.";
+ }catch(error){$("status").textContent="Could not "+(mode==="login"?"log in: ":"create account: ")+(error&&error.message?error.message:"Please try again.");}
+ finally{button.disabled=false;}
 }
-$("sendCode").addEventListener("click",sendCode);$("resend").addEventListener("click",sendCode);
+async function resendSignupCode(){
+ if(!pendingEmail){$("status").textContent="Start sign up again to request a new code.";return;}
+ const button=$("resend");button.disabled=true;
+ try{const {error}=await supabaseClient.auth.resend({type:"signup",email:pendingEmail});if(error)throw error;$("status").textContent="A new verification code has been sent to "+pendingEmail+".";}
+ catch(error){$("status").textContent="Could not resend the code: "+(error&&error.message?error.message:"Please try again.");}
+ finally{button.disabled=false;}
+}
+$("sendCode").addEventListener("click",sendCode);
+$("resend").addEventListener("click",resendSignupCode);
 $("verify").addEventListener("click",async()=>{
  const token=$("otp").value.trim();
  if(!/^\d{6,8}$/.test(token)){$("status").textContent="Enter the verification code from the email.";return;}
- const verifyButton=$("verify");verifyButton.disabled=true;
- $("status").textContent="Verifying your code and checking your session...";
+ const button=$("verify");button.disabled=true;
  try{
-  const {data,error}=await supabaseClient.auth.verifyOtp({email:pendingEmail,token,type:"email"});
-  if(error)throw error;
+  $("status").textContent="Verifying your email...";
+  const {data,error}=await supabaseClient.auth.verifyOtp({email:pendingEmail,token,type:"signup"});if(error)throw error;
   let session=data.session||null;
-  if(!session){
-   const {data:sessionData,error:sessionError}=await supabaseClient.auth.getSession();
-   if(sessionError)throw sessionError;
-   session=sessionData.session||null;
-  }
-  if(!session){
-   $("status").textContent="The code was accepted, but no active login session was created. Please request a new code and try again.";
-   return;
-  }
-  localStorage.setItem("ipg_account_type",accountType);
-  $("status").textContent="Login successful. Opening your IPG account...";
-  setTimeout(()=>{location.replace("index.html");},500);
- }catch(error){
-  $("status").textContent="Login failed: "+(error&&error.message?error.message:"Could not verify your session.");
- }finally{
-  verifyButton.disabled=false;
- }
+  if(!session){const {data:sd,error:se}=await supabaseClient.auth.getSession();if(se)throw se;session=sd.session||null;}
+  if(!session)throw new Error("Email verified, but no login session was created. Please log in with your new password.");
+  if(!pendingSignupProfile){try{pendingSignupProfile=JSON.parse(localStorage.getItem("ipg_pending_player_profile")||"null");}catch{}}
+  if(!pendingSignupProfile)throw new Error("Player details could not be restored. Please contact IPG support.");
+  const {error:updateError}=await supabaseClient.auth.updateUser({data:{username:pendingSignupProfile.username,date_of_birth:pendingSignupProfile.dob,account_type:"player",player_name:pendingSignupProfile.playerName,country:pendingSignupProfile.country,primary_position:pendingSignupProfile.position}});
+  if(updateError)throw updateError;
+  $("status").textContent="Email verified. Finishing your player profile...";
+  await savePlayerProfile(session.user.id,pendingSignupProfile);
+ }catch(error){$("status").textContent="Verification failed: "+(error&&error.message?error.message:"Check the code and try again.");}
+ finally{button.disabled=false;}
 });
-async function completePlayerSignup(){
- const {data}=await supabaseClient.auth.getSession();
- if(!data.session){$("status").textContent="Email confirmed. Please log in to finish setting up your player profile.";return;}
- let profile;try{profile=JSON.parse(localStorage.getItem("ipg_pending_player_profile")||"null");}catch{}
- if(!profile){$("status").textContent="Your email is confirmed. Log in to continue.";return;}
- $("typeArea").hidden=true;$("emailArea").hidden=true;$("playerFields").hidden=true;$("sendCode").hidden=true;$("otpArea").hidden=true;
- $("status").textContent="Email confirmed. Setting up your player profile...";
- await savePlayerProfile(data.session.user.id,profile);
-}
+
 renderMode();
-if(params.get("mode")==="complete")completePlayerSignup();
-</script>>>
+</script>
 </body></html>
