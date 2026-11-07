@@ -1015,6 +1015,12 @@ nav a:hover, nav a:focus-visible {
 @media(prefers-reduced-motion:reduce){#ipg-particle-canvas{display:none}}
 </style>
 
+
+<style id="ipg-account-choice-styles">
+.ipg-account-choices{display:flex;flex-wrap:wrap;gap:12px;margin:16px 0;align-items:center}
+.ipg-account-choices p{width:100%;margin:0 0 2px;color:#c5d0e0;font-size:12px;font-weight:800;letter-spacing:1.5px}
+.ipg-account-choices button{min-width:170px}
+</style>
 </head>
 
 <body>
@@ -1190,6 +1196,11 @@ nav a:hover, nav a:focus-visible {
         </div>
         <div id="clubAccountDashboard" hidden>
             <p id="clubAccountDetails"></p>
+            <div id="playerAccountChoices" class="ipg-account-choices">
+                <p>WHAT WOULD YOU LIKE TO DO?</p>
+                <button type="button" id="createClubChoice">CREATE A CLUB</button>
+                <button type="button" id="joinTeamChoice">JOIN A TEAM</button>
+            </div>
             <button type="button" id="applyForClubButton" hidden>APPLY TO CREATE A CLUB</button>
             <button type="button" id="editClubProfileButton" hidden>EDIT CLUB PROFILE</button>
             <button type="button" id="signOutButton">SIGN OUT</button>
@@ -1770,7 +1781,7 @@ refreshClubAccount=async function(session){await priorRefreshForManager(session)
  clubBox.addEventListener("click",e=>{
   const b=e.target.closest("[data-club-profile]");if(!b)return;
   const x=clubs.find(v=>v.id===b.dataset.clubProfile);if(!x)return;
-  detail.hidden=false;detail.innerHTML='<h3>'+safe(x.club_name)+'</h3><p>'+safe(x.country||"")+' · Captain: '+safe(x.captain_name||"Not listed")+'</p><div class="ipg-profile-stats">'+stat(x.matches_played,"MATCHES")+stat(x.wins,"WINS")+stat(x.draws,"DRAWS")+stat(x.losses,"LOSSES")+stat(x.goals_for,"GOALS FOR")+stat(x.goals_against,"GOALS AGAINST")+stat(x.roster_size,"SQUAD SIZE")+'</div><p>Member since '+new Date(x.created_at).toLocaleDateString()+'</p>';
+  detail.hidden=false;detail.innerHTML='<h3>'+safe(x.club_name)+'</h3><p>'+safe(x.country||"")+' · Captain: '+safe(x.captain_name||"Not listed")+'</p><div class="ipg-profile-stats">'+stat(x.matches_played,"MATCHES")+stat(x.wins,"WINS")+stat(x.draws,"DRAWS")+stat(x.losses,"LOSSES")+stat(x.goals_for,"GOALS FOR")+stat(x.goals_against,"GOALS AGAINST")+stat(x.roster_size,"SQUAD SIZE")+'</div><p>Member since '+new Date(x.created_at).toLocaleDateString()+'</p>'+(window.currentSession?'<button type="button" data-apply-to-club="'+safe(x.id)+'">APPLY TO JOIN THIS TEAM</button>':'<p>Log in to apply to join this team.</p>');
   detail.scrollIntoView({behavior:"smooth",block:"nearest"});
  });
  playerBox.addEventListener("click",e=>{
@@ -1906,5 +1917,46 @@ refreshClubAccount=async function(session){await priorRefreshForManager(session)
 })();
 </script>
 
+
+<script id="ipg-player-account-choices">
+(()=>{
+ const create=document.getElementById("createClubChoice");
+ const join=document.getElementById("joinTeamChoice");
+ const apply=document.getElementById("applyForClubButton");
+ const form=document.getElementById("clubForm");
+ create?.addEventListener("click",()=>{
+  if(apply && !apply.hidden){apply.click();return}
+  if(form){form.hidden=false;form.scrollIntoView({behavior:"smooth",block:"center"});}
+ });
+ join?.addEventListener("click",()=>{
+  const section=document.getElementById("profiles");
+  if(section){
+   section.scrollIntoView({behavior:"smooth",block:"start"});
+   const clubsTab=document.querySelector('[data-profile-tab="clubs"]');
+   clubsTab?.click();
+   const detail=document.getElementById("profileDetail");
+   if(detail){detail.hidden=true;detail.innerHTML="";}
+  }
+ });
+ const box=document.getElementById("clubProfiles");
+ box?.addEventListener("click",async event=>{
+  const button=event.target.closest("[data-apply-to-club]");
+  if(!button)return;
+  if(!currentSession){alert("Log in to apply to a team.");return;}
+  const clubId=button.dataset.applyToClub;
+  const note=prompt("Write a short message to the club (optional):");
+  if(note===null)return;
+  const {error}=await supabaseClient.from("player_applications").insert({
+   player_id:currentSession.user.id,club_id:clubId,message:note.trim()
+  });
+  if(error){
+   alert(error.code==="23505"?"You have already applied to this club.":"Could not send application: "+error.message);
+   return;
+  }
+  button.disabled=true;button.textContent="APPLICATION SENT";
+  alert("Your application has been sent to the club.");
+ });
+})();
+</script>
 </body>
 </html>
