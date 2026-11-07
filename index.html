@@ -1762,8 +1762,8 @@ refreshClubAccount=async function(session){await priorRefreshForManager(session)
    }
   },350);
  };
- document.getElementById("headerSignupButton")?.addEventListener("click",()=>goToAccount("signup"));
- document.getElementById("headerLoginButton")?.addEventListener("click",()=>goToAccount("login"));
+ document.getElementById("headerSignupButton")?.addEventListener("click",()=>{location.href="account.html?mode=signup"});
+ document.getElementById("headerLoginButton")?.addEventListener("click",()=>{location.href="account.html?mode=login"});
 })();
 </script>
 </body>
