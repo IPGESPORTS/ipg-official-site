@@ -1083,7 +1083,7 @@ input:focus,select:focus,textarea:focus,.registration-form input:focus{outline:2
      <a href="#" id="tournamentMenuButton">TOURNAMENTS</a>
         <a href="#rankings">RANKINGS</a>
         <a href="#player-marketplace" id="headerProfileButton">PROFILE</a>
-        <a href="#register">REGISTER</a>
+        <a href="account.html?mode=signup">SIGN UP / LOG IN</a>
         <a class="discord-nav" href="https://discord.gg/PNYkEztN5K" target="_blank" rel="noopener noreferrer">JOIN DISCORD ↗</a>
     </nav>
     <div class="ipg-header-auth">
@@ -1204,7 +1204,7 @@ input:focus,select:focus,textarea:focus,.registration-form input:focus{outline:2
     <div class="ipg-club-banner">
         <h2>READY TO COMPETE?</h2>
         <p>Bring your squad into the IPG community. Register your club and get ready for the next competition.</p>
-        <a class="ipg-gold-link" href="#register">REGISTER YOUR CLUB →</a>
+        <a class="ipg-gold-link" href="account.html?mode=signup">SIGN UP / LOG IN →</a>
     </div>
 </section>
 
@@ -1225,7 +1225,7 @@ input:focus,select:focus,textarea:focus,.registration-form input:focus{outline:2
     
     <p>Log in or create your player account to access IPG ESPORTS. You can apply to create a club after signing in.</p>
 
-    <div class="ipg-account-panel" id="clubAccountPanel">
+    <div class="ipg-account-panel" id="clubAccountPanel" hidden>
         <p id="accountStatus">Enter your email to receive a secure eight-digit login code.</p>
         <div id="magicLinkForm" hidden>
             <h3>2. EMAIL LOGIN</h3>
@@ -1306,7 +1306,7 @@ input:focus,select:focus,textarea:focus,.registration-form input:focus{outline:2
  <div class="ipg-market-grid">
   <div class="ipg-market-card">
    <h3>PLAYER ACCOUNT</h3>
-   <p id="playerAuthStatus">Sign in with the email login above in the club account panel to manage your player profile.</p>
+   <p id="playerAuthStatus">Sign in or create an account to manage your player profile.</p>
    <form id="playerProfileForm">
     <label>Player name</label><input name="display_name" required maxlength="70">
     <label>Country</label><input name="country" required maxlength="60">
