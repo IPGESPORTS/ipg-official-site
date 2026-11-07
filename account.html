@@ -50,7 +50,7 @@ input{width:100%;height:48px;border-radius:6px;border:1px solid rgba(174,187,205
 <script>
 const supabaseClient=window.supabase.createClient("https://anndmcqwvfjbnhsehrom.supabase.co","sb_publishable_4OwZ-opv95mMay8hW-5yMA_gmWhMLDC");
 const params=new URLSearchParams(location.search);
-let mode=params.get("mode")==="login"?"login":"signup",accountType="club",pendingEmail="";
+let mode=params.get("mode")==="login"?"login":"signup",accountType=localStorage.getItem("ipg_account_type")||"player",pendingEmail="";
 const $=id=>document.getElementById(id);
 function renderMode(){
  $("signupTab").classList.toggle("active",mode==="signup");$("loginTab").classList.toggle("active",mode==="login");
