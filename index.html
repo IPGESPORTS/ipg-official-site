@@ -184,18 +184,31 @@ nav a:hover {
     <h2>REGISTER YOUR CLUB</h2>
     <p>Join the International Professional Gaming community.</p>
 
-    <form id="clubForm" style="max-width:500px;margin:30px auto;">
+    <form id="clubForm" class="registration-form">
+  <form id="clubForm" class="registration-form">
+
+    <div class="form-header">
+        <span class="form-label">IPG OFFICIAL REGISTRATION</span>
+        <h2>REGISTER YOUR CLUB</h2>
+        <p>Join the competition. Represent your club.</p>
+    </div>
+
+    <div class="form-fields">
         <input name="club_name" placeholder="Club Name" required>
         <input name="country" placeholder="Country" required>
         <input name="captain_name" placeholder="Captain Name" required>
         <input name="captain_discord" placeholder="Captain Discord" required>
         <input name="contact_email" type="email" placeholder="Contact Email" required>
         <input name="logo_url" type="url" placeholder="Club Logo URL (optional)">
+    </div>
 
-        <button class="button" type="submit">SUBMIT REGISTRATION</button>
+    <button class="register-button" type="submit">
+        SUBMIT REGISTRATION <span>→</span>
+    </button>
 
-        <p id="formMessage" style="margin-top:20px;"></p>
-    </form>
+    <p id="formMessage" class="form-message"></p>
+
+</form>
 </section>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
