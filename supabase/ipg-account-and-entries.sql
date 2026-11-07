@@ -28,8 +28,14 @@ BEGIN
   RETURN QUERY
   UPDATE public.clubs c
   SET owner_id = auth.uid()
-  WHERE lower(c.contact_email) = user_email
-    AND c.owner_id IS NULL
+  WHERE c.id = (
+    SELECT candidate.id
+    FROM public.clubs candidate
+    WHERE lower(candidate.contact_email) = user_email
+      AND candidate.owner_id IS NULL
+    ORDER BY candidate.created_at ASC
+    LIMIT 1
+  )
   RETURNING c.*;
 
   IF NOT FOUND THEN
@@ -50,6 +56,24 @@ GRANT EXECUTE ON FUNCTION public.claim_existing_club() TO authenticated;
 DROP POLICY IF EXISTS "Anyone can submit club registration" ON public.clubs;
 DROP POLICY IF EXISTS "Public can register clubs" ON public.clubs;
 DROP POLICY IF EXISTS "Users can register their own club" ON public.clubs;
+
+-- Remove legacy public/anonymous INSERT policies so registration must use
+-- a verified account. Admin policies and existing club rows are preserved.
+DO $
+DECLARE policy_row RECORD;
+BEGIN
+  FOR policy_row IN
+    SELECT policyname
+    FROM pg_policies
+    WHERE schemaname = 'public'
+      AND tablename = 'clubs'
+      AND cmd = 'INSERT'
+      AND ('anon' = ANY(roles) OR 'public' = ANY(roles))
+  LOOP
+    EXECUTE format('DROP POLICY %I ON public.clubs', policy_row.policyname);
+  END LOOP;
+END;
+$;
 
 CREATE POLICY "Users can register their own club"
 ON public.clubs FOR INSERT TO authenticated
