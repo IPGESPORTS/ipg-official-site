@@ -1007,7 +1007,7 @@ document.getElementById("resendEmailOtp").addEventListener("click", sendEmailOtp
 document.getElementById("verifyEmailOtp").addEventListener("click", async () => {
     const token = document.getElementById("emailOtpCode").value.trim();
     if (!pendingOtpEmail) { setAccountMessage("Request a login code first."); return; }
-    if (!/^\\d{6}$/.test(token)) { setAccountMessage("Enter the six-digit code from your email."); return; }
+    if (!/^\d{6}$/.test(token)) { setAccountMessage("Enter the six-digit code from your email."); return; }
     setAccountMessage("Verifying your login code...");
     const { data, error } = await supabaseClient.auth.verifyOtp({
         email: pendingOtpEmail,
