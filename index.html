@@ -1021,6 +1021,22 @@ nav a:hover, nav a:focus-visible {
 .ipg-account-choices p{width:100%;margin:0 0 2px;color:#c5d0e0;font-size:12px;font-weight:800;letter-spacing:1.5px}
 .ipg-account-choices button{min-width:170px}
 </style>
+
+<style id="ipg-club-create-form-styles">
+.ipg-club-create-fields{display:grid;grid-template-columns:1fr 1fr;gap:10px 16px}
+.ipg-club-create-fields>label,.ipg-upload-field,.ipg-social-fields{grid-column:1/-1}
+.ipg-club-create-fields>label,.ipg-upload-field>label,.ipg-social-fields label{color:#e9d28c;font-size:12px;font-weight:800;letter-spacing:1.2px}
+.ipg-upload-field{margin:10px 0 18px}
+.ipg-upload-field p{color:#aebbd0;font-size:13px;margin:5px 0 10px}
+.ipg-dropzone{min-height:145px;border:1px dashed rgba(212,175,55,.65);border-radius:9px;background:linear-gradient(135deg,rgba(20,37,65,.85),rgba(8,14,27,.9));display:flex;align-items:center;justify-content:center;text-align:center;padding:18px;cursor:pointer;color:#f0d477;font-size:12px;font-weight:900;letter-spacing:1px;transition:border-color .2s,background .2s}
+.ipg-dropzone small{display:inline-block;margin-top:8px;color:#aebbd0;font-size:10px;font-weight:500;letter-spacing:0}
+.ipg-dropzone.is-dragging{border-color:#fff;background:rgba(55,105,180,.25)}
+.ipg-dropzone img{max-width:150px;max-height:120px;object-fit:contain}
+.ipg-social-fields{border-top:1px solid rgba(212,175,55,.22);padding-top:18px;margin-top:8px;display:grid;grid-template-columns:1fr 1fr;gap:8px 14px}
+.ipg-social-fields h3{grid-column:1/-1;color:#f0d477;margin:0 0 8px}
+.ipg-social-fields input{width:100%;box-sizing:border-box}
+@media(max-width:620px){.ipg-club-create-fields,.ipg-social-fields{grid-template-columns:1fr}.ipg-club-create-fields>label{margin-top:5px}}
+</style>
 </head>
 
 <body>
@@ -1213,12 +1229,41 @@ nav a:hover, nav a:focus-visible {
             <h2 id="clubFormHeading">REGISTER YOUR CLUB</h2>
             <p>Your verified email will be used as the club contact email.</p>
         </div>
-        <div class="form-fields">
-            <input name="club_name" placeholder="Club Name" required>
-            <input name="country" placeholder="Country" required>
-            <input name="captain_name" placeholder="Captain Name" required>
-            <input name="captain_discord" placeholder="Captain Discord" required>
-            <input name="logo_url" type="url" placeholder="Club Logo URL (optional — default badge used if empty)">
+        <div class="form-fields ipg-club-create-fields">
+            <label for="clubNameInput">TEAM NAME</label>
+            <input id="clubNameInput" name="club_name" placeholder="Enter your team name" required maxlength="70">
+            <label for="clubCountryInput">COUNTRY</label>
+            <input id="clubCountryInput" name="country" placeholder="Country" required>
+            <label for="clubCaptainInput">CAPTAIN NAME</label>
+            <input id="clubCaptainInput" name="captain_name" placeholder="Captain name" required>
+            <label for="clubDiscordInput">CAPTAIN DISCORD</label>
+            <input id="clubDiscordInput" name="captain_discord" placeholder="Captain Discord username" required>
+            <input name="logo_url" type="hidden">
+            <div class="ipg-upload-field">
+                <label>TEAM LOGO</label>
+                <p>Drop your team's main logo here or choose a file.</p>
+                <label class="ipg-dropzone" id="teamLogoDrop" for="teamLogoFile">
+                    <img id="teamLogoPreview" alt="Team logo preview" hidden>
+                    <span id="teamLogoPrompt">DROP TEAM LOGO HERE<br><small>PNG, JPG, WEBP or SVG · max 5 MB</small></span>
+                </label>
+                <input id="teamLogoFile" type="file" accept="image/png,image/jpeg,image/webp,image/svg+xml" hidden>
+            </div>
+            <div class="ipg-upload-field">
+                <label>PRESTIGE LOGO</label>
+                <p>Upload a special prestige badge for your team.</p>
+                <label class="ipg-dropzone" id="prestigeLogoDrop" for="prestigeLogoFile">
+                    <img id="prestigeLogoPreview" alt="Prestige logo preview" hidden>
+                    <span id="prestigeLogoPrompt">DROP PRESTIGE LOGO HERE<br><small>PNG, JPG, WEBP or SVG · max 5 MB</small></span>
+                </label>
+                <input id="prestigeLogoFile" type="file" accept="image/png,image/jpeg,image/webp,image/svg+xml" hidden>
+            </div>
+            <div class="ipg-social-fields">
+                <h3>TEAM SOCIAL LINKS</h3>
+                <label for="clubTiktok">TIKTOK</label><input id="clubTiktok" name="social_tiktok" type="url" placeholder="https://www.tiktok.com/@yourteam">
+                <label for="clubInstagram">INSTAGRAM</label><input id="clubInstagram" name="social_instagram" type="url" placeholder="https://www.instagram.com/yourteam">
+                <label for="clubX">X</label><input id="clubX" name="social_x" type="url" placeholder="https://x.com/yourteam">
+                <label for="clubDiscordServer">DISCORD SERVER</label><input id="clubDiscordServer" name="social_discord" type="url" placeholder="https://discord.gg/yourserver">
+            </div>
         </div>
         <button class="register-button" type="submit" id="clubFormSubmit">SUBMIT CLUB REGISTRATION →</button>
         <button type="button" id="cancelClubEdit" hidden>CANCEL</button>
@@ -1563,25 +1608,51 @@ document.getElementById("cancelClubEdit").addEventListener("click",()=>{
  document.getElementById("cancelClubEdit").hidden=true;
 });
 document.getElementById("applyForClubButton").addEventListener("click",()=>{ if(!currentSession)return; document.getElementById("clubForm").hidden=false; document.getElementById("clubFormHeading").textContent="APPLY TO CREATE A CLUB"; document.getElementById("clubFormSubmit").textContent="SUBMIT CLUB APPLICATION →"; document.getElementById("clubForm").scrollIntoView({behavior:"smooth",block:"center"}); });
+async function uploadClubImage(file,kind){
+ if(!file)return null;
+ const allowed=["image/png","image/jpeg","image/webp","image/svg+xml"];
+ if(!allowed.includes(file.type))throw new Error("Use PNG, JPG, WEBP or SVG files.");
+ if(file.size>5*1024*1024)throw new Error("Each logo must be 5 MB or smaller.");
+ const ext=({ "image/png":"png","image/jpeg":"jpg","image/webp":"webp","image/svg+xml":"svg"})[file.type];
+ const path=currentSession.user.id+"/"+kind+"-"+Date.now()+"-"+Math.random().toString(36).slice(2)+"."+ext;
+ const {error}=await supabaseClient.storage.from("club-assets").upload(path,file,{contentType:file.type,upsert:false});
+ if(error)throw error;
+ return supabaseClient.storage.from("club-assets").getPublicUrl(path).data.publicUrl;
+}
 document.getElementById("clubForm").addEventListener("submit",async function(event){
  event.preventDefault();
  if(!currentSession||!["club","player"].includes(selectedAccountType)){setAccountMessage("Sign in to your player account before submitting a club application.");return}
- const form=event.target,message=document.getElementById("formMessage");
+ const form=event.target,message=document.getElementById("formMessage"),submit=document.getElementById("clubFormSubmit");
+ const teamFile=document.getElementById("teamLogoFile").files[0],prestigeFile=document.getElementById("prestigeLogoFile").files[0];
  const values={p_club_name:form.club_name.value.trim(),p_country:form.country.value.trim(),p_captain_name:form.captain_name.value.trim(),p_captain_discord:form.captain_discord.value.trim(),p_logo_url:form.logo_url.value.trim()};
- message.textContent=currentClub?"Saving club profile...":"Submitting club registration...";
- if(currentClub){
-  const {error}=await supabaseClient.rpc("update_my_club_profile",values);
-  if(error){message.textContent="Could not update profile: "+error.message;return}
-  message.textContent="Club profile updated. Approval status has not changed.";
-  form.hidden=true;document.getElementById("clubFormHeading").textContent="REGISTER YOUR CLUB";
-  document.getElementById("clubFormSubmit").textContent="SUBMIT CLUB REGISTRATION →";
-  document.getElementById("cancelClubEdit").hidden=true;await refreshClubAccount(currentSession);
- }else{
-  const club={owner_id:currentSession.user.id,club_name:values.p_club_name,country:values.p_country,captain_name:values.p_captain_name,captain_discord:values.p_captain_discord,contact_email:currentSession.user.email,logo_url:values.p_logo_url||null,status:"pending"};
-  const {error}=await supabaseClient.from("clubs").insert([club]);
-  if(error){message.textContent="Could not register: "+error.message;console.error(error)}
-  else{message.textContent="Club submitted! Await admin approval.";form.reset();await refreshClubAccount(currentSession)}
- }
+ const social_links={tiktok:form.social_tiktok.value.trim(),instagram:form.social_instagram.value.trim(),x:form.social_x.value.trim(),discord:form.social_discord.value.trim()};
+ if(!currentClub&&!teamFile){message.textContent="Please add your team's main logo.";return}
+ if(!currentClub&&!prestigeFile){message.textContent="Please add your prestige logo.";return}
+ submit.disabled=true;message.textContent="Uploading logos and submitting club application...";
+ try{
+  let logoUrl=currentClub?.logo_url||null,prestigeUrl=currentClub?.prestige_logo_url||null;
+  if(teamFile)logoUrl=await uploadClubImage(teamFile,"team-logo");
+  if(prestigeFile)prestigeUrl=await uploadClubImage(prestigeFile,"prestige-logo");
+  if(currentClub){
+   const {error}=await supabaseClient.rpc("update_my_club_profile",values);
+   if(error)throw error;
+   const {error:extraError}=await supabaseClient.from("clubs").update({prestige_logo_url:prestigeUrl,social_links}).eq("id",currentClub.id).eq("owner_id",currentSession.user.id);
+   if(extraError)throw extraError;
+   message.textContent="Club profile updated. Approval status has not changed.";
+   form.hidden=true;document.getElementById("clubFormHeading").textContent="REGISTER YOUR CLUB";
+   document.getElementById("clubFormSubmit").textContent="SUBMIT CLUB REGISTRATION →";
+   document.getElementById("cancelClubEdit").hidden=true;await refreshClubAccount(currentSession);
+  }else{
+   const club={owner_id:currentSession.user.id,club_name:values.p_club_name,country:values.p_country,captain_name:values.p_captain_name,captain_discord:values.p_captain_discord,contact_email:currentSession.user.email,logo_url:logoUrl,prestige_logo_url:prestigeUrl,social_links,status:"pending"};
+   const {error}=await supabaseClient.from("clubs").insert([club]);
+   if(error)throw error;
+   message.textContent="Club submitted! Await admin approval.";
+   form.reset();document.getElementById("teamLogoPreview").hidden=true;document.getElementById("prestigeLogoPreview").hidden=true;
+   document.getElementById("teamLogoPrompt").hidden=false;document.getElementById("prestigeLogoPrompt").hidden=false;
+   await refreshClubAccount(currentSession);
+  }
+ }catch(error){message.textContent="Could not submit club: "+error.message;console.error(error)}
+ finally{submit.disabled=false}
 });
 async function joinTournament(tournament) {
     if (!currentSession) {
@@ -1956,6 +2027,28 @@ refreshClubAccount=async function(session){await priorRefreshForManager(session)
   button.disabled=true;button.textContent="APPLICATION SENT";
   alert("Your application has been sent to the club.");
  });
+})();
+</script>
+
+<script id="ipg-club-logo-drop-upload">
+(()=>{
+ const pairs=[["teamLogoFile","teamLogoDrop","teamLogoPreview","teamLogoPrompt"],["prestigeLogoFile","prestigeLogoDrop","prestigeLogoPreview","prestigeLogoPrompt"]];
+ for(const [inputId,zoneId,previewId,promptId] of pairs){
+  const input=document.getElementById(inputId),zone=document.getElementById(zoneId),preview=document.getElementById(previewId),prompt=document.getElementById(promptId);
+  if(!input||!zone)continue;
+  const show=file=>{
+   if(!file)return;
+   if(!["image/png","image/jpeg","image/webp","image/svg+xml"].includes(file.type)||file.size>5*1024*1024){alert("Choose a PNG, JPG, WEBP or SVG image up to 5 MB.");input.value="";return}
+   preview.src=URL.createObjectURL(file);preview.hidden=false;prompt.hidden=true;
+  };
+  input.addEventListener("change",()=>show(input.files[0]));
+  ["dragenter","dragover"].forEach(name=>zone.addEventListener(name,e=>{e.preventDefault();zone.classList.add("is-dragging")}));
+  ["dragleave","drop"].forEach(name=>zone.addEventListener(name,e=>{e.preventDefault();zone.classList.remove("is-dragging")}));
+  zone.addEventListener("drop",e=>{
+   const file=e.dataTransfer?.files?.[0];if(!file)return;
+   const transfer=new DataTransfer();transfer.items.add(file);input.files=transfer.files;show(file);
+  });
+ }
 })();
 </script>
 </body>
