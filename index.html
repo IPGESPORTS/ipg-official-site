@@ -1206,7 +1206,7 @@ async function loadFreeAgents(){
  const {data,error}=await q;
  if(error){box.textContent="Could not load free agents: "+error.message;return}
  if(!data?.length){box.textContent="No free agents match these filters yet.";return}
- box.innerHTML=data.map(p=>'<article class="ipg-market-card">'+(p.avatar_url?'<img src="'+escPlayer(p.avatar_url)+'" alt="" style="width:76px;height:76px;object-fit:cover;border-radius:50%">':'')+'<h3>'+escPlayer(p.display_name)+'</h3><p>'+escPlayer(p.country)+' · '+escPlayer(p.primary_position)+(p.secondary_position?' / '+escPlayer(p.secondary_position):'')+'</p><p>Foot: '+escPlayer(p.preferred_foot)+' · #'+escPlayer(p.shirt_number||'—')+'</p><p>'+escPlayer(p.play_style||'')+'</p><p>'+escPlayer(p.bio||'')+'</p>'+(currentSession&&currentSession.user.id!==p.user_id?'<button type="button" data-apply-player="'+p.user_id+'">APPLY TO MY CLUB</button>':'')+'</article>').join("");
+ box.innerHTML=data.map(p=>'<article class="ipg-market-card">'+(p.avatar_url?'<img src="'+escPlayer(p.avatar_url)+'" alt="" style="width:76px;height:76px;object-fit:cover;border-radius:50%">':'')+'<h3>'+escPlayer(p.display_name)+'</h3><p>'+escPlayer(p.country)+' · '+escPlayer(p.primary_position)+(p.secondary_position?' / '+escPlayer(p.secondary_position):'')+'</p><p>Foot: '+escPlayer(p.preferred_foot)+' · #'+escPlayer(p.shirt_number||'—')+'</p><p>'+escPlayer(p.play_style||'')+'</p><p>'+escPlayer(p.bio||'')+'</p>'+(currentSession&&currentSession.user.id!==p.user_id?'<button type="button" data-apply-player="'+p.user_id+'">OFFER CONTRACT</button>':'')+'</article>').join("");
 }
 function escPlayer(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
 document.getElementById("filterFreeAgents").addEventListener("click",loadFreeAgents);
@@ -1214,9 +1214,11 @@ document.getElementById("freeAgentList").addEventListener("click",async e=>{
  const b=e.target.closest("[data-apply-player]");if(!b)return;
  if(!currentSession){alert("Sign in first.");return}
  const {data:club}=await supabaseClient.from("clubs").select("id,status").eq("owner_id",currentSession.user.id).eq("status","approved").maybeSingle();
- if(!club){alert("Only an approved club owner can submit a player application. Manager access will be available once your club manager account is linked.");return}
- const {error}=await supabaseClient.from("player_applications").insert({player_id:b.dataset.applyPlayer,club_id:club.id,message:"Application sent from the IPG Free Agents page."});
- alert(error?(error.code==="23505"?"You already have a pending application for this player.":"Could not apply: "+error.message):"Application submitted."); 
+ if(!club){alert("Only an approved club owner can offer a contract. Your club must be approved.");return}
+ const terms=prompt("Enter the contract terms (role, duration and expectations):");
+ if(terms===null)return;
+ const {error}=await supabaseClient.from("player_contracts").insert({player_id:b.dataset.applyPlayer,club_id:club.id,offered_by:currentSession.user.id,terms:terms.trim()||"Contract details to be agreed."});
+ alert(error?(error.code==="23505"?"This player already has an active contract.":"Could not send offer: "+error.message):"Contract offer sent to player."); 
 });
 async function loadPlayerActivity(){
  const box=document.getElementById("playerActivity");
