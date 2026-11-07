@@ -632,7 +632,10 @@ nav a:hover {
 .ipg-account-panel input{width:100%;box-sizing:border-box;padding:14px;margin:8px 0;background:#080f1d;border:1px solid #29364b;border-radius:5px;color:white}
 .ipg-account-panel button,.ipg-account-panel .account-button{padding:13px 20px;background:linear-gradient(135deg,#f0d477,#b58a25);border:0;border-radius:5px;color:#080d18;font-weight:800;cursor:pointer}
 .ipg-account-panel .account-muted{color:#9da9ba;font-size:13px}
-#clubForm[hidden],#clubAccountDashboard[hidden],#emailOtpForm[hidden]{display:none!important}
+#clubForm[hidden],#clubAccountDashboard[hidden],#emailOtpForm[hidden],#magicLinkForm[hidden]{display:none!important}
+.account-type-button{padding:18px 14px;background:#111c30;border:1px solid rgba(212,175,55,.4);border-radius:8px;color:#fff;font-weight:800;cursor:pointer;line-height:1.7}
+.account-type-button small{font-weight:500;color:#aebbd0}
+.account-type-button.selected{border-color:#f0d477;background:#1b2a43;box-shadow:0 0 0 2px rgba(212,175,55,.12)}
 
     
 /* IPG PLAYER MARKETPLACE */
@@ -788,16 +791,22 @@ nav a:hover {
     </div>
 </section>
 <section class="section" id="register">
-    <h2>REGISTER YOUR CLUB</h2>
-    <p>Join the International Professional Gaming community.</p>
+    <h2>JOIN INTERNATIONAL PROFESSIONAL GAMING</h2>
+    <p>Choose your account type. Your email login is the same for both account types.</p>
 
     <div class="ipg-account-panel" id="clubAccountPanel">
-        <h3>YOUR IPG CLUB ACCOUNT</h3>
-        <p id="accountStatus">Sign in with your email to register your club or access an existing club.</p>
-        <div id="magicLinkForm">
-            <input id="accountEmail" type="email" placeholder="Your club contact email" autocomplete="email" required>
+        <h3>1. CHOOSE ACCOUNT TYPE</h3>
+        <div id="accountTypeChooser" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin:18px 0">
+            <button type="button" class="account-type-button" data-account-type="club">🏆 CLUB / MANAGER<br><small>Register a club and request approval</small></button>
+            <button type="button" class="account-type-button" data-account-type="player">⚽ PLAYER<br><small>Create a player profile and become a Free Agent</small></button>
+        </div>
+        <p id="accountTypeDescription" class="account-muted">Select whether you are registering as a club manager or a player.</p>
+        <p id="accountStatus">Choose an account type to continue.</p>
+        <div id="magicLinkForm" hidden>
+            <h3>2. EMAIL LOGIN</h3>
+            <input id="accountEmail" type="email" placeholder="Your email address" autocomplete="email" required>
             <button type="button" id="sendMagicLink">EMAIL ME A LOGIN CODE →</button>
-            <p class="account-muted">We will email you a eight-digit, one-time login code.</p>
+            <p class="account-muted">We will email you an eight-digit, one-time login code.</p>
         </div>
         <div id="emailOtpForm" hidden>
             <input id="emailOtpCode" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="8" placeholder="Enter your 8-digit code">
@@ -995,6 +1004,21 @@ async function loadPublicTournaments() {
     renderPublicTournamentCards(data.filter(t => t.status === "registration_open"), openContainer, "No tournaments open for registration.");
 }
 
+let selectedAccountType = localStorage.getItem("ipg_account_type") || "";
+function chooseAccountType(type) {
+    selectedAccountType = type;
+    localStorage.setItem("ipg_account_type", type);
+    document.querySelectorAll("[data-account-type]").forEach(b => b.classList.toggle("selected", b.dataset.accountType === type));
+    document.getElementById("magicLinkForm").hidden = false;
+    document.getElementById("accountTypeDescription").textContent = type === "club"
+        ? "Club / Manager selected. Your club application will be reviewed by IPG before manager tools are unlocked."
+        : "Player selected. You can create a profile and list yourself as a Free Agent without club approval.";
+    document.getElementById("accountEmail").placeholder = type === "club" ? "Club contact email" : "Player email address";
+    setAccountMessage("Enter your email to receive a secure eight-digit login code.");
+}
+document.querySelectorAll("[data-account-type]").forEach(b => b.addEventListener("click", () => chooseAccountType(b.dataset.accountType)));
+if (selectedAccountType) chooseAccountType(selectedAccountType);
+
 function setAccountMessage(text) {
     document.getElementById("accountStatus").textContent = text;
 }
@@ -1007,12 +1031,26 @@ async function refreshClubAccount(session) {
     if (!session) {
         currentClub = null;
         dashboard.hidden = true;
-        magicForm.hidden = false;
         clubForm.hidden = true;
-        setAccountMessage("Sign in with your email to register your club or access an existing club.");
+        magicForm.hidden = !selectedAccountType;
+        setAccountMessage(selectedAccountType ? "Sign in to continue as " + (selectedAccountType === "club" ? "Club / Manager." : "Player.") : "Choose an account type to continue.");
         return;
     }
     magicForm.hidden = true;
+    if (selectedAccountType === "player") {
+        currentClub = null;
+        dashboard.hidden = false;
+        clubForm.hidden = true;
+        document.getElementById("clubAccountDetails").textContent = "PLAYER ACCOUNT · " + session.user.email;
+        setAccountMessage("Signed in as a player. Complete your player profile below.");
+        return;
+    }
+    if (selectedAccountType !== "club") {
+        dashboard.hidden = true;
+        clubForm.hidden = true;
+        setAccountMessage("Choose Club / Manager or Player above to continue.");
+        return;
+    }
     setAccountMessage("Checking your club account...");
     const { data: claimed, error: claimError } = await supabaseClient.rpc("claim_existing_club");
     if (claimError) console.error("Club claim check:", claimError);
@@ -1042,6 +1080,7 @@ async function refreshClubAccount(session) {
 let pendingOtpEmail = "";
 
 async function sendEmailOtp() {
+    if (!selectedAccountType) { setAccountMessage("Choose Club / Manager or Player first."); return; }
     const email = document.getElementById("accountEmail").value.trim();
     if (!email) { setAccountMessage("Enter your email address first."); return; }
     setAccountMessage("Sending your eight-digit login code...");
@@ -1090,7 +1129,7 @@ document.getElementById("signOutButton").addEventListener("click", async () => {
 
 document.getElementById("clubForm").addEventListener("submit", async function(event) {
     event.preventDefault();
-    if (!currentSession) { setAccountMessage("Sign in before registering a club."); return; }
+    if (!currentSession || selectedAccountType!=="club") { setAccountMessage("Choose Club / Manager and sign in before registering a club."); return; }
     const form = event.target;
     const message = document.getElementById("formMessage");
     const club = {
@@ -1191,7 +1230,7 @@ let playerProfile = null;
 function playerMsg(t){playerMessage.textContent=t}
 async function loadPlayerHub(){
  const status=document.getElementById("playerAuthStatus"), activity=document.getElementById("playerActivity");
- if(!currentSession){status.textContent="Use the email login in the club account panel above. Player registration is separate from club registration.";playerForm.querySelectorAll("input,select,textarea,button").forEach(x=>x.disabled=true);activity.textContent="Sign in to view applications and offers.";return}
+ if(!currentSession || selectedAccountType!=="player"){status.textContent=selectedAccountType==="club"?"You are signed in as a club/manager. Switch to Player above to manage a player profile.":"Choose Player above and sign in to manage your player profile.";playerForm.querySelectorAll("input,select,textarea,button").forEach(x=>x.disabled=true);activity.textContent="Sign in as a player to view applications and offers.";return}
  playerForm.querySelectorAll("input,select,textarea,button").forEach(x=>x.disabled=false);
  status.textContent="Signed in as "+currentSession.user.email+" — complete your player profile.";
  const {data,error}=await supabaseClient.from("player_profiles").select("*").eq("user_id",currentSession.user.id).maybeSingle();
@@ -1201,7 +1240,7 @@ async function loadPlayerHub(){
  await loadPlayerActivity();
 }
 playerForm.addEventListener("submit",async e=>{
- e.preventDefault();if(!currentSession){playerMsg("Sign in first using the email login above.");return}
+ e.preventDefault();if(!currentSession || selectedAccountType!=="player"){playerMsg("Choose Player and sign in before saving a player profile.");return}
  const f=new FormData(playerForm), payload={user_id:currentSession.user.id,display_name:String(f.get("display_name")).trim(),country:String(f.get("country")).trim(),primary_position:f.get("primary_position"),secondary_position:String(f.get("secondary_position")).trim()||null,shirt_number:f.get("shirt_number")?Number(f.get("shirt_number")):null,preferred_foot:f.get("preferred_foot"),play_style:String(f.get("play_style")).trim()||null,experience:String(f.get("experience")).trim()||null,former_clubs:String(f.get("former_clubs")).split(",").map(x=>x.trim()).filter(Boolean),achievements:String(f.get("achievements")).trim()||null,bio:String(f.get("bio")).trim()||null,avatar_url:String(f.get("avatar_url")).trim()||null,availability:f.get("availability"),public_profile:true};
  playerMsg("Saving profile...");
  const {error}=await supabaseClient.from("player_profiles").upsert(payload,{onConflict:"user_id"});
