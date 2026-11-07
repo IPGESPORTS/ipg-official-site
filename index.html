@@ -675,21 +675,47 @@ function renderPublicTournamentCards(tournaments, container, emptyMessage) {
         const card = document.createElement("div");
         card.className = "tournament-card";
 
+        const status = document.createElement("span");
+        status.className = tournament.status === "live"
+            ? "status-live"
+            : "status-open";
+
+        status.textContent = tournament.status === "live"
+            ? "● LIVE"
+            : "REGISTRATION OPEN";
+
         const title = document.createElement("h3");
         title.textContent = tournament.name;
 
         const description = document.createElement("p");
-        description.textContent = tournament.description || "";
+        description.textContent =
+            tournament.description || "Get ready for the competition.";
 
         const details = document.createElement("p");
         details.textContent =
-            (tournament.game || "") + " • " + (tournament.format || "");
+            (tournament.game || "EA SPORTS FC 27") +
+            " • " +
+            (tournament.format || "11v11");
 
-        card.append(title, description, details);
+        card.append(status, title, description, details);
+
+        if (tournament.start_date) {
+            const date = document.createElement("p");
+            date.textContent = "START: " +
+                new Date(tournament.start_date).toLocaleDateString("sv-SE");
+            card.appendChild(date);
+        }
+
+        if (tournament.registration_deadline) {
+            const deadline = document.createElement("p");
+            deadline.textContent = "REGISTRATION DEADLINE: " +
+                new Date(tournament.registration_deadline).toLocaleDateString("sv-SE");
+            card.appendChild(deadline);
+        }
+
         container.appendChild(card);
     });
 }
-
 // CLUB REGISTRATION
 document.getElementById("clubForm").addEventListener("submit", async function(event) {
     event.preventDefault();
