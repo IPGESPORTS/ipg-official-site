@@ -895,6 +895,17 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
    transition:none!important
  }
 }
+
+/* IPG PRESTIGE SIGNATURE */
+.ipg-prestige-seal{display:flex;align-items:center;justify-content:center;gap:14px;width:max-content;max-width:100%;margin:22px auto 8px;padding:10px 18px;border-top:1px solid rgba(240,212,119,.42);border-bottom:1px solid rgba(240,212,119,.42);color:#f3d982}
+.ipg-prestige-rule{width:clamp(18px,5vw,54px);height:1px;background:linear-gradient(90deg,transparent,rgba(240,212,119,.8))}
+.ipg-prestige-rule:last-child{transform:rotate(180deg)}
+.ipg-prestige-icon{font-size:25px;line-height:1;text-shadow:0 0 18px rgba(240,212,119,.35)}
+.ipg-prestige-copy{display:flex;flex-direction:column;gap:3px;text-align:center}
+.ipg-prestige-copy strong{font-size:12px;letter-spacing:.32em;font-weight:900}
+.ipg-prestige-copy small{font-size:8px;letter-spacing:.16em;color:#b9a66b}
+@media(max-width:480px){.ipg-prestige-seal{gap:9px;padding:9px 10px}.ipg-prestige-copy small{font-size:7px;letter-spacing:.1em}}
+@media(prefers-reduced-motion:no-preference){.ipg-prestige-icon{animation:ipgCrownGlow 3.8s ease-in-out infinite}@keyframes ipgCrownGlow{0%,100%{filter:drop-shadow(0 0 2px rgba(240,212,119,.15));transform:translateY(0)}50%{filter:drop-shadow(0 0 9px rgba(240,212,119,.65));transform:translateY(-2px)}}}
 </style>
 </head>
 
@@ -964,6 +975,16 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
         <p class="hero-tagline">
             COMPETE. DOMINATE. BECOME LEGENDS.
         </p>
+
+        <div class="ipg-prestige-seal" aria-label="IPG Prestige — earned, never given">
+            <span class="ipg-prestige-rule"></span>
+            <span class="ipg-prestige-icon" aria-hidden="true">♛</span>
+            <span class="ipg-prestige-copy">
+                <strong>PRESTIGE</strong>
+                <small>IPG ESPORTS · EARNED, NEVER GIVEN</small>
+            </span>
+            <span class="ipg-prestige-rule"></span>
+        </div>
 
         <p class="hero-description">
             Welcome to the next generation of competitive gaming.
