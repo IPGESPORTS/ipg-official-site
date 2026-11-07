@@ -27,7 +27,7 @@ input{width:100%;height:48px;border-radius:6px;border:1px solid rgba(174,187,205
 <h1 id="heading">JOIN IPG ESPORTS</h1><p class="intro" id="intro">Create your IPG player account.</p>
 <div class="tabs"><button type="button" id="signupTab" class="active">SIGN UP</button><button type="button" id="loginTab">LOG IN</button></div>
 <div id="typeArea"><label>ACCOUNT TYPE</label><div class="types"><button type="button" data-type="club" class="active">CLUB / MANAGER</button><button type="button" data-type="player">PLAYER</button></div></div>
-<div id="emailArea"><label for="email">EMAIL ADDRESS</label><input id="email" type="email" autocomplete="email" placeholder="name@example.com"></div>
+<div id="emailArea"><label for="email">EMAIL ADDRESS</label><input id="email" type="email" autocomplete="email" placeholder="name@example.com"><div id="loginPasswordArea" class="field" hidden><label for="loginPassword">PASSWORD</label><input id="loginPassword" type="password" autocomplete="current-password" placeholder="Your password"></div></div>
 <div id="playerFields" hidden>
 <div class="grid">
 <div class="field"><label for="username">USERNAME</label><input id="username" maxlength="24" autocomplete="username" placeholder="Your username"></div>
@@ -48,7 +48,7 @@ input{width:100%;height:48px;border-radius:6px;border:1px solid rgba(174,187,205
 </main>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-const supabaseClient=window.supabase.createClient("https://anndmcqwvfjbnhsehrom.supabase.co","sb_publishable_4OwZ-opv95mMay8hW-5yMA_gmWhMLDC");
+const supabaseClient=window.supabase.createClient("https://anndmcqwvfjbnhsehrom.supabase.co","sb_publishable_4OwZ-opv95mMay8hW-5yMA_gmWhMLDC",{auth:{storageKey:"ipg-auth-token",persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
 const params=new URLSearchParams(location.search);
 let mode=params.get("mode")==="login"?"login":"signup",accountType=localStorage.getItem("ipg_account_type")||"player",pendingEmail="";
 const $=id=>document.getElementById(id);
@@ -56,8 +56,8 @@ function renderMode(){
  $("signupTab").classList.toggle("active",mode==="signup");$("loginTab").classList.toggle("active",mode==="login");
  $("heading").textContent=mode==="signup"?"JOIN IPG ESPORTS":"WELCOME BACK";
  $("intro").textContent=mode==="signup"?"Choose your account type and create your IPG account.":"Log in to your existing IPG account with your email.";
- $("typeArea").hidden=true;$("playerFields").hidden=mode!=="signup";
- $("sendCode").textContent=mode==="signup"?(accountType==="player"?"CREATE PLAYER ACCOUNT":"CREATE ACCOUNT & SEND CODE"):"SEND LOGIN CODE";
+ $("typeArea").hidden=true;$("playerFields").hidden=mode!=="signup";$("loginPasswordArea").hidden=mode!=="login";
+ $("sendCode").textContent=mode==="signup"?(accountType==="player"?"CREATE PLAYER ACCOUNT":"CREATE ACCOUNT & SEND CODE"):"LOG IN";
  if(mode!=="complete")history.replaceState(null,"","?mode="+mode);
 }
 function setMode(v){mode=v;$("otpArea").hidden=true;$("emailArea").hidden=false;$("sendCode").hidden=false;renderMode();$("status").textContent=mode==="signup"?"Enter your player details to create your account.":"Enter the email linked to your IPG account.";}
@@ -72,6 +72,17 @@ async function savePlayerProfile(userId,profile){
 async function sendCode(){
  const email=$("email").value.trim();if(!validEmail(email)){$("status").textContent="Enter a valid email address.";return;}
  $("status").textContent="Preparing your account...";
+ if(mode==="login"){
+  const password=$("loginPassword").value;
+  if(!password){$("status").textContent="Enter your password.";return;}
+  const {data,error}=await supabaseClient.auth.signInWithPassword({email,password});
+  if(error){$("status").textContent="Login failed: "+error.message;return;}
+  if(!data.session){$("status").textContent="Login succeeded but no active session was returned. Please try again.";return;}
+  localStorage.setItem("ipg_account_type",accountType);
+  $("status").textContent="Login successful. Opening your IPG account...";
+  setTimeout(()=>location.replace("index.html"),300);
+  return;
+ }
  if(mode==="signup"&&accountType==="player"){
   const username=$("username").value.trim(),playerName=$("playerName").value.trim(),password=$("password").value,confirm=$("confirmPassword").value,dob=$("dob").value,country=$("country").value.trim(),position=$("position").value;
   if(!/^[a-zA-Z0-9_]{3,24}$/.test(username)){$("status").textContent="Username must be 3–24 characters (letters, numbers or underscore).";return;}
