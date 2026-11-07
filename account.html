@@ -94,11 +94,31 @@ async function sendCode(){
 }
 $("sendCode").addEventListener("click",sendCode);$("resend").addEventListener("click",sendCode);
 $("verify").addEventListener("click",async()=>{
- const token=$("otp").value.trim();if(!/^\d{6,8}$/.test(token)){$("status").textContent="Enter the verification code from the email.";return;}
- $("status").textContent="Verifying...";
- const {data,error}=await supabaseClient.auth.verifyOtp({email:pendingEmail,token,type:"email"});
- if(error){$("status").textContent="Could not verify code: "+error.message;return;}
- localStorage.setItem("ipg_account_type",accountType);location.href="index.html";
+ const token=$("otp").value.trim();
+ if(!/^\d{6,8}$/.test(token)){$("status").textContent="Enter the verification code from the email.";return;}
+ const verifyButton=$("verify");verifyButton.disabled=true;
+ $("status").textContent="Verifying your code and checking your session...";
+ try{
+  const {data,error}=await supabaseClient.auth.verifyOtp({email:pendingEmail,token,type:"email"});
+  if(error)throw error;
+  let session=data.session||null;
+  if(!session){
+   const {data:sessionData,error:sessionError}=await supabaseClient.auth.getSession();
+   if(sessionError)throw sessionError;
+   session=sessionData.session||null;
+  }
+  if(!session){
+   $("status").textContent="The code was accepted, but no active login session was created. Please request a new code and try again.";
+   return;
+  }
+  localStorage.setItem("ipg_account_type",accountType);
+  $("status").textContent="Login successful. Opening your IPG account...";
+  setTimeout(()=>{location.replace("index.html");},500);
+ }catch(error){
+  $("status").textContent="Login failed: "+(error&&error.message?error.message:"Could not verify your session.");
+ }finally{
+  verifyButton.disabled=false;
+ }
 });
 async function completePlayerSignup(){
  const {data}=await supabaseClient.auth.getSession();
