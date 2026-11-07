@@ -1636,7 +1636,7 @@ document.getElementById("clubForm").addEventListener("submit",async function(eve
   if(currentClub){
    const {error}=await supabaseClient.rpc("update_my_club_profile",values);
    if(error)throw error;
-   const {error:extraError}=await supabaseClient.from("clubs").update({prestige_logo_url:prestigeUrl,social_links}).eq("id",currentClub.id).eq("owner_id",currentSession.user.id);
+   const {error:extraError}=await supabaseClient.rpc("update_my_club_branding",{p_club_id:currentClub.id,p_prestige_logo_url:prestigeUrl,p_social_links:social_links});
    if(extraError)throw extraError;
    message.textContent="Club profile updated. Approval status has not changed.";
    form.hidden=true;document.getElementById("clubFormHeading").textContent="REGISTER YOUR CLUB";
