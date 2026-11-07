@@ -1358,6 +1358,18 @@ header{gap:22px}
 @media(max-width:640px){.hero h1{letter-spacing:.025em!important}.hero h1 span{letter-spacing:.015em!important}}
 </style>
 
+
+<style id="ipg-profile-modal-styles">
+.ipg-header-avatar{width:42px;height:42px;border-radius:50%;border:1px solid rgba(177,205,237,.8);background:linear-gradient(145deg,#18385e,#071426);color:#fff;font-weight:900;cursor:pointer;display:grid;place-items:center}.ipg-header-avatar[hidden]{display:none}
+.ipg-profile-modal{position:fixed;inset:0;z-index:10000;display:grid;place-items:center;padding:18px}.ipg-profile-modal[hidden]{display:none}.ipg-profile-backdrop{position:absolute;inset:0;background:rgba(1,6,13,.84);backdrop-filter:blur(8px)}
+.ipg-profile-dialog{position:relative;width:min(760px,100%);max-height:88vh;overflow:auto;padding:clamp(22px,4vw,38px);border:1px solid rgba(143,183,226,.28);background:linear-gradient(145deg,#0c1d32,#050d18);color:#eef5ff;box-shadow:0 25px 90px rgba(0,0,0,.55)}
+.ipg-profile-dialog h2{margin:10px 0 8px;font-size:clamp(24px,4vw,36px);letter-spacing:.1em}.ipg-profile-close{position:absolute;right:16px;top:12px;border:0;background:transparent;color:#fff;font-size:32px;cursor:pointer}.ipg-profile-summary{color:#9fb5d0;font-size:13px;margin-bottom:22px}
+#ipg-profile-form-slot .ipg-market-card{display:block!important;width:100%;padding:0;border:0;background:transparent;box-shadow:none}#ipg-profile-form-slot form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 14px}
+#ipg-profile-form-slot form label{grid-column:1/-1;color:#b9cce2;font-size:10px;font-weight:800;letter-spacing:.12em;text-transform:uppercase}#ipg-profile-form-slot form input,#ipg-profile-form-slot form select,#ipg-profile-form-slot form textarea{grid-column:1/-1;width:100%;min-width:0;background:#071426;color:#fff;border:1px solid rgba(143,183,226,.25);padding:12px}
+#ipg-profile-form-slot form button{grid-column:1/-1;padding:14px;background:#dce8f7;color:#071426;border:0;font-weight:900;letter-spacing:.1em;cursor:pointer}.ipg-profile-activity{margin-top:26px;padding-top:18px;border-top:1px solid rgba(143,183,226,.2)}.ipg-profile-activity h3{font-size:13px;letter-spacing:.14em}#ipg-profile-activity-slot{color:#c5d5e8;font-size:13px}.ipg-profile-signout{margin-top:24px;padding:11px 16px;border:1px solid rgba(174,187,205,.45);background:transparent;color:#fff;font-weight:800;cursor:pointer}
+@media(max-width:600px){.ipg-profile-dialog{max-height:92vh}#ipg-profile-form-slot form{grid-template-columns:1fr}}
+</style>
+
 </head>
 
 <body>
@@ -1381,8 +1393,12 @@ header{gap:22px}
     <div class="ipg-header-auth">
         <button type="button" class="ipg-header-login" id="headerLoginButton">LOG IN</button>
         <button type="button" class="ipg-header-signup" id="headerSignupButton">SIGN UP</button>
+        <button type="button" class="ipg-header-avatar" id="headerAvatarButton" hidden aria-label="Open your profile">P</button>
     </div>
 </header>
+
+<div id="ipg-profile-modal" class="ipg-profile-modal" hidden aria-hidden="true"><div class="ipg-profile-backdrop" data-profile-close></div><section class="ipg-profile-dialog" role="dialog" aria-modal="true" aria-labelledby="ipg-profile-title"><button type="button" class="ipg-profile-close" data-profile-close aria-label="Close profile">×</button><span class="ipg-eyebrow">IPG PLAYER NETWORK</span><h2 id="ipg-profile-title">MY PLAYER PROFILE</h2><p id="ipg-profile-summary" class="ipg-profile-summary">Loading your profile…</p><div id="ipg-profile-form-slot"></div><div class="ipg-profile-activity"><h3>MY APPLICATIONS & OFFERS</h3><div id="ipg-profile-activity-slot"></div></div><button type="button" id="ipg-profile-signout" class="ipg-profile-signout">SIGN OUT</button></section></div>
+
 <div id="tournamentMenu" class="tournament-menu">
 
     <div class="tournament-menu-header">
@@ -1815,8 +1831,11 @@ function setAccountMessage(text) {
     document.getElementById("accountStatus").textContent = text;
 }
 
+function updateIPGHeaderAuth(session){const login=document.getElementById("headerLoginButton"),signup=document.getElementById("headerSignupButton"),avatar=document.getElementById("headerAvatarButton");if(!login||!signup||!avatar)return;login.hidden=!!session;signup.hidden=!!session;avatar.hidden=!session;if(session){const m=session.user.user_metadata||{},label=m.username||m.player_name||session.user.email||"P";avatar.textContent=String(label).trim().charAt(0).toUpperCase()||"P";avatar.title="Open profile — "+(session.user.email||"");}}
 async function refreshClubAccount(session) {
     currentSession = session;
+    window.currentSession = session;
+    updateIPGHeaderAuth(session);
     const dashboard = document.getElementById("clubAccountDashboard");
     const magicForm = document.getElementById("magicLinkForm");
     const clubForm = document.getElementById("clubForm");
@@ -1842,6 +1861,7 @@ async function refreshClubAccount(session) {
             ? playerClub.club_name + " • " + playerClub.status.toUpperCase() + (playerClub.status === "approved" ? " — Club approved." : " — Club application awaiting review.")
             : "PLAYER ACCOUNT · " + session.user.email;
         setAccountMessage(playerClub ? (playerClub.status === "pending" ? "Your club application is waiting for IPG approval." : "Your club application status: " + playerClub.status + ".") : "Signed in as a player. You can apply to create a club below.");
+        if(typeof loadPlayerHub==="function") await loadPlayerHub();
         return;
     }
     if (selectedAccountType !== "club") {
@@ -2351,6 +2371,9 @@ refreshClubAccount=async function(session){await previousRefreshClubAccount(sess
   document.getElementById("headerLoginButton")?.addEventListener("click",()=>{location.href="account.html?mode=login"});
 })();
 </script>
+
+
+<script id="ipg-profile-modal-events">(()=>{const modal=document.getElementById("ipg-profile-modal"),avatar=document.getElementById("headerAvatarButton"),form=document.getElementById("playerProfileForm"),activity=document.getElementById("playerActivity");if(form)document.getElementById("ipg-profile-form-slot").appendChild(form);if(activity)document.getElementById("ipg-profile-activity-slot").appendChild(activity);const close=()=>{modal.hidden=true;modal.setAttribute("aria-hidden","true");document.body.style.overflow="";};const open=async()=>{if(!window.currentSession){location.href="account.html?mode=login&next=profile";return;}modal.hidden=false;modal.setAttribute("aria-hidden","false");document.body.style.overflow="hidden";const m=window.currentSession.user.user_metadata||{};document.getElementById("ipg-profile-summary").textContent=(m.player_name||m.username||"IPG MEMBER")+" · "+(window.currentSession.user.email||"");if(typeof loadPlayerHub==="function")await loadPlayerHub();};avatar?.addEventListener("click",open);document.getElementById("headerProfileButton")?.addEventListener("click",e=>{e.preventDefault();open();});modal?.querySelectorAll("[data-profile-close]").forEach(el=>el.addEventListener("click",close));document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!modal.hidden)close();});document.getElementById("ipg-profile-signout")?.addEventListener("click",async()=>{const {error}=await supabaseClient.auth.signOut();if(error){document.getElementById("ipg-profile-summary").textContent="Could not sign out: "+error.message;return;}close();await refreshClubAccount(null);});})();</script>
 
 </body>
 </html>
