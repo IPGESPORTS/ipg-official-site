@@ -1120,6 +1120,7 @@ header{gap:22px}
         </div>
         <div id="clubAccountDashboard" hidden>
             <p id="clubAccountDetails"></p>
+            <button type="button" id="applyForClubButton" hidden>APPLY TO CREATE A CLUB</button>
             <button type="button" id="editClubProfileButton" hidden>EDIT CLUB PROFILE</button>
             <button type="button" id="signOutButton">SIGN OUT</button>
         </div>
@@ -1367,11 +1368,17 @@ async function refreshClubAccount(session) {
     }
     magicForm.hidden = true;
     if (selectedAccountType === "player") {
-        currentClub = null;
+        const { data: playerClub, error: playerClubError } = await supabaseClient.from("clubs").select("*").eq("owner_id", session.user.id).maybeSingle();
+        if (playerClubError) console.error("Player club application lookup:", playerClubError);
+        currentClub = playerClub || null;
         dashboard.hidden = false;
         clubForm.hidden = true;
-        document.getElementById("clubAccountDetails").textContent = "PLAYER ACCOUNT · " + session.user.email;
-        setAccountMessage("Signed in as a player. Complete your player profile below.");
+        document.getElementById("applyForClubButton").hidden = !!playerClub;
+        document.getElementById("editClubProfileButton").hidden = true;
+        document.getElementById("clubAccountDetails").textContent = playerClub
+            ? playerClub.club_name + " • " + playerClub.status.toUpperCase() + (playerClub.status === "approved" ? " — Club approved." : " — Club application awaiting review.")
+            : "PLAYER ACCOUNT · " + session.user.email;
+        setAccountMessage(playerClub ? (playerClub.status === "pending" ? "Your club application is waiting for IPG approval." : "Your club application status: " + playerClub.status + ".") : "Signed in as a player. You can apply to create a club below.");
         return;
     }
     if (selectedAccountType !== "club") {
@@ -1474,9 +1481,10 @@ document.getElementById("cancelClubEdit").addEventListener("click",()=>{
  document.getElementById("clubFormSubmit").textContent="SUBMIT CLUB REGISTRATION →";
  document.getElementById("cancelClubEdit").hidden=true;
 });
+document.getElementById("applyForClubButton").addEventListener("click",()=>{ if(!currentSession)return; document.getElementById("clubForm").hidden=false; document.getElementById("clubFormHeading").textContent="APPLY TO CREATE A CLUB"; document.getElementById("clubFormSubmit").textContent="SUBMIT CLUB APPLICATION →"; document.getElementById("clubForm").scrollIntoView({behavior:"smooth",block:"center"}); });
 document.getElementById("clubForm").addEventListener("submit",async function(event){
  event.preventDefault();
- if(!currentSession||selectedAccountType!=="club"){setAccountMessage("Choose Club / Manager and sign in before saving a club profile.");return}
+ if(!currentSession||!["club","player"].includes(selectedAccountType)){setAccountMessage("Sign in to your player account before submitting a club application.");return}
  const form=event.target,message=document.getElementById("formMessage");
  const values={p_club_name:form.club_name.value.trim(),p_country:form.country.value.trim(),p_captain_name:form.captain_name.value.trim(),p_captain_discord:form.captain_discord.value.trim(),p_logo_url:form.logo_url.value.trim()};
  message.textContent=currentClub?"Saving club profile...":"Submitting club registration...";
