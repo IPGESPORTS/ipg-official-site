@@ -669,7 +669,7 @@ nav a:hover{transform:translateY(-1px)}
 .hero-description{max-width:620px;margin:18px auto 28px;color:#c6ceda;line-height:1.8}
 .hero-button,.ipg-gold-link,.register-button{display:inline-flex;align-items:center;justify-content:center;gap:12px;border:1px solid rgba(255,231,164,.45);border-radius:6px;background:linear-gradient(135deg,#ffffff,#dce5f2);color:#10131a!important;font-weight:900;letter-spacing:.07em;text-decoration:none;padding:15px 23px;box-shadow:0 10px 30px rgba(255,255,255,.16);transition:transform .2s ease,box-shadow .2s ease}
 .hero-button:hover,.ipg-gold-link:hover,.register-button:hover{transform:translateY(-2px);box-shadow:0 14px 34px rgba(255,255,255,.25)}
-.ipg-content-section,.public-tournaments,#player-marketplace,#ipg-manager-hub{position:relative}
+.ipg-content-section,.public-tournaments,#player-marketplace{position:relative}
 .ipg-content-section{padding-top:76px!important;padding-bottom:76px!important}
 .ipg-eyebrow,.public-tournaments-header>span{color:var(--ipg-gold-light);font-size:11px;font-weight:900;letter-spacing:.22em}
 .ipg-content-section h2,.public-tournaments h2{font-size:clamp(1.65rem,3vw,2.5rem);letter-spacing:.045em}
@@ -684,8 +684,8 @@ nav a:hover{transform:translateY(-1px)}
 .registered-teams li{padding-left:4px}
 .registered-teams .no-registered-teams{margin:0;color:#9ca8ba;font-size:13px}
 
-#player-marketplace,#ipg-manager-hub{padding-top:72px!important;padding-bottom:72px!important}
-#player-marketplace h2,#ipg-manager-hub h2{letter-spacing:.04em}
+#player-marketplace{padding-top:72px!important;padding-bottom:72px!important}
+#player-marketplace h2 h2{letter-spacing:.04em}
 .ipg-market-card{padding:22px!important}
 .ipg-market-card h3{color:var(--ipg-gold-light);letter-spacing:.06em}
 input,select,textarea{background:#080e19!important;border:1px solid #354258!important;border-radius:7px!important;color:#f7f8fb!important}
@@ -707,7 +707,7 @@ button:hover{filter:brightness(1.08);transform:translateY(-1px)}
  .hero-tagline{font-size:12px;letter-spacing:.12em;line-height:1.8}
  .ipg-content-section{padding:55px 18px!important}
  .public-tournaments{padding:54px 18px}
- #player-marketplace,#ipg-manager-hub{padding:54px 18px!important}
+ #player-marketplace{padding:54px 18px!important}
 }
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition:none!important;animation:none!important}}
 
@@ -786,7 +786,7 @@ nav a.discord-nav{border-radius:7px!important;box-shadow:none!important}
 .tournament-card{padding:24px!important;margin-bottom:14px!important}
 .tournament-card h3,.tournament-card h4{font-size:18px!important}
 .registered-teams{background:#0b1423!important;border-color:var(--ipg-border)!important}
-#player-marketplace,#ipg-manager-hub{max-width:1160px!important;padding-left:24px!important;padding-right:24px!important}
+#player-marketplace{max-width:1160px!important;padding-left:24px!important;padding-right:24px!important}
 .ipg-market-grid{gap:14px!important}
 .ipg-market-card{padding:20px!important}
 .ipg-account-panel,.registration-form{max-width:560px!important;padding:clamp(20px,4vw,32px)!important}
@@ -1392,15 +1392,9 @@ input:focus,select:focus,textarea:focus{border-color:var(--ipg-orange)!important
 </section>
 
 <section id="profiles" class="ipg-content-section">
- <span class="ipg-eyebrow">THE IPG COMMUNITY</span>
- <h2>CLUB & PLAYER PROFILES</h2>
- <p class="ipg-section-intro">Discover approved clubs, follow their results and meet players across the IPG network.</p>
- <div class="ipg-profile-switch" role="group" aria-label="Choose profile type">
-  <button type="button" class="ipg-profile-tab active" data-profile-tab="clubs">CLUB PROFILES</button>
-  <button type="button" class="ipg-profile-tab" data-profile-tab="players">PLAYER PROFILES</button>
- </div>
+ <span class="ipg-eyebrow">THE IPG COMMUNITY</span><h2>CLUB PROFILES</h2>
+ <p class="ipg-section-intro">Discover approved clubs and follow their results across IPG competitions.</p>
  <div id="clubProfiles" class="ipg-profile-grid"><p>Loading approved clubs...</p></div>
- <div id="playerProfiles" class="ipg-profile-grid" hidden><p>Loading public player profiles...</p></div>
  <div id="profileDetail" class="ipg-profile-detail" hidden aria-live="polite"></div>
 </section>
 
@@ -1514,17 +1508,6 @@ input:focus,select:focus,textarea:focus{border-color:var(--ipg-orange)!important
   </div>
  </div>
 
-</section>
-
-
-<section id="ipg-manager-hub" style="max-width:1120px;margin:0 auto;padding:55px 22px">
- <span class="ipg-eyebrow">CLUB OPERATIONS</span><h2 style="color:#fff;text-align:center">MANAGER DASHBOARD</h2>
- <p class="ipg-section-intro">Review player applications, manage your signed players and send contract offers.</p>
- <div id="managerHubStatus" class="ipg-market-card">Sign in with an approved club owner account to access your manager dashboard.</div>
- <div class="ipg-market-grid">
-  <article class="ipg-market-card"><h3>PLAYER APPLICATIONS</h3><div id="managerApplications">Loading...</div></article>
-  <article class="ipg-market-card"><h3>MY CLUB PLAYERS</h3><div id="managerRoster">Loading...</div></article>
- </div>
 </section>
 \n<footer class="ipg-footer">
     © 2026 INTERNATIONAL PROFESSIONAL GAMING<br>
@@ -1972,80 +1955,30 @@ document.getElementById("playerActivity").addEventListener("click",async e=>{
 const previousRefreshClubAccount=refreshClubAccount;
 refreshClubAccount=async function(session){await previousRefreshClubAccount(session);await loadPlayerHub()};
 </script>
-
-
-<script>
-async function loadManagerHub(){
- const status=document.getElementById("managerHubStatus"), appsBox=document.getElementById("managerApplications"), rosterBox=document.getElementById("managerRoster");
- if(!currentSession){status.textContent="Sign in above with your approved club owner account.";appsBox.textContent="Login required.";rosterBox.textContent="Login required.";return}
- const {data:club,error}=await supabaseClient.from("clubs").select("id,club_name,status").eq("owner_id",currentSession.user.id).maybeSingle();
- if(error||!club||club.status!=="approved"){status.textContent="Manager tools are available to approved club owners. Additional manager accounts can be linked by the club owner.";appsBox.textContent="No approved club linked.";rosterBox.textContent="No approved club linked.";return}
- status.textContent="Managing "+club.club_name+" · APPROVED";
- const [apps,contracts]=await Promise.all([
-  supabaseClient.from("player_applications").select("id,player_id,message,status,created_at").eq("club_id",club.id).order("created_at",{ascending:false}),
-  supabaseClient.from("player_contracts").select("id,player_id,terms,status,created_at").eq("club_id",club.id).eq("status","active").order("created_at",{ascending:false})
- ]);
- if(apps.error){appsBox.textContent="Could not load applications: "+apps.error.message}else{
-  const ids=[...new Set((apps.data||[]).map(x=>x.player_id))];
-  const {data:profiles}=ids.length?await supabaseClient.from("player_profiles").select("user_id,display_name,country,primary_position,preferred_foot").in("user_id",ids):{data:[]};
-  const byId=Object.fromEntries((profiles||[]).map(p=>[p.user_id,p]));
-  appsBox.innerHTML=(apps.data||[]).length?(apps.data||[]).map(a=>{const p=byId[a.player_id]||{};return '<div style="border-top:1px solid #29364b;padding:12px 0"><strong>'+escPlayer(p.display_name||"Player")+'</strong><p>'+escPlayer(p.country||"")+' · '+escPlayer(p.primary_position||"")+' · '+escPlayer(p.preferred_foot||"")+'</p><p>'+escPlayer(a.message||"")+'</p><p>Status: '+escPlayer(a.status)+'</p>'+(a.status==="pending"?'<button data-app="'+a.id+'" data-status="accepted">ACCEPT APPLICATION</button><button data-app="'+a.id+'" data-status="rejected">REJECT</button><button data-offer-player="'+a.player_id+'">OFFER CONTRACT</button>':'')+'</div>'}).join(""):"<p>No applications yet.</p>";
- }
- if(contracts.error){rosterBox.textContent="Could not load roster: "+contracts.error.message;return}
- const playerIds=[...new Set((contracts.data||[]).map(x=>x.player_id))];
- const {data:players}=playerIds.length?await supabaseClient.from("player_profiles").select("user_id,display_name,country,primary_position").in("user_id",playerIds):{data:[]};
- const pmap=Object.fromEntries((players||[]).map(p=>[p.user_id,p]));
- rosterBox.innerHTML=(contracts.data||[]).length?(contracts.data||[]).map(x=>{const p=pmap[x.player_id]||{};return '<div style="border-top:1px solid #29364b;padding:12px 0"><strong>'+escPlayer(p.display_name||"Player")+'</strong><p>'+escPlayer(p.country||"")+' · '+escPlayer(p.primary_position||"")+'</p><p>'+escPlayer(x.terms||"")+'</p><small>Active contract</small></div>'}).join(""):"<p>No active contracted players yet.</p>";
-}
-document.getElementById("managerApplications").addEventListener("click",async e=>{
- const b=e.target.closest("button");if(!b)return;
- if(b.dataset.app){const {error}=await supabaseClient.from("player_applications").update({status:b.dataset.status,updated_at:new Date().toISOString()}).eq("id",b.dataset.app).eq("status","pending");if(error){alert("Could not update application: "+error.message);return}await loadManagerHub()}
- if(b.dataset.offerPlayer){const {data:club}=await supabaseClient.from("clubs").select("id,status").eq("owner_id",currentSession.user.id).eq("status","approved").maybeSingle();if(!club){alert("Approved club owner access required.");return}const terms=prompt("Contract terms (role, duration and expectations):");if(terms===null)return;const {error}=await supabaseClient.from("player_contracts").insert({player_id:b.dataset.offerPlayer,club_id:club.id,offered_by:currentSession.user.id,terms:terms.trim()||"Terms to be agreed"});if(error){alert("Could not send offer: "+error.message);return}alert("Contract offer sent.");}
-});
-const priorRefreshForManager=refreshClubAccount;
-refreshClubAccount=async function(session){await priorRefreshForManager(session);await loadManagerHub()};
 </script>
 \n
 <script>
 (function(){
- const clubBox=document.getElementById("clubProfiles"), playerBox=document.getElementById("playerProfiles"), detail=document.getElementById("profileDetail");
- if(!clubBox||!playerBox||!detail)return;
+ const clubBox=document.getElementById("clubProfiles"),detail=document.getElementById("profileDetail");
+ if(!clubBox||!detail)return;
  const safe=v=>String(v??"").replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));
  const stat=(n,label)=>'<div class="ipg-profile-stat"><strong>'+Number(n||0)+'</strong><span>'+label+'</span></div>';
- let clubs=[],players=[];
+ let clubs=[];
  async function loadClubProfiles(){
   clubBox.innerHTML="<p>Loading approved clubs...</p>";
   const {data,error}=await supabaseClient.rpc("get_public_club_profiles");
   if(error){clubBox.innerHTML='<p>Club profiles could not be loaded. '+safe(error.message)+'</p>';return}
   clubs=data||[];
-  if(!clubs.length){clubBox.innerHTML="<p>No approved clubs yet. Be among the first to join IPG.</p>";return}
+  if(!clubs.length){clubBox.innerHTML="<p>No approved clubs yet.</p>";return}
   clubBox.innerHTML=clubs.map(x=>'<article class="ipg-profile-card ipg-logo-preview"><button class="ipg-profile-logo-button" type="button" data-club-profile="'+safe(x.id)+'" aria-label="View '+safe(x.club_name)+' profile">'+(x.logo_url?'<img src="'+safe(x.logo_url)+'" alt="'+safe(x.club_name)+' logo">':'<img src="default-club.svg" alt="Default club profile image">')+'</button><h3 class="ipg-profile-preview-name">'+safe(x.club_name)+'</h3></article>').join("");
  }
- async function loadPlayerProfiles(){
-  playerBox.innerHTML="<p>Loading public player profiles...</p>";
-  const {data,error}=await supabaseClient.from("player_profiles").select("user_id,display_name,country,primary_position,secondary_position,shirt_number,preferred_foot,play_style,experience,former_clubs,achievements,bio,avatar_url,availability").eq("public_profile",true).order("display_name");
-  if(error){playerBox.innerHTML='<p>Player profiles could not be loaded. '+safe(error.message)+'</p>';return}
-  players=data||[];
-  if(!players.length){playerBox.innerHTML="<p>No public player profiles yet.</p>";return}
-  playerBox.innerHTML=players.map(p=>'<article class="ipg-profile-card ipg-logo-preview"><button class="ipg-profile-logo-button" type="button" data-player-profile="'+safe(p.user_id)+'" aria-label="View '+safe(p.display_name)+' profile">'+(p.avatar_url?'<img src="'+safe(p.avatar_url)+'" alt="'+safe(p.display_name)+' avatar">':'<img src="default-player.svg" alt="Default player profile image">')+'</button><h3 class="ipg-profile-preview-name">'+safe(p.display_name)+'</h3></article>').join("");
- }
- document.querySelectorAll("[data-profile-tab]").forEach(b=>b.addEventListener("click",()=>{
-  document.querySelectorAll("[data-profile-tab]").forEach(x=>x.classList.toggle("active",x===b));
-  const clubsOn=b.dataset.profileTab==="clubs";clubBox.hidden=!clubsOn;playerBox.hidden=clubsOn;detail.hidden=true;
- }));
  clubBox.addEventListener("click",e=>{
   const b=e.target.closest("[data-club-profile]");if(!b)return;
   const x=clubs.find(v=>v.id===b.dataset.clubProfile);if(!x)return;
   detail.hidden=false;detail.innerHTML='<h3>'+safe(x.club_name)+'</h3><p>'+safe(x.country||"")+' · Captain: '+safe(x.captain_name||"Not listed")+'</p><div class="ipg-profile-stats">'+stat(x.matches_played,"MATCHES")+stat(x.wins,"WINS")+stat(x.draws,"DRAWS")+stat(x.losses,"LOSSES")+stat(x.goals_for,"GOALS FOR")+stat(x.goals_against,"GOALS AGAINST")+stat(x.roster_size,"SQUAD SIZE")+'</div><p>Member since '+new Date(x.created_at).toLocaleDateString()+'</p>'+(window.currentSession?'<button type="button" data-apply-to-club="'+safe(x.id)+'">APPLY TO JOIN THIS TEAM</button>':'<p>Log in to apply to join this team.</p>');
   detail.scrollIntoView({behavior:"smooth",block:"nearest"});
  });
- playerBox.addEventListener("click",e=>{
-  const b=e.target.closest("[data-player-profile]");if(!b)return;
-  const p=players.find(v=>v.user_id===b.dataset.playerProfile);if(!p)return;
-  detail.hidden=false;detail.innerHTML='<h3>'+safe(p.display_name)+'</h3><p>'+safe(p.country||"")+' · '+safe(p.primary_position||"")+(p.secondary_position?' / '+safe(p.secondary_position):'')+' · '+safe(p.preferred_foot||"")+' foot</p><p>Shirt number: '+safe(p.shirt_number||"—")+' · '+safe(p.availability==="free_agent"?"Free Agent":p.availability==="under_contract"?"Under Contract":"Not listed")+'</p><p><strong>Play style:</strong> '+safe(p.play_style||"Not specified")+'</p><p><strong>Experience:</strong> '+safe(p.experience||"Not specified")+'</p><p><strong>Former clubs:</strong> '+safe((p.former_clubs||[]).join(", ")||"Not listed")+'</p><p><strong>Achievements:</strong> '+safe(p.achievements||"Not listed")+'</p><p>'+safe(p.bio||"No player bio added.")+'</p>';
-  detail.scrollIntoView({behavior:"smooth",block:"nearest"});
- });
- loadClubProfiles();loadPlayerProfiles();
+ loadClubProfiles();
 })();
 </script>
 
@@ -2068,7 +2001,7 @@ refreshClubAccount=async function(session){await priorRefreshForManager(session)
     ".ipg-account-panel",
     ".registration-form",
     "#player-marketplace > *",
-    "#ipg-manager-hub > *"
+
   ];
   const nodes=[...new Set(selectors.flatMap(sel=>Array.from(document.querySelectorAll(sel))))];
   nodes.forEach((el,i)=>{
