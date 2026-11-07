@@ -1134,6 +1134,7 @@ async function refreshClubAccount(session) {
     const clubForm = document.getElementById("clubForm");
     if (!session) {
         currentClub = null;
+        document.getElementById("editClubProfileButton").hidden = true;
         dashboard.hidden = true;
         clubForm.hidden = true;
         magicForm.hidden = !selectedAccountType;
