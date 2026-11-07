@@ -842,6 +842,60 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
 }
 </style>
+<style id="ipg-motion">
+/* IPG MOTION PASS — subtle esports motion, with reduced-motion support */
+@keyframes ipg-orbit-drift{
+  from{transform:translate(-50%,-50%) rotate(0deg)}
+  to{transform:translate(-50%,-50%) rotate(360deg)}
+}
+@keyframes ipg-hero-glow{
+  0%,100%{opacity:.28;transform:scale(.96)}
+  50%{opacity:.62;transform:scale(1.06)}
+}
+@keyframes ipg-gold-sweep{
+  0%{background-position:180% 0}
+  100%{background-position:-180% 0}
+}
+@keyframes ipg-float-in{
+  from{opacity:0;transform:translateY(16px)}
+  to{opacity:1;transform:translateY(0)}
+}
+.hero{isolation:isolate}
+.hero:after{
+  animation:ipg-orbit-drift 48s linear infinite;
+  transform-origin:center;
+}
+.hero:before{
+  animation:ipg-hero-glow 8s ease-in-out infinite;
+}
+.hero-content>*{
+  animation:ipg-float-in .8s both;
+}
+.hero-content>*:nth-child(1){animation-delay:.08s}
+.hero-content>*:nth-child(2){animation-delay:.18s}
+.hero-content>*:nth-child(3){animation-delay:.28s}
+.hero-content>*:nth-child(4){animation-delay:.38s}
+.hero-button,.ipg-gold-link,.register-button{
+  background-size:200% 100%!important;
+  animation:ipg-gold-sweep 7s ease-in-out infinite alternate;
+}
+.ipg-feature-card,.ipg-profile-card,.ipg-market-card,.tournament-card{
+  transition:transform .28s cubic-bezier(.2,.7,.2,1),border-color .28s ease,box-shadow .28s ease!important;
+}
+@media(hover:hover) and (pointer:fine){
+ .ipg-feature-card:hover,.ipg-profile-card:hover,.ipg-market-card:hover,.tournament-card:hover{
+   transform:translateY(-5px)!important;
+ }
+}
+@media(prefers-reduced-motion:reduce){
+ .hero:before,.hero:after,.hero-content>*,.hero-button,.ipg-gold-link,.register-button{
+   animation:none!important
+ }
+ .ipg-feature-card,.ipg-profile-card,.ipg-market-card,.tournament-card{
+   transition:none!important
+ }
+}
+</style>
 </head>
 
 <body>
