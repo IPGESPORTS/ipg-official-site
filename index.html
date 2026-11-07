@@ -6,127 +6,103 @@
     <title>IPG | International Professional Gaming</title>
 
     <style> 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+     .hero {
+    min-height: 85vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    background:
+        radial-gradient(ellipse at center, #17243b 0%, #080d18 55%, #05070c 100%);
+    padding: 70px 20px;
+}
 
-        body {
-            background: #080a0f;
-            color: white;
-            font-family: Arial, sans-serif;
-        }
+.hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 950px;
+}
 
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 25px 8%;
-            border-bottom: 1px solid #292929;
-        }
+.hero-badge {
+    color: #d4af37;
+    letter-spacing: 4px;
+    font-size: 11px;
+    margin-bottom: 25px;
+}
 
-        .logo {
-            color: #d4af37;
-            font-size: 25px;
-            font-weight: bold;
-        }
-
-        nav a {
-            color: white;
-            text-decoration: none;
-            margin-left: 25px;
-            font-size: 14px;
-        }
-
-        nav a:hover {
-            color: #d4af37;
-        }
-
-        .hero {
-            text-align: center;
-            padding: 130px 20px;
-        }
-
-        .hero h1 {
-            font-size: 52px;
-            color: #d4af37;
-            margin-bottom: 20px;
-        }
-
-        .hero p {
-            font-size: 18px;
-            letter-spacing: 3px;
-            margin-bottom: 35px;
-        }
-
-        .button {
-            display: inline-block;
-            background: #d4af37;
-            color: black;
-            padding: 15px 30px;
-            text-decoration: none;
-            font-weight: bold;
-            border-radius: 4px;
-        }
-
-        .section {
-            padding: 60px 8%;
-            text-align: center;
-        }
-
-        .section h2 {
-            color: #d4af37;
-            margin-bottom: 30px;
-            font-size: 30px;
-        }
-
-        .cards {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-
-        .card {
-            background: #151922;
-            border: 1px solid #333;
-            padding: 35px;
-            width: 280px;
-            border-radius: 8px;
-        }
-
-        .card h3 {
-            color: #d4af37;
-            margin-bottom: 15px;
-        }
-
-        footer {
-            text-align: center;
-            padding: 30px;
-            border-top: 1px solid #292929;
-            color: #888;
-        }
-
-        @media (max-width: 600px) {
-            header {
-                flex-direction: column;
-                gap: 20px;
-            }
-
-            nav a {
-                margin: 8px;
-            }
-
-            .hero h1 {
-                font-size: 35px;
-            }
-       }
-.logo img {
-    height: 65px;
-    width: auto;
-    display: block;
+.hero-logo {
+    width: 145px;
+    height: 145px;
     object-fit: contain;
+    margin-bottom: 25px;
+    filter: drop-shadow(0 0 25px rgba(212,175,55,0.25));
+}
+
+.hero h1 {
+    color: white;
+    font-size: clamp(30px, 5vw, 58px);
+    font-weight: 900;
+    letter-spacing: 2px;
+    line-height: 1.15;
+}
+
+.hero h1 span {
+    color: #d4af37;
+}
+
+.hero-line {
+    width: 100px;
+    height: 3px;
+    background: #d4af37;
+    margin: 25px auto;
+}
+
+.hero-tagline {
+    color: white;
+    font-size: 17px;
+    letter-spacing: 4px;
+    font-weight: bold;
+}
+
+.hero-description {
+    color: #aeb7c7;
+    font-size: 15px;
+    line-height: 1.8;
+    max-width: 600px;
+    margin: 20px auto 35px;
+}
+
+.hero-button {
+    display: inline-block;
+    padding: 16px 32px;
+    background: linear-gradient(135deg, #f0d477, #b58a25);
+    color: #080d18;
+    text-decoration: none;
+    font-weight: 900;
+    letter-spacing: 1px;
+    border-radius: 4px;
+    transition: 0.3s ease;
+}
+
+.hero-button:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 30px rgba(212,175,55,0.3);
+}
+
+.hero-button span {
+    margin-left: 12px;
+}
+
+.hero-background-glow {
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    background: rgba(212,175,55,0.06);
+    filter: blur(100px);
+    border-radius: 50%;
+    pointer-events: none;
 }
     </style>
 </head>
@@ -149,9 +125,39 @@
 </header>
 
 <section class="hero" id="home">
-    <h1>INTERNATIONAL PROFESSIONAL GAMING</h1>
-    <p>COMPETE. DOMINATE. BECOME LEGENDS.</p>
-    <a href="#tournaments" class="button">EXPLORE TOURNAMENTS</a>
+
+    <div class="hero-content">
+
+        <div class="hero-badge">
+            INTERNATIONAL ESPORTS COMPETITION
+        </div>
+
+        <img src="ipg-logo.png" alt="IPG Logo" class="hero-logo">
+
+        <h1>
+            INTERNATIONAL<br>
+            <span>PROFESSIONAL GAMING</span>
+        </h1>
+
+        <div class="hero-line"></div>
+
+        <p class="hero-tagline">
+            COMPETE. DOMINATE. BECOME LEGENDS.
+        </p>
+
+        <p class="hero-description">
+            Welcome to the next generation of competitive gaming.
+            Build your club. Challenge the best. Make history.
+        </p>
+
+        <a href="#tournaments" class="hero-button">
+            EXPLORE TOURNAMENTS <span>→</span>
+        </a>
+
+    </div>
+
+    <div class="hero-background-glow"></div>
+
 </section>
 
 <section class="section" id="tournaments">
