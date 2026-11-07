@@ -273,7 +273,79 @@ async function loadClubs() {
 
     document.getElementById("clubCount").textContent =
         data.length + " total clubs registered";
+async function createTournament() {
+    const name = document.getElementById("tournamentName").value.trim();
+    const description = document.getElementById("tournamentDescription").value.trim();
+    const status = document.getElementById("tournamentStatus").value;
+    const message = document.getElementById("dashboardMessage");
 
+    if (!name) {
+        message.textContent = "Enter a tournament name.";
+        return;
+    }
+
+    message.textContent = "Creating tournament...";
+
+    const { error } = await supabaseClient
+        .from("tournaments")
+        .insert([{
+            name: name,
+            description: description,
+            status: status
+        }]);
+
+    if (error) {
+        message.textContent = "Could not create tournament: " + error.message;
+        return;
+    }
+
+    document.getElementById("tournamentName").value = "";
+    document.getElementById("tournamentDescription").value = "";
+
+    message.textContent = "Tournament created successfully!";
+    loadTournaments();
+}
+
+async function loadTournaments() {
+    const container = document.getElementById("tournamentList");
+
+    const { data, error } = await supabaseClient
+        .from("tournaments")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+    if (error) {
+        container.textContent = "Could not load tournaments: " + error.message;
+        return;
+    }
+
+    container.innerHTML = "";
+
+    if (data.length === 0) {
+        container.textContent = "No tournaments created yet.";
+        return;
+    }
+
+    data.forEach(tournament => {
+        const card = document.createElement("div");
+        card.className = "club";
+
+        const title = document.createElement("h3");
+        title.textContent = tournament.name;
+
+        const description = document.createElement("p");
+        description.textContent = tournament.description || "";
+
+        const status = document.createElement("p");
+        status.textContent = "Status: " + tournament.status;
+
+        card.append(title, description, status);
+        container.appendChild(card);
+    });
+}
+
+document.getElementById("createTournamentButton")
+    .addEventListener("click", createTournament);
     renderClubs(pending, "pendingClubs");
     renderClubs(approved, "approvedClubs");
 }
@@ -343,6 +415,7 @@ async function updateStatus(id, status) {
 
     message.textContent = "Club status updated!";
     loadClubs();
+    LoadTournaments();
 }
 
 supabaseClient.auth.onAuthStateChange((event, session) => {
