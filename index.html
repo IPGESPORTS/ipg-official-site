@@ -733,7 +733,7 @@ button:hover{filter:brightness(1.08);transform:translateY(-1px)}
 .ipg-profile-stat span{color:#9da9ba;font-size:11px;letter-spacing:.08em}
 
 /* Ensure hidden authentication controls stay hidden on mobile browsers. */
-.ipg-header-auth button[hidden], #ipg-profile-modal[hidden] { display: none !important; }
+.ipg-header-auth button[hidden], .ipg-header-auth a[hidden], #ipg-profile-modal[hidden] { display: none !important; }
 </style>
 <style id="ipg-clean-ui">
 /* IPG CLEAN UI PASS — visual-only refinement; existing functionality preserved */
@@ -1343,13 +1343,13 @@ body{background-image:radial-gradient(ellipse at 50% 0%,rgba(35,75,122,.13),tran
 <style id="ipg-header-auth-actions">
 header{gap:22px}
 .ipg-header-auth{display:flex;align-items:center;gap:9px;flex-shrink:0}
-.ipg-header-auth button{min-height:40px;padding:0 15px;border-radius:5px;font-size:11px;font-weight:900;letter-spacing:.1em;cursor:pointer;transition:transform .2s ease,background .2s ease,border-color .2s ease}
+.ipg-header-auth button,.ipg-header-auth a{min-height:40px;padding:0 15px;border-radius:5px;font-size:11px;font-weight:900;letter-spacing:.1em;cursor:pointer;transition:transform .2s ease,background .2s ease,border-color .2s ease;display:inline-flex;align-items:center;justify-content:center;text-decoration:none;box-sizing:border-box}
 .ipg-header-login{color:#d6deea;background:transparent;border:1px solid rgba(174,187,205,.48)}
 .ipg-header-login:hover{border-color:#fff;color:#fff}
 .ipg-header-signup{color:#10131a;background:linear-gradient(135deg,#fff,#dce5f2);border:1px solid #fff}
-.ipg-header-auth button:hover{transform:translateY(-1px)}
+.ipg-header-auth button:hover,.ipg-header-auth a:hover{transform:translateY(-1px)}
 @media(max-width:900px){header{gap:12px}.ipg-header-auth{margin-left:auto}}
-@media(max-width:700px){.ipg-header-auth{width:100%;justify-content:flex-end}.ipg-header-auth button{min-height:38px}header{align-items:center}}
+@media(max-width:700px){.ipg-header-auth{width:100%;justify-content:flex-end}.ipg-header-auth button,.ipg-header-auth a{min-height:38px}header{align-items:center}}
 </style>
 
 
@@ -1393,8 +1393,8 @@ header{gap:22px}
         <a class="discord-nav" href="https://discord.gg/PNYkEztN5K" target="_blank" rel="noopener noreferrer">JOIN DISCORD ↗</a>
     </nav>
     <div class="ipg-header-auth">
-        <button type="button" class="ipg-header-login" id="headerLoginButton">LOG IN</button>
-        <button type="button" class="ipg-header-signup" id="headerSignupButton">SIGN UP</button>
+        <a class="ipg-header-login" id="headerLoginButton" href="account.html?mode=login">LOG IN</a>
+        <a class="ipg-header-signup" id="headerSignupButton" href="account.html?mode=signup">SIGN UP</a>
         <button type="button" class="ipg-header-avatar" id="headerAvatarButton" hidden aria-label="Open your profile">P</button>
     </div>
 </header>
@@ -2373,12 +2373,7 @@ refreshClubAccount=async function(session){await previousRefreshClubAccount(sess
 </script>
 
 
-<script>
-(function(){
-  document.getElementById("headerSignupButton")?.addEventListener("click",()=>{location.href="account.html?mode=signup"});
-  document.getElementById("headerLoginButton")?.addEventListener("click",()=>{location.href="account.html?mode=login"});
-})();
-</script>
+
 
 
 <script id="ipg-profile-modal-events">(()=>{const modal=document.getElementById("ipg-profile-modal"),avatar=document.getElementById("headerAvatarButton"),form=document.getElementById("playerProfileForm");if(form)document.getElementById("ipg-profile-form-slot").appendChild(form);const close=()=>{modal.hidden=true;modal.setAttribute("aria-hidden","true");document.body.style.overflow="";};const open=async()=>{if(!window.currentSession){location.href="account.html?mode=login&next=profile";return;}modal.hidden=false;modal.setAttribute("aria-hidden","false");document.body.style.overflow="hidden";const m=window.currentSession.user.user_metadata||{};document.getElementById("ipg-profile-summary").textContent=(m.player_name||m.username||"IPG MEMBER")+" · "+(window.currentSession.user.email||"");if(typeof loadPlayerHub==="function")await loadPlayerHub();};avatar?.addEventListener("click",open);document.getElementById("headerProfileButton")?.addEventListener("click",e=>{e.preventDefault();open();});modal?.querySelectorAll("[data-profile-close]").forEach(el=>el.addEventListener("click",close));document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!modal.hidden)close();});document.getElementById("ipg-profile-signout")?.addEventListener("click",async()=>{const {error}=await supabaseClient.auth.signOut();if(error){document.getElementById("ipg-profile-summary").textContent="Could not sign out: "+error.message;return;}close();await refreshClubAccount(null);});})();</script>
