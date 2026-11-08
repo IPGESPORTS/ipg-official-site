@@ -10,12 +10,12 @@ body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 50% 0%,#182
 .wrap{width:min(100%,470px)}.brand{text-align:center;margin-bottom:26px}.brand img{width:100px;height:70px;object-fit:contain}.brand p{font-size:11px;letter-spacing:.2em;color:var(--muted);font-weight:700}
 .panel{background:linear-gradient(145deg,rgba(20,34,58,.97),rgba(8,13,24,.98));border:1px solid rgba(185,216,242,.25);border-radius:12px;padding:30px;box-shadow:0 22px 70px rgba(0,0,0,.35)}
 h1{font-size:25px;letter-spacing:.07em;text-align:center;margin:0 0 8px}.intro{text-align:center;color:var(--muted);font-size:13px;line-height:1.6;margin:0 0 24px}
-label{display:block;color:var(--muted);font-size:11px;font-weight:800;letter-spacing:.12em;margin:0 0 9px}
-input{width:100%;min-height:48px;padding:12px;background:#080f1d;border:1px solid #29364b;border-radius:6px;color:#fff;font-size:16px}
 .action{width:100%;min-height:48px;margin-top:14px;border:1px solid #d7e9f8;border-radius:6px;background:linear-gradient(135deg,#e8f3fc,#8fb7da);color:#101a28;font-weight:800;letter-spacing:.07em;cursor:pointer}
-.action:disabled{opacity:.65;cursor:wait}.status{min-height:42px;margin:16px 0 0;color:var(--ice);font-size:13px;line-height:1.5;text-align:center}
-.back{display:block;text-align:center;color:var(--muted);font-size:12px;margin-top:20px;text-decoration:none}.note{font-size:11px;color:#8f9bad;text-align:center;line-height:1.6;margin:18px 0 0}[hidden]{display:none!important}
-@media(max-width:420px){.panel{padding:23px 18px}h1{font-size:22px}}
+.action.secondary{background:transparent;color:#e8f3fc;border-color:#52647c}.action:disabled{opacity:.65;cursor:wait}
+.status{min-height:42px;margin:16px 0 0;color:var(--ice);font-size:13px;line-height:1.5;text-align:center}
+.back{display:block;text-align:center;color:var(--muted);font-size:12px;margin-top:20px;text-decoration:none}.note{font-size:11px;color:#8f9bad;text-align:center;line-height:1.6;margin:18px 0 0}
+.club{margin:16px 0;padding:14px;border:1px solid rgba(185,216,242,.25);border-radius:8px;text-align:center}.club strong{display:block;font-size:18px;margin-bottom:5px}.club span{color:var(--muted);font-size:12px}
+[hidden]{display:none!important}@media(max-width:420px){.panel{padding:23px 18px}h1{font-size:22px}}
 </style>
 </head>
 <body>
@@ -23,23 +23,74 @@ input{width:100%;min-height:48px;padding:12px;background:#080f1d;border:1px soli
 <div class="brand"><a href="index.html"><img src="ipg-logo.png" alt="IPG ESPORTS"></a><p>COMPETE. DOMINATE. BECOME LEGENDS.</p></div>
 <section class="panel">
 <h1>IPG CLUB ACCESS</h1>
-<p class="intro">Sign in with the email address registered as your club contact. Player accounts are not available.</p>
-<form id="clubLoginForm"><label for="clubEmail">CLUB CONTACT EMAIL</label><input id="clubEmail" type="email" autocomplete="email" placeholder="name@club.com" required><button class="action" id="sendLink" type="submit">EMAIL ME A SECURE SIGN-IN LINK</button></form>
+<p class="intro">Sign in with the same Discord account that was approved for your IPG club. Access is checked against the club registration—not your Discord username or email.</p>
+<button class="action" id="discordLogin" type="button">CONTINUE WITH DISCORD</button>
+<div class="club" id="clubCard" hidden><strong id="clubName"></strong><span id="clubCountry"></span></div>
 <button class="action" id="continueButton" type="button" hidden>CONTINUE TO CLUB DASHBOARD</button>
-<p class="status" id="status" role="status" aria-live="polite">We will send a one-time sign-in link to your club contact email.</p>
-<p class="note">Only club accounts can use this login. New clubs can submit a registration for IPG approval after signing in.</p>
+<button class="action secondary" id="signOutButton" type="button" hidden>SIGN OUT</button>
+<p class="status" id="status" role="status" aria-live="polite">Use Discord to verify your approved club access.</p>
+<p class="note">Only the Discord account attached to an approved IPG club can access its club dashboard. If your club was just approved, sign in with the Discord account used for registration.</p>
 </section>
 <a class="back" href="index.html">← BACK TO IPG ESPORTS</a>
 </main>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-const supabaseClient=window.supabase.createClient("https://anndmcqwvfjbnhsehrom.supabase.co","sb_publishable_4OwZ-opv95mMay8hW-5yMA_gmWhMLDC",{auth:{storageKey:"ipg-auth-token",persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
+const SUPABASE_URL="https://anndmcqwvfjbnhsehrom.supabase.co";
+const SUPABASE_KEY="sb_publishable_4OwZ-opv95mMay8hW-5yMA_gmWhMLDC";
+const supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{storageKey:"ipg-auth-token",persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
 const $=id=>document.getElementById(id);
-function showSession(session){if(session){$("clubLoginForm").hidden=true;$("continueButton").hidden=false;$("status").textContent="Your email sign-in is complete. Continue to your club dashboard.";}else{$("clubLoginForm").hidden=false;$("continueButton").hidden=true;}}
-$("clubLoginForm").addEventListener("submit",async event=>{event.preventDefault();const button=$("sendLink"),email=$("clubEmail").value.trim();if(!email)return;button.disabled=true;$("status").textContent="Sending your secure sign-in link...";try{const {error}=await supabaseClient.auth.signInWithOtp({email,options:{emailRedirectTo:location.origin+location.pathname}});if(error)throw error;$("status").textContent="Sign-in link sent. Open the email on this device, then return here to continue.";}catch(error){$("status").textContent="Could not send sign-in link: "+(error.message||"Unknown error");}finally{button.disabled=false;}});
+let verifiedToken=null;
+function setBusy(busy){$("discordLogin").disabled=busy;$("continueButton").disabled=busy;}
+function resetView(){verifiedToken=null;$("discordLogin").hidden=false;$("continueButton").hidden=true;$("signOutButton").hidden=false;$("clubCard").hidden=true;}
+async function verifyDiscordSession(session){
+ if(!session?.access_token)return;
+ if(verifiedToken===session.access_token)return;
+ verifiedToken=session.access_token;
+ setBusy(true);
+ $("status").textContent="Verifying your Discord account and approved club...";
+ try{
+  const response=await fetch(SUPABASE_URL+"/functions/v1/ipg-discord-link-auth",{method:"POST",headers:{"Content-Type":"application/json","apikey":SUPABASE_KEY,"Authorization":"Bearer "+session.access_token},body:"{}"});
+  const result=await response.json();
+  if(!response.ok)throw new Error(result.error||"Club access could not be verified.");
+  $("clubName").textContent=result.club.name;
+  $("clubCountry").textContent=result.club.country||"";
+  $("clubCard").hidden=false;
+  $("discordLogin").hidden=true;
+  $("continueButton").hidden=false;
+  $("signOutButton").hidden=false;
+  $("status").textContent="Discord verified. Your approved club is connected to this website account.";
+ }catch(error){
+  verifiedToken=null;
+  $("clubCard").hidden=true;
+  $("continueButton").hidden=true;
+  $("discordLogin").hidden=false;
+  $("signOutButton").hidden=false;
+  $("status").textContent=error.message||"Could not verify club access.";
+ }finally{setBusy(false);}
+}
+$("discordLogin").addEventListener("click",async()=>{
+ $("discordLogin").disabled=true;
+ $("status").textContent="Redirecting to Discord...";
+ const {error}=await supabaseClient.auth.signInWithOAuth({provider:"discord",options:{redirectTo:location.origin+location.pathname,scopes:"identify email"}});
+ if(error){$("status").textContent="Could not start Discord sign-in: "+error.message;$("discordLogin").disabled=false;}
+});
 $("continueButton").addEventListener("click",()=>location.assign("index.html#register"));
-supabaseClient.auth.onAuthStateChange((event,session)=>{if(["INITIAL_SESSION","SIGNED_IN","TOKEN_REFRESHED"].includes(event))showSession(session);});
-supabaseClient.auth.getSession().then(({data,error})=>{if(error){$("status").textContent="Could not check your login session: "+error.message;return;}showSession(data.session);});
+$("signOutButton").addEventListener("click",async()=>{
+ await supabaseClient.auth.signOut();
+ resetView();
+ $("signOutButton").hidden=true;
+ $("status").textContent="You have been signed out.";
+});
+supabaseClient.auth.onAuthStateChange((event,session)=>{
+ if(["INITIAL_SESSION","SIGNED_IN","TOKEN_REFRESHED","USER_UPDATED"].includes(event)){
+  if(session){setTimeout(()=>verifyDiscordSession(session),0);}
+  else{resetView();$("signOutButton").hidden=true;$("status").textContent="Use Discord to verify your approved club access.";}
+ }
+});
+supabaseClient.auth.getSession().then(({data,error})=>{
+ if(error){$("status").textContent="Could not check your sign-in session: "+error.message;return;}
+ if(data.session)verifyDiscordSession(data.session);
+});
 </script>
 </body>
 </html>
