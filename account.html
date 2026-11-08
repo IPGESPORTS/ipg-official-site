@@ -40,8 +40,8 @@ input{width:100%;height:48px;border-radius:6px;border:1px solid rgba(174,187,205
 <label for="position">POSITION</label><select id="position" required><option value="">Select your position</option><optgroup label="Goalkeeper"><option value="GK">Goalkeeper (GK)</option></optgroup><optgroup label="Defenders"><option value="CB">Centre Back (CB)</option><option value="LB">Left Back (LB)</option><option value="RB">Right Back (RB)</option><option value="LWB">Left Wing Back (LWB)</option><option value="RWB">Right Wing Back (RWB)</option></optgroup><optgroup label="Midfielders"><option value="CDM">Defensive Midfielder (CDM)</option><option value="CM">Central Midfielder (CM)</option><option value="CAM">Attacking Midfielder (CAM)</option><option value="LM">Left Midfielder (LM)</option><option value="RM">Right Midfielder (RM)</option></optgroup><optgroup label="Attackers"><option value="LW">Left Winger (LW)</option><option value="RW">Right Winger (RW)</option><option value="CF">Centre Forward (CF)</option><option value="ST">Striker (ST)</option></optgroup></select>
 <p class="intro" style="margin:12px 0 0;font-size:11px">Your date of birth is used for account administration and will not appear on your public player profile.</p>
 </div>
-<button type="button" class="action" id="sendCode">SEND VERIFICATION CODE</button>
-<div id="otpArea" hidden><label for="otp">8-DIGIT EMAIL CODE</label><input id="otp" inputmode="numeric" autocomplete="one-time-code" maxlength="8" placeholder="Enter code"><button type="button" class="action" id="verify">VERIFY & CONTINUE</button><button type="button" class="secondary" id="resend">SEND A NEW CODE</button></div>
+<button type="button" class="action" id="sendCode">CREATE ACCOUNT</button>
+
 <p class="status" id="status" role="status" aria-live="polite">Create a player account first. Club creation is available after you sign in.</p>
 </section>
 <a class="back" href="index.html">← BACK TO IPG ESPORTS</a>
@@ -98,10 +98,18 @@ async function sendCode(){
   $("status").textContent="Confirmation email sent to "+email+". Open the email and click its confirmation link to activate your player account.";
   return;
  }
- const {error}=await supabaseClient.auth.signInWithOtp({email,options:{shouldCreateUser:mode==="signup"}});
- if(error){$("status").textContent="Could not send code: "+error.message;return;}
- pendingEmail=email;$("emailArea").hidden=true;$("sendCode").hidden=true;$("otpArea").hidden=false;
- $("status").textContent="A code has been sent to "+email+". Check your inbox.";
+ const password=$("password").value,confirm=$("confirmPassword").value;
+ if(password.length<8){$("status").textContent="Password must be at least 8 characters.";return;}
+ if(password!==confirm){$("status").textContent="Passwords do not match.";return;}
+ const {data,error}=await supabaseClient.auth.signUp({email,password,options:{data:{account_type:accountType},emailRedirectTo:location.origin+location.pathname}});
+ if(error){$("status").textContent="Could not create account: "+error.message;return;}
+ if(data.session){
+  localStorage.setItem("ipg_account_type",accountType);
+  $("status").textContent="Account created. Opening IPG...";
+  setTimeout(()=>location.replace("index.html"),300);
+  return;
+ }
+ $("status").textContent="Account request received, but email confirmation is still enabled in Supabase. Disable Confirm email in Authentication → Providers → Email to allow immediate login without a confirmation email.";
 }
 $("sendCode").addEventListener("click",sendCode);$("resend").addEventListener("click",sendCode);
 $("verify").addEventListener("click",async()=>{
