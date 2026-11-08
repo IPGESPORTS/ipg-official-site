@@ -129,6 +129,16 @@ img{max-width:100%}
   <div class="actions"><button class="btn primary" id="saveClubChanges" type="submit">SAVE CHANGES</button><span class="detail" id="saveMessage" role="status" aria-live="polite"></span></div>
  </form>
 </section>
+
+<section class="edit-panel" id="accountManagementSection" style="border-color:rgba(255,106,0,.38)">
+ <div class="edit-heading"><div><span class="eyebrow">ACCOUNT & CLUB MANAGEMENT</span><h2 class="section-title">ACCOUNT SETTINGS</h2><p class="detail">Disconnect your account without removing the club, or archive the club while preserving its official history.</p></div></div>
+ <div class="grid">
+  <article class="card"><div class="label">ACCOUNT ACCESS</div><h3 class="section-title">DISCONNECT ACCOUNT</h3><p class="detail">Removes the Discord-to-IPG account link. Your club profile, results and statistics remain unchanged. You will lose access to this dashboard.</p><div class="actions"><button class="btn" id="disconnectClubAccount" type="button">DISCONNECT ACCOUNT</button></div></article>
+  <article class="card"><div class="label">CLUB STATUS</div><h3 class="section-title">ARCHIVE CLUB</h3><p class="detail">Marks the club as archived and removes its Discord link. Official match history, tournament records and player statistics are preserved. This does not permanently erase data.</p><div class="actions"><button class="btn" id="archiveClub" type="button">ARCHIVE CLUB</button></div></article>
+ </div>
+ <p class="detail" id="accountManagementMessage" role="status" aria-live="polite" style="margin-top:14px"></p>
+</section>
+
 <div class="notice">Your club dashboard is available only while signed in with the Discord account linked to your approved club. Keep that account secure.</div>
 <div class="actions"><button class="btn" id="signOut" type="button">SIGN OUT</button></div>
 </section>
@@ -247,6 +257,45 @@ $("clubEditForm").addEventListener("submit",async event=>{
  }catch(error){setEditMessage(error.message||"Could not save your club information.",true);}
  finally{button.disabled=false;}
 });
+
+function setManagementMessage(message,isError=false){
+ $("accountManagementMessage").textContent=message;
+ $("accountManagementMessage").style.color=isError?"#ffb5a5":"#bce9ce";
+}
+async function runClubAccountAction(buttonId,rpcName,confirmMessage,successMessage){
+ const button=$(buttonId);
+ if(!verifiedClub||!button)return;
+ if(!window.confirm(confirmMessage))return;
+ button.disabled=true;
+ setManagementMessage("Processing securely…");
+ try{
+  const {error}=await supabaseClient.rpc(rpcName);
+  if(error)throw error;
+  setManagementMessage(successMessage+" Signing out…");
+  await supabaseClient.auth.signOut();
+  location.replace("account.html");
+ }catch(error){
+  setManagementMessage(error.message||"The request could not be completed.",true);
+  button.disabled=false;
+ }
+}
+$("disconnectClubAccount").addEventListener("click",()=>runClubAccountAction(
+ "disconnectClubAccount","disconnect_my_club_account",
+ "Disconnect the Discord account from "+(verifiedClub?.club_name||"this club")+"? The club and all its data will remain. You will lose dashboard access.",
+ "Account disconnected."
+));
+$("archiveClub").addEventListener("click",()=>{
+ const name=verifiedClub?.club_name||"";
+ const typed=window.prompt("To archive this club, type its exact name: "+name);
+ if(typed===null)return;
+ if(typed.trim()!==name){setManagementMessage("The club name did not match. Nothing was changed.",true);return;}
+ runClubAccountAction(
+  "archiveClub","archive_my_club",
+  "Final confirmation: archive "+name+"? The club will no longer be active. Match history, tournament records and player statistics will be retained.",
+  "Club archived."
+ );
+});
+
 $("signOut").addEventListener("click",async()=>{await supabaseClient.auth.signOut();location.replace("account.html");});
 supabaseClient.auth.onAuthStateChange((event,session)=>{if(event==="SIGNED_OUT")showError("You have been signed out. Sign in again to access the club dashboard.");});
 supabaseClient.auth.getSession().then(({data,error})=>{if(error)showError("Could not read your login session. Please sign in again.");else verifyClub(data.session);});</script>
