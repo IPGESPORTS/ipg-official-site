@@ -1396,11 +1396,7 @@ header{gap:22px}
         <a href="#player-marketplace" id="headerProfileButton">PROFILE</a>
         <a class="discord-nav" href="https://discord.gg/PNYkEztN5K" target="_blank" rel="noopener noreferrer">JOIN DISCORD ↗</a>
     </nav>
-    <div class="ipg-header-auth">
-        <a class="ipg-header-dashboard" id="headerDashboardButton" href="#register" hidden>DASHBOARD</a>
-        <!-- Header login/signup removed; account access remains available elsewhere on the homepage. -->
-        <button type="button" class="ipg-header-avatar" id="headerAvatarButton" hidden aria-label="Open your profile">P</button>
-    </div>
+    <!-- Authentication controls intentionally omitted from the public header. -->
 </header>
 
 <div id="ipg-profile-modal" class="ipg-profile-modal" hidden aria-hidden="true"><div class="ipg-profile-backdrop" data-profile-close></div><section class="ipg-profile-dialog" role="dialog" aria-modal="true" aria-labelledby="ipg-profile-title"><button type="button" class="ipg-profile-close" data-profile-close aria-label="Close profile">×</button><span class="ipg-eyebrow">IPG PLAYER NETWORK</span><h2 id="ipg-profile-title">MY PLAYER PROFILE</h2><p id="ipg-profile-summary" class="ipg-profile-summary">Loading your profile…</p><div id="ipg-profile-form-slot"></div><button type="button" id="ipg-profile-signout" class="ipg-profile-signout">SIGN OUT</button></section></div>
@@ -1822,7 +1818,7 @@ function setAccountMessage(text) {
     document.getElementById("accountStatus").textContent = text;
 }
 
-function updateIPGHeaderAuth(session){const login=document.getElementById("headerLoginButton"),signup=document.getElementById("headerSignupButton"),dashboard=document.getElementById("headerDashboardButton"),avatar=document.getElementById("headerAvatarButton");if(!login||!signup||!dashboard||!avatar)return;const signedIn=!!session;login.hidden=signedIn;signup.hidden=signedIn;dashboard.hidden=!signedIn;avatar.hidden=!signedIn;if(session){const m=session.user.user_metadata||{},label=m.username||m.player_name||session.user.email||"P";avatar.textContent=String(label).trim().charAt(0).toUpperCase()||"P";avatar.title="Open profile — "+(session.user.email||"");}}
+function updateIPGHeaderAuth(_session){ /* No authentication controls are rendered in the public header. */ }
 async function refreshClubAccount(session) {
     currentSession = session;
     window.currentSession = session;
