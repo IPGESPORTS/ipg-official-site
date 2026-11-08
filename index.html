@@ -1426,6 +1426,41 @@ img{max-width:100%}
 @media(max-width:700px){header,.top{padding-left:18px!important;padding-right:18px!important}.panel,.card{border-radius:11px!important}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition:none!important;animation:none!important}}
 </style>
+<style id="ipg-live-competition-ui">
+.ipg-live-grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:18px;margin:34px auto;max-width:1240px;padding:0 clamp(16px,4vw,42px)}
+.ipg-live-section{position:relative;overflow:hidden;padding:clamp(20px,3vw,30px);border:1px solid rgba(255,116,30,.25);border-radius:18px;background:linear-gradient(145deg,rgba(23,24,32,.97),rgba(8,9,15,.98));box-shadow:0 22px 65px rgba(0,0,0,.3)}
+.ipg-live-section:before{content:"";position:absolute;inset:-1px;background:radial-gradient(circle at 90% 0,rgba(255,106,0,.13),transparent 38%);pointer-events:none}
+.ipg-live-section>*{position:relative}.ipg-live-news{grid-column:span 6}.ipg-live-results{grid-column:span 6}.ipg-live-scorers{grid-column:span 4}.ipg-live-bracket{grid-column:span 8}
+.ipg-live-kicker{display:flex;align-items:center;gap:9px;color:#ff9a50;font-size:10px;font-weight:900;letter-spacing:.2em;text-transform:uppercase}
+.ipg-live-dot{width:7px;height:7px;border-radius:50%;background:#ff6a00;box-shadow:0 0 0 0 rgba(255,106,0,.55);animation:ipgDotPulse 1.7s infinite}
+.ipg-live-section h2{margin:12px 0 7px;font-size:clamp(22px,3vw,34px);letter-spacing:-.04em}
+.ipg-live-sub{margin:0 0 20px;color:#9da2ae;font-size:13px}
+.ipg-live-list{display:grid;gap:10px}
+.ipg-news-card,.ipg-result-card,.ipg-scorer-row{border:1px solid rgba(255,255,255,.08);border-radius:12px;background:rgba(255,255,255,.035);padding:14px;transition:.25s}
+.ipg-news-card:hover,.ipg-result-card:hover,.ipg-scorer-row:hover{border-color:rgba(255,126,47,.55);transform:translateY(-2px);box-shadow:0 12px 30px rgba(255,106,0,.08)}
+.ipg-news-card small,.ipg-result-card small{color:#ff9b54;letter-spacing:.12em;font-weight:800;font-size:9px}
+.ipg-news-card h3{margin:7px 0;font-size:16px}.ipg-news-card p{margin:0;color:#aeb1bb;font-size:12px;line-height:1.6}
+.ipg-result-card{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:9px;position:relative}
+.ipg-result-card:after{content:"";position:absolute;inset:0;border-radius:inherit;border:1px solid rgba(255,106,0,.15);animation:ipgResultGlow 3s ease-in-out infinite;pointer-events:none}
+.ipg-result-team{font-size:12px;font-weight:800}.ipg-result-team:last-child{text-align:right}
+.ipg-result-score{font-size:20px;font-weight:1000;color:#ff9a50;text-shadow:0 0 18px rgba(255,106,0,.35);white-space:nowrap}
+.ipg-scorer-row{display:grid;grid-template-columns:30px 1fr auto;align-items:center;gap:10px}
+.ipg-scorer-rank{font-size:18px;font-weight:1000;color:#ff9a50}.ipg-scorer-name{font-size:12px;font-weight:900}.ipg-scorer-club{display:block;color:#8f95a2;font-size:10px;margin-top:3px}.ipg-scorer-goals{font-size:19px;font-weight:1000;color:#fff}.ipg-scorer-goals small{display:block;color:#ff9b54;font-size:8px;text-align:right;letter-spacing:.12em}
+.ipg-bracket-scroll{overflow-x:auto;padding:8px 2px 14px;scrollbar-color:#ff6a00 #171820}
+.ipg-bracket{display:flex;align-items:stretch;gap:24px;min-width:max-content}
+.ipg-bracket-round{width:220px;display:flex;flex-direction:column;justify-content:space-around;gap:14px}
+.ipg-bracket-round h3{font-size:10px;letter-spacing:.18em;color:#ff9b54;text-transform:uppercase;margin:0 0 5px}
+.ipg-bracket-match{position:relative;border:1px solid rgba(255,126,47,.27);border-radius:11px;padding:10px;background:linear-gradient(135deg,#191a22,#0c0d13);box-shadow:0 0 22px rgba(255,106,0,.07);animation:ipgBracketBreath 4s ease-in-out infinite}
+.ipg-bracket-match:after{content:"";position:absolute;inset:-1px;border-radius:inherit;border:1px solid rgba(255,106,0,.0);animation:ipgBracketBorder 3.2s ease-in-out infinite;pointer-events:none}
+.ipg-bracket-team{display:flex;justify-content:space-between;gap:8px;padding:7px 4px;color:#e9e9ec;font-size:11px}.ipg-bracket-team+ .ipg-bracket-team{border-top:1px solid rgba(255,255,255,.07)}.ipg-bracket-team.winner{color:#ffb477;font-weight:900}.ipg-bracket-team em{font-style:normal;font-weight:900}.ipg-bracket-status{font-size:8px;letter-spacing:.14em;color:#ff9b54;text-transform:uppercase;margin-top:5px}
+.ipg-live-empty{border:1px dashed rgba(255,130,50,.28);border-radius:10px;padding:18px;text-align:center;color:#858b97;font-size:12px}
+@keyframes ipgDotPulse{70%{box-shadow:0 0 0 9px rgba(255,106,0,0)}100%{box-shadow:0 0 0 0 rgba(255,106,0,0)}}
+@keyframes ipgResultGlow{0%,100%{opacity:.2}50%{opacity:.8}}
+@keyframes ipgBracketBreath{0%,100%{box-shadow:0 0 14px rgba(255,106,0,.04)}50%{box-shadow:0 0 25px rgba(255,106,0,.16)}}
+@keyframes ipgBracketBorder{0%,100%{border-color:rgba(255,106,0,.05)}50%{border-color:rgba(255,106,0,.5)}}
+@media(max-width:850px){.ipg-live-news,.ipg-live-results{grid-column:span 12}.ipg-live-scorers{grid-column:span 12}.ipg-live-bracket{grid-column:span 12}}
+@media(prefers-reduced-motion:reduce){.ipg-live-dot,.ipg-result-card:after,.ipg-bracket-match,.ipg-bracket-match:after{animation:none!important}.ipg-news-card,.ipg-result-card,.ipg-scorer-row{transition:none}}
+</style>
 </head>
 
 <body>
@@ -1572,6 +1607,12 @@ img{max-width:100%}
 
 
 
+<section class="ipg-live-grid" aria-label="IPG live competition centre">
+ <article class="ipg-live-section ipg-live-news"><div class="ipg-live-kicker">IPG BULLETIN</div><h2>LATEST NEWS</h2><p class="ipg-live-sub">Official updates from across the IPG community.</p><div class="ipg-live-list" id="ipgLatestNews"><div class="ipg-live-empty">Loading official news…</div></div></article>
+ <article class="ipg-live-section ipg-live-results"><div class="ipg-live-kicker"><span class="ipg-live-dot"></span> MATCH CENTRE</div><h2>LATEST RESULTS</h2><p class="ipg-live-sub">Recent scores, updated from the competition database.</p><div class="ipg-live-list" id="ipgLatestResults"><div class="ipg-live-empty">Loading match results…</div></div></article>
+ <article class="ipg-live-section ipg-live-scorers"><div class="ipg-live-kicker">GOLDEN BOOT</div><h2>TOP SCORERS</h2><p class="ipg-live-sub">The players leading the scoring charts.</p><div class="ipg-live-list" id="ipgTopScorers"><div class="ipg-live-empty">Loading scoring table…</div></div></article>
+ <article class="ipg-live-section ipg-live-bracket"><div class="ipg-live-kicker"><span class="ipg-live-dot"></span> ROAD TO THE FINAL</div><h2>TOURNAMENT BRACKETS</h2><p class="ipg-live-sub">Follow every round. Every result moves the bracket closer to the trophy.</p><div class="ipg-bracket-scroll" id="ipgTournamentBracket"><div class="ipg-live-empty">Bracket rounds will appear when matches are added.</div></div></article>
+</section>
 <section class="ipg-content-section ipg-rankings-section" id="rankings">
     <span class="ipg-eyebrow">EARN YOUR PLACE</span>
     <h2>GLOBAL RANKINGS</h2>
@@ -2499,6 +2540,23 @@ refreshClubAccount=async function(session){await previousRefreshClubAccount(sess
 
 <script id="ipg-scroll-progress-script">
 (()=>{const bar=document.getElementById("ipg-scroll-progress");if(!bar)return;let ticking=false;const update=()=>{const max=document.documentElement.scrollHeight-window.innerHeight;const ratio=max>0?window.scrollY/max:0;bar.style.width=(Math.max(0,Math.min(1,ratio))*100)+"%";ticking=false;};window.addEventListener("scroll",()=>{if(!ticking){requestAnimationFrame(update);ticking=true;}},{passive:true});window.addEventListener("resize",update,{passive:true});update();})();
+</script>
+<script id="ipg-live-competition-data">
+(()=> {
+ const db=window.supabase.createClient("https://anndmcqwvfjbnhsehrom.supabase.co","sb_publishable_4OwZ-opv95mMay8hW-5yMA_gmWhMLDC");
+ const $=id=>document.getElementById(id),esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+ const empty=(id,msg)=>{const el=$(id);if(el)el.innerHTML='<div class="ipg-live-empty">'+msg+'</div>'};
+ async function news(){const {data,error}=await db.from("ipg_news").select("id,title,excerpt,category,published_at,created_at").eq("published",true).order("published_at",{ascending:false}).limit(4);if(error||!data?.length){empty("ipgLatestNews","No news published yet. Check back soon.");return}$("ipgLatestNews").innerHTML=data.map(n=>'<article class="ipg-news-card"><small>'+esc(n.category||"IPG UPDATE")+' · '+esc(new Date(n.published_at||n.created_at).toLocaleDateString())+'</small><h3>'+esc(n.title)+'</h3><p>'+esc(n.excerpt||"Official IPG update.")+'</p></article>').join("")}
+ async function results(){const {data,error}=await db.from("tournament_results").select("id,home_score,away_score,played_at,home:clubs!tournament_results_home_club_id_fkey(club_name),away:clubs!tournament_results_away_club_id_fkey(club_name),tournaments(name)").order("played_at",{ascending:false}).limit(5);if(error||!data?.length){empty("ipgLatestResults","No match results recorded yet.");return}$("ipgLatestResults").innerHTML=data.map(r=>'<article class="ipg-result-card"><div class="ipg-result-team">'+esc(r.home?.club_name||"TBC")+'</div><div class="ipg-result-score">'+r.home_score+' : '+r.away_score+'</div><div class="ipg-result-team">'+esc(r.away?.club_name||"TBC")+'</div><small style="grid-column:1/-1;color:#8e94a0">'+esc(r.tournaments?.name||"IPG Match")+' · '+esc(new Date(r.played_at).toLocaleDateString())+'</small></article>').join("")}
+ async function scorers(){const {data,error}=await db.from("tournament_player_stats").select("player_name,goals,assists,club:clubs(club_name)").order("goals",{ascending:false}).order("assists",{ascending:false}).limit(8);if(error||!data?.length){empty("ipgTopScorers","The Golden Boot table will appear when player stats are recorded.");return}$("ipgTopScorers").innerHTML=data.map((p,i)=>'<div class="ipg-scorer-row"><span class="ipg-scorer-rank">'+String(i+1).padStart(2,"0")+'</span><span><span class="ipg-scorer-name">'+esc(p.player_name)+'</span><span class="ipg-scorer-club">'+esc(p.club?.club_name||"Independent")+' · '+p.assists+' assists</span></span><strong class="ipg-scorer-goals">'+p.goals+'<small>GOALS</small></strong></div>').join("")}
+ async function bracket(){const {data,error}=await db.from("tournament_bracket_matches").select("id,round_name,round_order,match_order,home_score,away_score,status,home:clubs!tournament_bracket_matches_home_club_id_fkey(club_name),away:clubs!tournament_bracket_matches_away_club_id_fkey(club_name),winner:clubs!tournament_bracket_matches_winner_club_id_fkey(club_name),tournaments(name)").order("round_order").order("match_order").limit(80);if(error||!data?.length){empty("ipgTournamentBracket","The tournament bracket will come alive when an admin adds the first matches.");return}
+ const grouped=new Map();data.forEach(m=>{const key=m.tournaments?.name||"Tournament";if(!grouped.has(key))grouped.set(key,new Map());const rounds=grouped.get(key);if(!rounds.has(m.round_order))rounds.set(m.round_order,{name:m.round_name,matches:[]});rounds.get(m.round_order).matches.push(m)});
+ $("ipgTournamentBracket").innerHTML=[...grouped].map(([t,rounds])=>'<div class="ipg-bracket-title">'+esc(t)+'</div><div class="ipg-bracket">'+[...rounds.values()].map(r=>'<div class="ipg-bracket-round"><h3>'+esc(r.name)+'</h3>'+r.matches.map(m=>'<div class="ipg-bracket-match"><div class="ipg-bracket-team '+(m.winner?.club_name===m.home?.club_name&&m.winner?'winner':'')+'"><span>'+esc(m.home?.club_name||"TBD")+'</span><em>'+(m.home_score??"–")+'</em></div><div class="ipg-bracket-team '+(m.winner?.club_name===m.away?.club_name&&m.winner?'winner':'')+'"><span>'+esc(m.away?.club_name||"TBD")+'</span><em>'+(m.away_score??"–")+'</em></div><div class="ipg-bracket-status">'+esc(m.status||"scheduled")+'</div></div>').join("")+'</div>').join("")+'</div>').join("");
+ }
+ async function load(){await Promise.all([news(),results(),scorers(),bracket()])}
+ load();
+ const channel=db.channel("ipg-public-live-updates").on("postgres_changes",{event:"*",schema:"public",table:"tournament_results"},results).on("postgres_changes",{event:"*",schema:"public",table:"ipg_news"},news).on("postgres_changes",{event:"*",schema:"public",table:"tournament_player_stats"},scorers).on("postgres_changes",{event:"*",schema:"public",table:"tournament_bracket_matches"},bracket).subscribe();
+})();
 </script>
 </body>
 </html>
