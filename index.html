@@ -2066,7 +2066,7 @@ document.getElementById("cancelClubEdit").addEventListener("click",()=>{
  document.getElementById("clubFormSubmit").textContent="SUBMIT CLUB REGISTRATION →";
  document.getElementById("cancelClubEdit").hidden=true;
 });
-document.getElementById("applyForClubButton").addEventListener("click",()=>{ location.href="apply.html"; });
+document.getElementById("applyForClubButton").addEventListener("click",()=>{ location.href="https://discord.gg/PNYkEztN5K"; });
 async function uploadClubImage(file,kind){
  if(!file)return null;
  const allowed=["image/png","image/jpeg","image/webp","image/svg+xml"];
@@ -2330,28 +2330,7 @@ refreshClubAccount=async function(session){await previousRefreshClubAccount(sess
 })();
 </script>
 
-<script id="ipg-apply-auth-guard">
-(()=>{
- const applyLink=document.getElementById("applyNavLink");
- if(!applyLink)return;
- applyLink.addEventListener("click",async event=>{
-  event.preventDefault();
-  try{
-   const {data,error}=await supabaseClient.auth.getSession();
-   if(error)throw error;
-   if(data.session){
-    setClubHeaderState("session");
-    return;
-   }
-   window.location.href="apply.html";
-  }catch(error){
-   console.error("Could not verify login before opening club applications:",error);
-   applyLink.hidden=true;
-   setClubHeaderState("session");
-  }
- });
-})();
-</script>
+
 
 <script id="ipg-floating-particles-script">
 (()=> {
