@@ -1461,6 +1461,47 @@ img{max-width:100%}
 @media(max-width:850px){.ipg-live-news,.ipg-live-results{grid-column:span 12}.ipg-live-scorers{grid-column:span 12}.ipg-live-bracket{grid-column:span 12}}
 @media(prefers-reduced-motion:reduce){.ipg-live-dot,.ipg-result-card:after,.ipg-bracket-match,.ipg-bracket-match:after{animation:none!important}.ipg-news-card,.ipg-result-card,.ipg-scorer-row{transition:none}}
 </style>
+<style id="ipg-cinematic-homepage"> 
+/* IPG ESPORTS — cinematic navy/blue homepage system */
+:root{--ipg-blue:#168cff;--ipg-cyan:#35c8ff;--ipg-ink:#030817;--ipg-panel:#071329}
+body{background:#030817!important}
+.ipg-site-header{position:relative;z-index:50;min-height:92px;padding:14px clamp(20px,6vw,92px);background:rgba(2,7,23,.96);border-bottom:1px solid rgba(31,139,255,.55);box-shadow:0 12px 45px rgba(0,0,0,.25)}
+.ipg-site-header .logo img{height:70px;max-width:190px;object-fit:contain}
+.ipg-site-header nav{gap:clamp(14px,3vw,42px)}
+.ipg-site-header nav a{position:relative;color:#e9f2ff;font-size:13px;letter-spacing:1.1px;font-weight:700;padding:14px 0}
+.ipg-site-header nav a:not(.discord-nav):after{content:"";position:absolute;left:0;right:100%;bottom:4px;height:2px;background:linear-gradient(90deg,var(--ipg-blue),var(--ipg-cyan));transition:right .25s}
+.ipg-site-header nav a:hover:after,.ipg-site-header nav a.ipg-nav-active:after{right:0}
+.ipg-site-header nav a.discord-nav{padding:13px 25px;border:1px solid var(--ipg-cyan);border-radius:999px;background:transparent;color:#fff;box-shadow:0 0 22px rgba(22,140,255,.12)}
+.ipg-site-header nav a.discord-nav:hover{color:#fff;box-shadow:0 0 28px rgba(22,140,255,.35)}
+.ipg-hero-redesign{isolation:isolate;min-height:720px!important;min-height:min(790px,calc(100svh - 92px))!important;padding:105px 24px 0!important;display:flex!important;flex-direction:column;justify-content:center;align-items:center;gap:70px;background:radial-gradient(ellipse at 50% 48%,rgba(13,75,161,.28),transparent 47%),radial-gradient(ellipse at 0% 100%,rgba(0,107,255,.3),transparent 34%),linear-gradient(135deg,#030817 0%,#061333 52%,#020717 100%)!important}
+.ipg-hero-redesign:before{content:"";position:absolute;inset:0;z-index:-1;opacity:.22;background-image:linear-gradient(125deg,transparent 0 18%,rgba(15,111,255,.55) 18.1%,transparent 18.5% 77%,rgba(15,111,255,.5) 77.2%,transparent 77.6%),linear-gradient(0deg,transparent 49.8%,rgba(43,129,255,.15) 50%,transparent 50.2%);mask-image:linear-gradient(to bottom,black,transparent 94%)}
+.ipg-hero-redesign:after{content:"IPG";position:absolute;z-index:-1;right:-.04em;bottom:-.28em;font-size:clamp(300px,48vw,720px);line-height:1;font-weight:900;letter-spacing:-.12em;color:rgba(25,93,190,.07);pointer-events:none}
+.ipg-hero-orbit{position:absolute;z-index:-1;border:1px solid rgba(39,144,255,.22);border-radius:50%;filter:drop-shadow(0 0 24px rgba(0,117,255,.14));pointer-events:none}
+.ipg-hero-orbit-one{width:600px;height:600px;right:-180px;top:10%;box-shadow:inset 0 0 70px rgba(0,100,255,.07)}
+.ipg-hero-orbit-two{width:380px;height:380px;left:-190px;bottom:8%;box-shadow:inset 0 0 70px rgba(0,100,255,.07)}
+.ipg-hero-redesign-content{width:min(100%,1100px);margin:auto;text-align:center;position:relative;z-index:1}
+.ipg-hero-redesign .ipg-hero-eyebrow{color:#35aaff;font-size:clamp(10px,1.4vw,15px);letter-spacing:.48em;font-weight:700;margin-bottom:28px}
+.ipg-hero-redesign .ipg-hero-eyebrow i{display:none}
+.ipg-hero-redesign h1{font-size:clamp(54px,10vw,142px)!important;line-height:.98!important;letter-spacing:-.065em!important;font-style:italic;font-weight:900!important;margin:0 auto 28px!important;text-shadow:0 10px 45px rgba(0,0,0,.35)}
+.ipg-title-white{color:#fff!important}
+.ipg-title-blue{background:linear-gradient(110deg,#fff 0%,#8edaff 35%,#168cff 78%,#35c8ff 100%);-webkit-background-clip:text;background-clip:text;color:transparent!important}
+.ipg-hero-motto{font-size:clamp(14px,2vw,24px)!important;letter-spacing:.42em;color:#eaf2ff!important;font-weight:700;margin:0 0 38px!important}
+.ipg-hero-motto b{color:var(--ipg-blue);padding:0 .35em}
+.ipg-hero-redesign .ipg-champions-cta{display:inline-flex;align-items:center;justify-content:center;gap:28px;padding:19px 35px;border-radius:999px;border:1px solid #47caff;background:linear-gradient(110deg,#0878f9,#159cff 65%,#45cfff);color:white;text-decoration:none;font-weight:900;letter-spacing:.04em;box-shadow:0 12px 36px rgba(0,112,255,.35),inset 0 1px rgba(255,255,255,.35);transition:transform .2s,box-shadow .2s}
+.ipg-hero-redesign .ipg-champions-cta:hover{transform:translateY(-3px);box-shadow:0 16px 44px rgba(0,132,255,.5)}
+.ipg-hero-redesign .ipg-champions-arrow{font-size:22px}
+.ipg-hero-redesign .hero-description{max-width:650px;margin:26px auto 0;color:#aebed8!important;font-size:15px;line-height:1.8}
+.ipg-hero-feature-strip{width:min(100%,1120px);display:grid;grid-template-columns:repeat(3,1fr);border:1px solid rgba(57,157,255,.42);border-radius:20px 20px 10px 10px;background:linear-gradient(110deg,rgba(3,12,31,.94),rgba(5,20,47,.82));box-shadow:0 20px 60px rgba(0,0,0,.25);backdrop-filter:blur(12px);margin:0 auto 24px;position:relative;z-index:2}
+.ipg-hero-feature-strip a{min-height:112px;display:flex;align-items:center;justify-content:center;gap:20px;padding:18px 22px;color:#fff;text-decoration:none;transition:background .2s}
+.ipg-hero-feature-strip a+a{border-left:1px solid rgba(35,131,255,.35)}
+.ipg-hero-feature-strip a:hover{background:rgba(15,110,255,.12)}
+.ipg-feature-icon{font-size:38px;color:#35baff;text-shadow:0 0 22px rgba(22,140,255,.5)}
+.ipg-hero-feature-strip strong,.ipg-hero-feature-strip small{display:block;text-align:left}
+.ipg-hero-feature-strip strong{font-size:15px;letter-spacing:.06em}
+.ipg-hero-feature-strip small{color:#b4c3dc;font-size:13px;margin-top:7px}
+@media(max-width:760px){.ipg-site-header{padding:12px 18px;gap:12px}.ipg-site-header .logo img{height:54px}.ipg-site-header nav{gap:10px;justify-content:center}.ipg-site-header nav a{font-size:10px;letter-spacing:.4px}.ipg-site-header nav a.discord-nav{padding:9px 12px}.ipg-hero-redesign{min-height:auto!important;padding:90px 18px 0!important;gap:55px}.ipg-hero-redesign .ipg-hero-eyebrow{letter-spacing:.22em}.ipg-hero-motto{letter-spacing:.16em!important}.ipg-hero-feature-strip{grid-template-columns:1fr;margin-bottom:18px}.ipg-hero-feature-strip a{min-height:76px;justify-content:flex-start;padding:12px 25px}.ipg-hero-feature-strip a+a{border-left:0;border-top:1px solid rgba(35,131,255,.35)}}
+@media(prefers-reduced-motion:reduce){.ipg-site-header nav a:after,.ipg-hero-redesign .ipg-champions-cta,.ipg-hero-feature-strip a{transition:none}}
+</style>
 </head>
 
 <body>
@@ -1468,23 +1509,18 @@ img{max-width:100%}
 <div id="ipg-scroll-progress" aria-hidden="true"></div>
 
 
-<header>
-    <div class="logo">
-        <a href="index.html">
-            <img src="ipg-logo.png" alt="IPG Logo">
-        </a>
-    </div>
-
-    <nav>
-        <a href="#home">HOME</a>
+<header class="ipg-site-header">
+    <a class="logo" href="index.html" aria-label="IPG Esports home">
+        <img src="ipg-logo.png" alt="IPG Esports">
+    </a>
+    <nav aria-label="Main navigation">
+        <a class="ipg-nav-active" href="#home">HOME</a>
         <a href="#tournaments">TOURNAMENTS</a>
         <a href="#profiles">CLUBS</a>
         <a href="club-dashboard.html" id="clubAccessNavLink">DASHBOARD</a>
-
         <a href="#rankings">RANKINGS</a>
-        <a class="discord-nav" href="https://discord.gg/PNYkEztN5K" target="_blank" rel="noopener noreferrer">JOIN DISCORD ↗</a>
+        <a class="discord-nav" href="account.html">SIGN IN ↗</a>
     </nav>
-    <!-- Authentication controls intentionally omitted from the public header. -->
 </header>
 
 <div id="ipg-profile-modal" class="ipg-profile-modal" hidden aria-hidden="true"><div class="ipg-profile-backdrop" data-profile-close></div><section class="ipg-profile-dialog" role="dialog" aria-modal="true" aria-labelledby="ipg-profile-title"><button type="button" class="ipg-profile-close" data-profile-close aria-label="Close profile">×</button><span class="ipg-eyebrow">IPG PLAYER NETWORK</span><h2 id="ipg-profile-title">MY PLAYER PROFILE</h2><p id="ipg-profile-summary" class="ipg-profile-summary">Loading your profile…</p><div id="ipg-profile-form-slot"></div><button type="button" id="ipg-profile-signout" class="ipg-profile-signout">SIGN OUT</button></section></div>
@@ -1520,45 +1556,21 @@ img{max-width:100%}
         </div>
      </div>
  </div>
-<section class="hero" id="home">
-
-    <div class="hero-content">
-
-
-        <span class="ipg-hero-eyebrow"><i></i> INTERNATIONAL ESPORTS COMPETITION</span>
-        <h1>
-            INTERNATIONAL<br>
-            <span>PROFESSIONAL GAMING</span>
-        </h1>
-
-        <div class="hero-line"></div>
-        <a class="ipg-champions-cta" href="#tournaments"><span class="ipg-champions-star" aria-hidden="true">✦</span><span>ENTER THE ARENA</span><span class="ipg-champions-arrow" aria-hidden="true">↗</span></a>
-
-        <p class="hero-tagline">
-            COMPETE. DOMINATE. BECOME LEGENDS.
-        </p>
-
-        <div class="ipg-prestige-seal" aria-label="IPG Prestige — earned, never given">
-            <span class="ipg-prestige-rule"></span>
-            <span class="ipg-prestige-icon" aria-hidden="true">IPG</span>
-            <span class="ipg-prestige-copy">
-                <strong>PRESTIGE</strong>
-                <small>IPG ESPORTS · EARNED, NEVER GIVEN</small>
-            </span>
-            <span class="ipg-prestige-rule"></span>
-        </div>
-
-        <p class="hero-description">
-            A competitive home for ambitious clubs. Enter tournaments, represent your team and build your legacy on the international stage.
-        </p>
-        <div class="ipg-hero-actions">
-          <a href="#tournaments" class="hero-button">EXPLORE TOURNAMENTS <span>↗</span></a>
-          <a href="#profiles" class="ipg-hero-secondary">DISCOVER CLUBS <span>↗</span></a>
-        </div>
-
+<section class="hero ipg-hero-redesign" id="home">
+    <div class="ipg-hero-orbit ipg-hero-orbit-one" aria-hidden="true"></div>
+    <div class="ipg-hero-orbit ipg-hero-orbit-two" aria-hidden="true"></div>
+    <div class="hero-content ipg-hero-redesign-content">
+        <span class="ipg-hero-eyebrow"><i></i> INTERNATIONAL PLAYERS GROUP</span>
+        <h1><span class="ipg-title-white">IPG</span> <span class="ipg-title-blue">ESPORTS</span></h1>
+        <p class="ipg-hero-motto">COMPETE <b>•</b> CONNECT <b>•</b> GROW</p>
+        <a class="ipg-champions-cta" href="#tournaments"><span>JOIN OUR TOURNAMENTS</span><span class="ipg-champions-arrow" aria-hidden="true">↗</span></a>
+        <p class="hero-description">A competitive home for ambitious clubs. Enter tournaments, represent your team and build your legacy on the international stage.</p>
     </div>
-
-    <div class="hero-background-glow"></div>
+    <div class="ipg-hero-feature-strip">
+        <a href="#tournaments"><span class="ipg-feature-icon" aria-hidden="true">♜</span><span><strong>TOURNAMENTS</strong><small>Compete in exciting events</small></span></a>
+        <a href="#profiles"><span class="ipg-feature-icon" aria-hidden="true">♧</span><span><strong>CLUBS</strong><small>Find or create a club</small></span></a>
+        <a href="#rankings"><span class="ipg-feature-icon" aria-hidden="true">▥</span><span><strong>RANKINGS</strong><small>See where you stand</small></span></a>
+    </div>
 </section>
     <section class="ipg-tournament-spotlight" id="tournamentSpotlight" aria-live="polite">
   <div class="ipg-spotlight-copy">
