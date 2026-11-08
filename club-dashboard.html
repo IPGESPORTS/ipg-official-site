@@ -28,7 +28,20 @@ main{width:min(1120px,calc(100% - 36px));margin:48px auto 70px}.eyebrow{font-siz
 #loading,#error{max-width:650px;margin:70px auto;padding:28px;text-align:center;border:1px solid var(--line);border-radius:10px;background:var(--panel);line-height:1.7}#error{color:#f2c2c2}[hidden]{display:none!important}
 @media(max-width:760px){.grid{grid-template-columns:1fr}.card.wide{grid-column:auto}.heading{align-items:start;flex-direction:column}.top{padding:0 18px}main{margin-top:32px}}
 </style>
-</head>
+<style id="ipg-dashboard-premium">
+:root{--accent:#fe7f2d;--line:rgba(160,184,215,.17);--muted:#aab7c9}
+body{background:radial-gradient(ellipse at 50% -12%,rgba(42,77,123,.28),transparent 48%),#070b16;font-family:Inter,Arial,sans-serif}
+.top{height:82px;padding-inline:clamp(18px,5vw,72px);border-bottom-color:rgba(254,127,45,.22);background:rgba(5,10,19,.88);backdrop-filter:blur(18px)}
+.brand{letter-spacing:.18em;font-size:11px}.brand img{width:58px;height:50px}
+.top a,.btn{border-radius:6px;border-color:rgba(160,184,215,.25);color:#dbe5f2;transition:.2s}
+.top a:hover,.btn:hover{border-color:var(--accent);color:#fff;transform:translateY(-2px)}
+main{margin-top:58px}.eyebrow{color:var(--accent)}h1{font-size:clamp(30px,5vw,50px);letter-spacing:-.045em}.subtitle{font-size:14px;color:#aab7c9}
+.grid{gap:14px}.card,.edit-panel{background:linear-gradient(145deg,rgba(17,30,49,.96),rgba(8,14,25,.98));border:1px solid var(--line);border-radius:10px;box-shadow:0 18px 48px rgba(0,0,0,.18);transition:border-color .2s,transform .2s}.card:hover{border-color:rgba(254,127,45,.35);transform:translateY(-2px)}.card{padding:25px;min-height:166px}.card.wide{background:radial-gradient(ellipse at 90% 10%,rgba(254,127,45,.1),transparent 42%),linear-gradient(145deg,#14243a,#09111e)}.label{color:#8ea0b7;letter-spacing:.19em}.value{font-size:25px;letter-spacing:-.025em}.status,.edit-lock{border-radius:5px}.status{color:#bfe9d0;background:rgba(57,157,102,.1);border-color:rgba(100,210,145,.24)}
+.btn.primary{background:linear-gradient(120deg,#ff9b58,#fe7f2d);border-color:#ffab76;color:#111722;box-shadow:0 8px 22px rgba(254,127,45,.12)}.btn.primary:hover{color:#111722;box-shadow:0 10px 28px rgba(254,127,45,.2)}
+.edit-panel{margin-top:24px;padding:clamp(20px,3vw,32px)}.section-title{font-size:17px;letter-spacing:.04em}.edit-grid{gap:18px}.edit-grid label{color:#aab7c9;letter-spacing:.14em}.edit-grid input{background:#080f1b;border-color:rgba(160,184,215,.2);border-radius:6px;min-height:46px}.edit-grid input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(254,127,45,.1)}.field-hint{color:#7f91a8}.country-badge{border-color:rgba(254,127,45,.25);background:rgba(254,127,45,.07)}.notice{border-color:var(--line);background:rgba(13,23,39,.72)}#loading,#error{border-color:var(--line);background:linear-gradient(145deg,#111e31,#09111e);border-radius:10px}
+@media(max-width:760px){main{margin-top:36px}.top{height:auto;min-height:72px;gap:12px}.brand{font-size:9px}.grid{gap:12px}}
+@media(prefers-reduced-motion:reduce){.card,.top a,.btn{transition:none}}
+</style></head>
 <body>
 <header class="top"><div class="brand"><img src="ipg-logo.png" alt="IPG"><span>IPG CLUB PORTAL</span></div><a href="index.html">BACK TO WEBSITE ↗</a></header>
 <main>
