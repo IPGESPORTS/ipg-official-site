@@ -1411,11 +1411,9 @@ html{scroll-padding-top:100px}body{background:radial-gradient(ellipse at 50% -15
         <a href="#home">HOME</a>
         <a href="#tournaments">TOURNAMENTS</a>
         <a href="#profiles">CLUBS</a>
-        <a href="club-dashboard.html" id="clubDashboardNavLink" hidden>CLUB DASHBOARD</a>
-        <a href="join.html" id="joinIPGNavLink">JOIN IPG</a>
+        <a href="account.html?mode=login" id="clubAccessNavLink">LOGIN</a>
 
         <a href="#rankings">RANKINGS</a>
-        <a href="#player-marketplace" id="headerProfileButton">PROFILE</a>
         <a class="discord-nav" href="https://discord.gg/PNYkEztN5K" target="_blank" rel="noopener noreferrer">JOIN DISCORD ↗</a>
     </nav>
     <!-- Authentication controls intentionally omitted from the public header. -->
@@ -1680,7 +1678,7 @@ html{scroll-padding-top:100px}body{background:radial-gradient(ellipse at 50% -15
   <div class="ipg-footer-inner">
     <div class="ipg-footer-brand"><img src="ipg-logo.png" alt="IPG Esports"><span>INTERNATIONAL PROFESSIONAL GAMING</span><p>COMPETE. DOMINATE. BECOME LEGENDS.</p></div>
     <div class="ipg-footer-links"><span>EXPLORE IPG</span><a href="#tournaments">Tournaments</a><a href="#profiles">Club profiles</a><a href="#rankings">Club performance</a></div>
-    <div class="ipg-footer-links"><span>COMMUNITY</span><a href="https://discord.gg/PNYkEztN5K" target="_blank" rel="noopener noreferrer">Join the IPG Discord ↗</a><a href="join.html" id="footerJoinLink">Register your club ↗</a></div>
+    <div class="ipg-footer-links"><span>COMMUNITY</span><a href="https://discord.gg/PNYkEztN5K" target="_blank" rel="noopener noreferrer">Join the IPG Discord ↗</a></div>
   </div>
   <div class="ipg-footer-bottom"><span>© 2026 INTERNATIONAL PROFESSIONAL GAMING</span><span>BUILT FOR THE COMPETITIVE · EARNED, NEVER GIVEN.</span></div>
 </footer>
@@ -1855,19 +1853,22 @@ function setAccountMessage(text) {
 
 let dashboardVerificationToken = null;
 async function updateIPGHeaderAuth(session){
-    const dashboardLink = document.getElementById("clubDashboardNavLink");
-    const joinLink = document.getElementById("joinIPGNavLink");
-    const footerJoinLink = document.getElementById("footerJoinLink");
-    if (joinLink) joinLink.hidden = !!session;
-    if (footerJoinLink) footerJoinLink.hidden = !!session;
-    if (!dashboardLink) return;
-    dashboardLink.hidden = true;
+    const accessLink = document.getElementById("clubAccessNavLink");
+    if (!accessLink) return;
+
+    accessLink.hidden = false;
+    accessLink.textContent = "LOGIN";
+    accessLink.href = "account.html?mode=login";
+    accessLink.removeAttribute("aria-label");
+
     if (!session?.access_token) {
         dashboardVerificationToken = null;
         return;
     }
+
     if (dashboardVerificationToken === session.access_token) return;
     dashboardVerificationToken = session.access_token;
+
     try {
         const response = await fetch(SUPABASE_URL + "/functions/v1/ipg-discord-link-auth", {
             method: "POST",
@@ -1880,7 +1881,9 @@ async function updateIPGHeaderAuth(session){
         });
         const result = await response.json();
         if (response.ok && result?.club?.name && currentSession?.access_token === session.access_token) {
-            dashboardLink.hidden = false;
+            accessLink.textContent = "DASHBOARD";
+            accessLink.href = "club-dashboard.html";
+            accessLink.setAttribute("aria-label", "Open club dashboard");
         }
     } catch (error) {
         console.warn("Could not verify club dashboard navigation:", error);
@@ -2278,18 +2281,7 @@ refreshClubAccount=async function(session){await previousRefreshClubAccount(sess
    }
   },350);
  };
- document.getElementById("headerProfileButton")?.addEventListener("click",(event)=>{
-  event.preventDefault();
-  if(!window.currentSession){
-   location.href="account.html?mode=login&next=profile";
-   return;
-  }
-  const profileSection=document.getElementById("player-marketplace");
-  if(profileSection){
-   profileSection.scrollIntoView({behavior:"smooth",block:"start"});
-   window.setTimeout(()=>document.getElementById("playerProfileForm")?.scrollIntoView({behavior:"smooth",block:"center"}),250);
-  }
- });
+;
 })();
 </script>
 
