@@ -2132,7 +2132,7 @@ document.getElementById("cancelClubEdit").addEventListener("click",()=>{
  document.getElementById("clubFormSubmit").textContent="SUBMIT CLUB REGISTRATION →";
  document.getElementById("cancelClubEdit").hidden=true;
 });
-document.getElementById("applyForClubButton").addEventListener("click",()=>{ location.href="https://discord.gg/PNYkEztN5K"; });
+document.getElementById("applyForClubButton")?.addEventListener("click",()=>{ location.href="https://discord.gg/PNYkEztN5K"; });
 async function uploadClubImage(file,kind){
  if(!file)return null;
  const allowed=["image/png","image/jpeg","image/webp","image/svg+xml"];
@@ -2287,7 +2287,7 @@ async function loadPlayerHub(){
  if(data){Object.entries(data).forEach(([k,v])=>{const el=playerForm.elements[k];if(el)el.value=k==="former_clubs"?(v||[]).join(", "):(v??"")});}
 
 }
-playerForm.addEventListener("submit",async e=>{
+playerForm?.addEventListener("submit",async e=>{
  e.preventDefault();if(!currentSession || selectedAccountType!=="player"){playerMsg("Choose Player and sign in before saving a player profile.");return}
  const f=new FormData(playerForm), payload={user_id:currentSession.user.id,display_name:String(f.get("display_name")).trim(),country:String(f.get("country")).trim(),primary_position:f.get("primary_position"),secondary_position:String(f.get("secondary_position")).trim()||null,shirt_number:f.get("shirt_number")?Number(f.get("shirt_number")):null,preferred_foot:f.get("preferred_foot"),play_style:String(f.get("play_style")).trim()||null,experience:String(f.get("experience")).trim()||null,former_clubs:String(f.get("former_clubs")).split(",").map(x=>x.trim()).filter(Boolean),achievements:String(f.get("achievements")).trim()||null,bio:String(f.get("bio")).trim()||null,avatar_url:String(f.get("avatar_url")).trim()||null,availability:f.get("availability"),public_profile:true};
  playerMsg("Saving profile...");
