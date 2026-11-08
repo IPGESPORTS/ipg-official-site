@@ -1387,6 +1387,33 @@ body > #register{display:block!important;visibility:visible!important;min-height
 #register .ipg-account-panel,#register .registration-form{display:block}
 #register .registration-form[hidden],#register [hidden]{display:none!important}
 </style>
+<style id="ipg-orange-identity">
+:root{color-scheme:dark;--ipg-orange:#ff6a00;--ipg-orange-light:#ff9b45;--ipg-amber:#ffc078;--ipg-bg:#07080d;--ipg-panel:#11131b;--ipg-panel-2:#171a23;--ipg-line:rgba(255,132,45,.24);--ipg-muted:#a5a8b2}
+html{scroll-behavior:smooth}
+body{background-color:var(--ipg-bg)!important;background-image:radial-gradient(ellipse at 12% -8%,rgba(255,106,0,.22),transparent 34%),radial-gradient(ellipse at 92% 22%,rgba(255,132,45,.10),transparent 28%),linear-gradient(180deg,#090a10 0%,#07080d 68%,#0c0d13 100%)!important;color:#f6f4f1}
+header,.top{background:rgba(7,8,13,.88)!important;border-bottom:1px solid var(--ipg-line)!important;backdrop-filter:blur(16px)}
+.logo,.brand,.eyebrow{color:var(--ipg-orange-light)!important}
+h1,h2,h3,h4{color:#fff}
+h1{letter-spacing:-.035em}
+h1:after{content:"";display:block;width:54px;height:3px;margin-top:13px;background:linear-gradient(90deg,var(--ipg-orange),transparent);border-radius:5px}
+a{transition:color .2s ease,border-color .2s ease,background .2s ease}
+a:hover{color:var(--ipg-orange-light)!important}
+button,.btn,.action,input[type=submit],input[type=button]{background:linear-gradient(135deg,var(--ipg-orange),#e94b00)!important;color:#fff!important;border:1px solid rgba(255,174,112,.45)!important;border-radius:8px!important;font-weight:800;letter-spacing:.045em;box-shadow:0 7px 24px rgba(255,91,0,.16);transition:transform .18s ease,filter .18s ease,box-shadow .18s ease}
+button:hover,.btn:hover,.action:hover,input[type=submit]:hover,input[type=button]:hover{filter:brightness(1.12);transform:translateY(-1px);box-shadow:0 10px 28px rgba(255,91,0,.24)}
+button:disabled,.btn:disabled,.action:disabled{opacity:.55;cursor:not-allowed;transform:none}
+button.secondary,.action.secondary,.btn.secondary{background:rgba(255,255,255,.045)!important;color:#f6f4f1!important;border:1px solid rgba(255,255,255,.18)!important;box-shadow:none}
+input,textarea,select{background:rgba(8,10,15,.88)!important;color:#f7f5f2!important;border:1px solid rgba(255,255,255,.16)!important;border-radius:8px!important;accent-color:var(--ipg-orange)}
+input:focus,textarea:focus,select:focus{outline:none!important;border-color:var(--ipg-orange)!important;box-shadow:0 0 0 3px rgba(255,106,0,.15)!important}
+::placeholder{color:#777d89!important}
+.panel,.card,.stat,.wrap>section,.form-card,.dashboard-card{background:linear-gradient(145deg,rgba(24,26,35,.96),rgba(12,14,20,.97))!important;border:1px solid var(--ipg-line)!important;border-radius:13px!important;box-shadow:0 16px 48px rgba(0,0,0,.18)}
+.muted,.hint,.subtitle,.status{color:var(--ipg-muted)!important}
+.badge,.tag,.pill{border-radius:999px}
+.tabs button.active,.tab.active,[aria-current=page]{background:var(--ipg-orange)!important;color:#fff!important}
+hr{border:0;border-top:1px solid var(--ipg-line)}
+img{max-width:100%}
+@media(max-width:700px){header,.top{padding-left:18px!important;padding-right:18px!important}.panel,.card{border-radius:11px!important}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition:none!important;animation:none!important}}
+</style>
 </head>
 
 <body>
