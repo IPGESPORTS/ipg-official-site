@@ -1857,7 +1857,9 @@ let dashboardVerificationToken = null;
 async function updateIPGHeaderAuth(session){
     const dashboardLink = document.getElementById("clubDashboardNavLink");
     const joinLink = document.getElementById("joinIPGNavLink");
+    const footerJoinLink = document.getElementById("footerJoinLink");
     if (joinLink) joinLink.hidden = !!session;
+    if (footerJoinLink) footerJoinLink.hidden = !!session;
     if (!dashboardLink) return;
     dashboardLink.hidden = true;
     if (!session?.access_token) {
