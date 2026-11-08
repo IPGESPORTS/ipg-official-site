@@ -633,6 +633,7 @@ nav a:hover {
 .ipg-account-panel button,.ipg-account-panel .account-button{padding:13px 20px;background:linear-gradient(135deg,#ffffff,#dce5f2);border:0;border-radius:5px;color:#080d18;font-weight:800;cursor:pointer}
 .ipg-account-panel .account-muted{color:#9da9ba;font-size:13px}
 #clubForm[hidden],#clubAccountDashboard[hidden],#emailOtpForm[hidden],#magicLinkForm[hidden]{display:none!important}
+ #magicLinkForm,#accountStatus{display:none!important}
 .account-type-button{padding:18px 14px;background:#111c30;border:1px solid rgba(255,255,255,.4);border-radius:8px;color:#fff;font-weight:800;cursor:pointer;line-height:1.7}
 .account-type-button small{font-weight:500;color:#aebbd0}
 .account-type-button.selected{border-color:#ffffff;background:#1b2a43;box-shadow:0 0 0 2px rgba(255,255,255,.12)}
@@ -1547,11 +1548,11 @@ header{gap:22px}
 
 <section class="section" id="register">
     
-    <p>Sign in with your club contact email to manage your IPG club account and enter tournaments.</p>
+    
 
     <div class="ipg-account-panel" id="clubAccountPanel">
-        <p id="accountStatus">Enter your email to receive a secure eight-digit login code.</p>
-        <div id="magicLinkForm" hidden>
+        <p id="accountStatus" hidden></p>
+        <div id="magicLinkForm" hidden aria-hidden="true">
             <h3>2. EMAIL LOGIN</h3>
             <input id="accountEmail" type="email" placeholder="Your email address" autocomplete="email" required>
             <button type="button" id="sendMagicLink">EMAIL ME A LOGIN CODE →</button>
