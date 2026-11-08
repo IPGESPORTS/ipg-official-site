@@ -89,13 +89,14 @@ $("discordButton").addEventListener("click",async()=>{
  }
 });
 supabaseClient.auth.onAuthStateChange((event,session)=>{
- if(session&&(event==="SIGNED_IN"||event==="INITIAL_SESSION")){
+ // Only redirect after a new successful OAuth sign-in. An existing session
+ // must not send visitors away when they open the account page.
+ if(session && event==="SIGNED_IN"){
   localStorage.setItem("ipg_account_type",accountType);
   $("status").textContent="Discord login successful. Opening IPG...";
   setTimeout(()=>location.replace("index.html"),350);
  }
 });
-finishDiscordLogin();
 </script>
 </body>
 </html>
