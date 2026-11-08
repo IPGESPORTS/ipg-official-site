@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>IPG ESPORTS | Club Dashboard</title>
+<style>
+:root{color-scheme:dark;--bg:#080d18;--panel:#111d30;--line:rgba(185,216,242,.18);--ice:#c9e2f8;--muted:#9eacc0;--white:#f4f7fb}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 50% -10%,#203959 0,#080d18 55%);color:var(--white);font-family:Arial,sans-serif}
+.top{height:78px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 max(22px,calc((100% - 1120px)/2));background:rgba(5,10,19,.55)}
+.brand{display:flex;align-items:center;gap:13px;font-size:13px;font-weight:900;letter-spacing:.15em}.brand img{width:54px;height:45px;object-fit:contain}
+.top a,.btn{color:var(--ice);text-decoration:none;border:1px solid rgba(185,216,242,.35);padding:11px 15px;border-radius:5px;font-size:11px;font-weight:800;letter-spacing:.08em;background:transparent;cursor:pointer}
+main{width:min(1120px,calc(100% - 36px));margin:48px auto 70px}.eyebrow{font-size:10px;letter-spacing:.22em;color:#9dbbd7;font-weight:800}.heading{display:flex;justify-content:space-between;align-items:end;gap:20px;margin:12px 0 28px}h1{font-size:clamp(30px,5vw,48px);letter-spacing:.04em;margin:0}.subtitle{color:var(--muted);line-height:1.6;font-size:14px;margin:10px 0 0}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.card{background:linear-gradient(145deg,rgba(20,35,57,.96),rgba(10,17,29,.98));border:1px solid var(--line);border-radius:10px;padding:23px;min-height:150px}.card.wide{grid-column:span 2}.label{color:var(--muted);font-size:10px;font-weight:800;letter-spacing:.16em}.value{font-size:22px;font-weight:800;margin:13px 0 7px;overflow-wrap:anywhere}.detail{color:var(--muted);font-size:12px;line-height:1.6}.status{display:inline-flex;align-items:center;gap:8px;color:#bce9ce;background:rgba(60,160,104,.12);border:1px solid rgba(100,210,145,.28);padding:7px 10px;border-radius:30px;font-size:10px;font-weight:800;letter-spacing:.1em}
+.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}.btn.primary{background:linear-gradient(135deg,#e8f3fc,#9fc5e5);color:#0b1726;border-color:#d7e9f8}.section-title{font-size:15px;letter-spacing:.1em;margin:0 0 13px}.notice{border:1px solid var(--line);background:rgba(14,24,40,.8);border-radius:8px;padding:20px;color:var(--muted);font-size:13px;line-height:1.7;margin-top:18px}
+#loading,#error{max-width:650px;margin:70px auto;padding:28px;text-align:center;border:1px solid var(--line);border-radius:10px;background:var(--panel);line-height:1.7}#error{color:#f2c2c2}[hidden]{display:none!important}
+@media(max-width:760px){.grid{grid-template-columns:1fr}.card.wide{grid-column:auto}.heading{align-items:start;flex-direction:column}.top{padding:0 18px}main{margin-top:32px}}
+</style>
+</head>
+<body>
+<header class="top"><div class="brand"><img src="ipg-logo.png" alt="IPG"><span>IPG CLUB PORTAL</span></div><a href="index.html">BACK TO WEBSITE ↗</a></header>
+<main>
+<div id="loading">VERIFYING YOUR CLUB ACCESS…</div>
+<section id="error" hidden><h2>CLUB ACCESS NOT VERIFIED</h2><p id="errorText">Please sign in with the Discord account connected to your approved club.</p><div class="actions" style="justify-content:center"><a class="btn primary" href="account.html">RETURN TO SIGN IN</a><a class="btn" href="index.html">HOME</a></div></section>
+<section id="dashboard" hidden>
+<span class="eyebrow">INTERNATIONAL PROFESSIONAL GAMING</span>
+<div class="heading"><div><h1 id="welcomeTitle">CLUB DASHBOARD</h1><p class="subtitle">Your club's official IPG control centre.</p></div><span class="status">● VERIFIED CLUB ACCESS</span></div>
+<div class="grid">
+<article class="card wide"><div class="label">YOUR CLUB</div><div class="value" id="clubName">—</div><div class="detail" id="clubCountry">Country not provided</div></article>
+<article class="card"><div class="label">CLUB STATUS</div><div class="value" id="clubStatus">APPROVED</div><div class="detail">Access verified through your linked Discord account.</div></article>
+<article class="card"><div class="label">CLUB MANAGEMENT</div><h2 class="section-title">Profile & branding</h2><div class="detail">Update your club information, logo and social links.</div><div class="actions"><a class="btn primary" href="index.html#register">MANAGE CLUB PROFILE</a></div></article>
+<article class="card"><div class="label">COMPETITIONS</div><h2 class="section-title">Tournament hub</h2><div class="detail">Explore IPG tournaments and competition information.</div><div class="actions"><a class="btn primary" href="index.html#tournaments">VIEW TOURNAMENTS</a></div></article>
+<article class="card"><div class="label">COMMUNITY</div><h2 class="section-title">IPG Discord</h2><div class="detail">Stay connected with the IPG community and announcements.</div><div class="actions"><a class="btn" href="https://discord.gg/PNYkEztN5K" target="_blank" rel="noopener noreferrer">OPEN DISCORD ↗</a></div></article>
+</div>
+<div class="notice">Your club dashboard is available only while signed in with the Discord account linked to your approved club. Keep that account secure.</div>
+<div class="actions"><button class="btn" id="signOut" type="button">SIGN OUT</button></div>
+</section>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const SUPABASE_URL="https://anndmcqwvfjbnhsehrom.supabase.co";
+const SUPABASE_KEY="sb_publishable_4OwZ-opv95mMay8hW-5yMA_gmWhMLDC";
+const supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{storageKey:"ipg-auth-token",persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
+const $=id=>document.getElementById(id);
+function showError(message){$("loading").hidden=true;$("dashboard").hidden=true;$("error").hidden=false;$("errorText").textContent=message;}
+async function verifyClub(session){
+ if(!session?.access_token){showError("No active session was found. Sign in with Discord to continue.");return;}
+ $("loading").textContent="VERIFYING YOUR CLUB ACCESS…";
+ try{
+  const response=await fetch(SUPABASE_URL+"/functions/v1/ipg-discord-link-auth",{method:"POST",headers:{"Content-Type":"application/json","apikey":SUPABASE_KEY,"Authorization":"Bearer "+session.access_token},body:"{}"});
+  const result=await response.json();
+  if(!response.ok||!result?.club?.name)throw new Error(result?.error||"This Discord account is not linked to an approved IPG club.");
+  $("clubName").textContent=result.club.name;
+  $("welcomeTitle").textContent="WELCOME, "+result.club.name.toUpperCase();
+  $("clubCountry").textContent=result.club.country||"Country not provided";
+  $("clubStatus").textContent="APPROVED";
+  $("loading").hidden=true;$("error").hidden=true;$("dashboard").hidden=false;
+ }catch(error){showError(error.message||"Could not verify your club access.");}
+}
+$("signOut").addEventListener("click",async()=>{await supabaseClient.auth.signOut();location.replace("account.html");});
+supabaseClient.auth.onAuthStateChange((event,session)=>{if(event==="SIGNED_OUT")showError("You have been signed out. Sign in again to access the club dashboard.");});
+supabaseClient.auth.getSession().then(({data,error})=>{if(error)showError("Could not read your login session. Please sign in again.");else verifyClub(data.session);});
+</script>
+</body>
+</html>
