@@ -114,7 +114,7 @@ async function uploadLogo(file,kind){
 }
 $("discordLogin").addEventListener("click",async()=>{
  $("discordLogin").disabled=true; $("authStatus").textContent="Redirecting to Discord...";
- const {error}=await client.auth.signInWithOAuth({provider:"discord",options:{redirectTo:location.origin+location.pathname}});
+ const {error}=await client.auth.signInWithOAuth({provider:"discord",options:{redirectTo:"https://ipgesports.github.io/ipg-official-site/apply.html"}});
  if(error){$("authStatus").textContent=error.message;$("discordLogin").disabled=false;}
 });
 $("signOut").addEventListener("click",async()=>{
