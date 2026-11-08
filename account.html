@@ -63,15 +63,6 @@ if(mode==="login"){
  $("intro").textContent="Log in to IPG ESPORTS using your Discord account.";
  $("discordButton").textContent="LOG IN WITH DISCORD";
 }
-async function finishDiscordLogin(){
- const {data,error}=await supabaseClient.auth.getSession();
- if(error){$("status").textContent="Could not read your login session: "+error.message;return;}
- if(data.session){
-  localStorage.setItem("ipg_account_type",accountType);
-  $("status").textContent="Discord login successful. Opening IPG...";
-  setTimeout(()=>location.replace("index.html"),350);
- }
-}
 $("discordButton").addEventListener("click",async()=>{
  const button=$("discordButton");
  button.disabled=true;
