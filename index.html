@@ -1411,6 +1411,7 @@ html{scroll-padding-top:100px}body{background:radial-gradient(ellipse at 50% -15
         <a href="#home">HOME</a>
         <a href="#tournaments">TOURNAMENTS</a>
         <a href="#profiles">CLUBS</a>
+        <a href="apply.html">APPLY</a>
         <a href="account.html?mode=login" id="clubAccessNavLink">LOGIN</a>
 
         <a href="#rankings">RANKINGS</a>
@@ -1485,6 +1486,7 @@ html{scroll-padding-top:100px}body{background:radial-gradient(ellipse at 50% -15
         </p>
         <div class="ipg-hero-actions">
           <a href="#tournaments" class="hero-button">EXPLORE TOURNAMENTS <span>↗</span></a>
+          <a href="apply.html" class="ipg-hero-secondary">APPLY FOR A CLUB <span>↗</span></a>
           <a href="#profiles" class="ipg-hero-secondary">DISCOVER CLUBS <span>↗</span></a>
         </div>
 
@@ -2059,7 +2061,7 @@ document.getElementById("cancelClubEdit").addEventListener("click",()=>{
  document.getElementById("clubFormSubmit").textContent="SUBMIT CLUB REGISTRATION →";
  document.getElementById("cancelClubEdit").hidden=true;
 });
-document.getElementById("applyForClubButton").addEventListener("click",()=>{ if(!currentSession)return; document.getElementById("clubForm").hidden=false; document.getElementById("clubFormHeading").textContent="APPLY TO CREATE A CLUB"; document.getElementById("clubFormSubmit").textContent="SUBMIT CLUB APPLICATION →"; document.getElementById("clubForm").scrollIntoView({behavior:"smooth",block:"center"}); });
+document.getElementById("applyForClubButton").addEventListener("click",()=>{ location.href="apply.html"; });
 async function uploadClubImage(file,kind){
  if(!file)return null;
  const allowed=["image/png","image/jpeg","image/webp","image/svg+xml"];
