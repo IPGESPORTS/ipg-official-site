@@ -724,16 +724,23 @@ button:hover{filter:brightness(1.08);transform:translateY(-1px)}
 .ipg-profile-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(245px,1fr));gap:18px;text-align:left}
 /* Keep inactive profile tabs and closed detail panels hidden despite grid display rules. */
 .ipg-profile-grid[hidden],.ipg-profile-detail[hidden]{display:none!important}
-.ipg-profile-card{padding:22px;border:1px solid rgba(255,255,255,.25);border-radius:12px;background:linear-gradient(145deg,#14223a,#080d18)}
-.ipg-profile-card h3{color:#ffffff;margin:12px 0 7px}
-.ipg-profile-card p{color:#b8c2d3;line-height:1.6;margin:6px 0}
-.ipg-profile-card img{width:76px;height:76px;object-fit:contain;border-radius:50%;background:#080d18;border:1px solid rgba(255,255,255,.3)}
-.ipg-profile-card button{margin-top:12px;padding:11px 15px;border:0;border-radius:5px;background:linear-gradient(135deg,#ffffff,#dce5f2);color:#080d18;font-weight:900;cursor:pointer}
-.ipg-profile-detail{margin:24px 0 0;padding:25px;text-align:left;border:1px solid rgba(255,255,255,.4);border-radius:12px;background:linear-gradient(145deg,#14223a,#080d18)}
-.ipg-profile-detail h3{color:#ffffff}
-.ipg-profile-detail p{color:#c1cad8;line-height:1.7}
-.ipg-profile-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:10px;margin:18px 0}
-.ipg-profile-stat{padding:13px;background:rgba(0,0,0,.2);border:1px solid rgba(255,255,255,.15);border-radius:7px}
+.ipg-profile-card{position:relative;overflow:hidden;padding:0 0 18px;border:1px solid rgba(132,169,220,.24);border-radius:4px;background:linear-gradient(150deg,#101b2d,#070b13);transition:transform .22s ease,border-color .22s ease}
+.ipg-profile-card:before{content:"";position:absolute;top:0;left:0;width:4px;height:100%;background:linear-gradient(180deg,#56a8ff,#174d9b);z-index:1}
+.ipg-profile-card:hover{transform:translateY(-4px);border-color:rgba(86,168,255,.75)}
+.ipg-profile-card h3{color:#fff;margin:14px 18px 0;font-size:17px;letter-spacing:.04em;text-transform:uppercase}
+.ipg-profile-card p{color:#b8c2d3;line-height:1.6;margin:6px 18px}
+.ipg-profile-card .ipg-profile-logo-button{display:flex;align-items:center;justify-content:center;width:100%;height:150px;margin:0;padding:20px;border:0;border-bottom:1px solid rgba(132,169,220,.18);border-radius:0;background:radial-gradient(ellipse at center,#1b2b43 0%,#0b1220 62%,#080d16 100%);cursor:pointer}
+.ipg-profile-card img{display:block;width:112px;height:112px;object-fit:contain;border:0;border-radius:0;background:transparent;filter:drop-shadow(0 8px 18px rgba(0,0,0,.45))}
+.ipg-profile-card button{color:inherit}
+.ipg-profile-detail{position:relative;overflow:hidden;margin:24px 0 0;padding:0;text-align:left;border:1px solid rgba(86,168,255,.4);border-radius:4px;background:linear-gradient(145deg,#111f34,#070b13)}
+.ipg-profile-detail:before{content:"";display:block;height:4px;background:linear-gradient(90deg,#56a8ff,#174d9b,transparent)}
+.ipg-profile-detail .ipg-profile-detail-head{display:flex;align-items:center;gap:22px;padding:24px;border-bottom:1px solid rgba(132,169,220,.18)}
+.ipg-profile-detail .ipg-profile-detail-logo{width:108px;height:108px;flex:0 0 108px;object-fit:contain;background:transparent;filter:drop-shadow(0 8px 18px rgba(0,0,0,.45))}
+.ipg-profile-detail h3{color:#fff;margin:0 0 8px;font-size:clamp(22px,3vw,32px);letter-spacing:.035em;text-transform:uppercase}
+.ipg-profile-detail p{color:#c1cad8;line-height:1.7;margin:0}
+.ipg-profile-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:0;margin:0;padding:12px 18px 20px}
+.ipg-profile-stat{padding:14px 12px;background:rgba(0,0,0,.16);border:1px solid rgba(132,169,220,.13);border-radius:2px}
+@media(max-width:560px){.ipg-profile-detail .ipg-profile-detail-head{align-items:flex-start;gap:14px;padding:18px}.ipg-profile-detail .ipg-profile-detail-logo{width:76px;height:76px;flex-basis:76px}.ipg-profile-stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
 .ipg-profile-stat strong{display:block;color:#ffffff;font-size:22px}
 .ipg-profile-stat span{color:#9da9ba;font-size:11px;letter-spacing:.08em}
 
@@ -2482,12 +2489,12 @@ refreshClubAccount=async function(session){await previousRefreshClubAccount(sess
     rankingRows.innerHTML=ranked.length?ranked.slice(0,10).map((club,index)=>'<tr><td>#'+(index+1)+'</td><td>'+safe(club.club_name)+'</td><td>'+club._matches+'</td><td>'+club._wins+'</td><td>'+Math.round(club._rate*100)+'%</td></tr>').join(""):'<tr><td colspan="5">Club performance will appear when approved clubs have recorded matches.</td></tr>';
   }
   if(!clubs.length){clubBox.innerHTML="<p>No approved clubs yet.</p>";return}
-  clubBox.innerHTML=clubs.map(x=>'<article class="ipg-profile-card ipg-logo-preview"><button class="ipg-profile-logo-button" type="button" data-club-profile="'+safe(x.id)+'" aria-label="View '+safe(x.club_name)+' profile">'+(x.logo_url?'<img src="'+safe(x.logo_url)+'" alt="'+safe(x.club_name)+' logo">':'<img src="default-club.svg" alt="Default club profile image">')+'</button><h3 class="ipg-profile-preview-name">'+safe(x.club_name)+'</h3></article>').join("");
+  clubBox.innerHTML=clubs.map(x=>'<article class="ipg-profile-card ipg-logo-preview"><button class="ipg-profile-logo-button" type="button" data-club-profile="'+safe(x.id)+'" aria-label="View '+safe(x.club_name)+' profile">'+(x.logo_url?'<img src="'+safe(x.logo_url)+'" alt="'+safe(x.club_name)+' logo">':'<img src="default-club.svg" alt="Default club profile image">')+'</button><h3 class="ipg-profile-preview-name">'+safe(x.club_name)+'</h3><p>OFFICIAL CLUB PROFILE</p></article>').join("");
  }
  clubBox.addEventListener("click",e=>{
   const b=e.target.closest("[data-club-profile]");if(!b)return;
   const x=clubs.find(v=>v.id===b.dataset.clubProfile);if(!x)return;
-  detail.hidden=false;detail.innerHTML='<h3>'+safe(x.club_name)+'</h3><p>'+safe(x.country||"")+' · Captain: '+safe(x.captain_name||"Not listed")+'</p><div class="ipg-profile-stats">'+stat(x.matches_played,"MATCHES")+stat(x.wins,"WINS")+stat(x.draws,"DRAWS")+stat(x.losses,"LOSSES")+stat(x.goals_for,"GOALS FOR")+stat(x.goals_against,"GOALS AGAINST")+stat(x.roster_size,"SQUAD SIZE")+'</div><p>Member since '+new Date(x.created_at).toLocaleDateString()+'</p>'+(window.currentSession?'<button type="button" data-apply-to-club="'+safe(x.id)+'">APPLY TO JOIN THIS TEAM</button>':'<p>Log in to apply to join this team.</p>');
+  detail.hidden=false;detail.innerHTML='<div class="ipg-profile-detail-head">'+(x.logo_url?'<img class="ipg-profile-detail-logo" src="'+safe(x.logo_url)+'" alt="'+safe(x.club_name)+' logo">':'<img class="ipg-profile-detail-logo" src="default-club.svg" alt="Default club logo">')+'<div><h3>'+safe(x.club_name)+'</h3><p>'+safe(x.country||"")+' · Captain: '+safe(x.captain_name||"Not listed")+'</p></div></div><div class="ipg-profile-stats">'+stat(x.matches_played,"MATCHES")+stat(x.wins,"WINS")+stat(x.draws,"DRAWS")+stat(x.losses,"LOSSES")+stat(x.goals_for,"GOALS FOR")+stat(x.goals_against,"GOALS AGAINST")+stat(x.roster_size,"SQUAD SIZE")+'</div>';
   detail.scrollIntoView({behavior:"smooth",block:"nearest"});
  });
  loadClubProfiles();
