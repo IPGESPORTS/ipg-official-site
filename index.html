@@ -2148,6 +2148,7 @@ async function refreshClubAccount(session) {
         clubForm.hidden = true;
         magicForm.hidden = false;
         setAccountMessage("Sign in with your club contact email to access your IPG club account.");
+        await loadPublicTournaments();
         return;
     }
     magicForm.hidden = true;
