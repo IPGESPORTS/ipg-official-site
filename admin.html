@@ -46,7 +46,7 @@ img{max-width:100%}
 <h1>ADMIN DASHBOARD</h1><p class="muted">Manage International Professional Gaming.</p>
 <div class="grid" id="stats"></div>
 <nav class="tabs" aria-label="Admin sections">
-<button class="active" data-tab="overview">OVERVIEW</button><button data-tab="applications">CLUB APPLICATIONS</button><button data-tab="players">PLAYER MANAGEMENT</button><button data-tab="clubs">CLUB MANAGEMENT</button><button data-tab="tournaments">TOURNAMENTS</button><button data-tab="entries">TOURNAMENT ENTRIES</button><button data-tab="results">RESULTS & RANKINGS</button><button data-tab="news">IPG NEWS</button><button data-tab="brackets">BRACKETS & TOP SCORERS</button>
+<button class="active" data-tab="overview">OVERVIEW</button><button data-tab="applications">CLUB APPLICATIONS</button><button data-tab="players">PLAYER MANAGEMENT</button><button data-tab="clubs">CLUB MANAGEMENT</button><button data-tab="tournaments">TOURNAMENTS</button><button data-tab="entries">TOURNAMENT ENTRIES</button><button data-tab="results">RESULTS & RANKINGS</button><button data-tab="verification">PROOF VERIFICATION</button><button data-tab="news">IPG NEWS</button><button data-tab="brackets">BRACKETS & TOP SCORERS</button>
 </nav>
 <section id="tab-overview" class="tab-panel"><div class="panel"><h2>Platform overview</h2><p class="muted">Use the sections above to manage clubs, competitions, registrations and match results.</p><div id="recentSummary"></div></div></section>
 <section id="tab-players" class="tab-panel hidden"><h2>Player management</h2><p class="muted">Review player profiles and manage marketplace visibility and availability. Account suspension is not included.</p><div class="row"><div><label>Search players</label><input id="playerSearch" placeholder="Player name, country or position"></div><div><label>Availability filter</label><select id="playerAvailabilityFilter"><option value="all">All players</option><option value="free_agent">Free agent</option><option value="under_contract">Under contract</option><option value="not_listed">Not listed</option></select></div></div><div id="playerList"></div></section>\n<section id="tab-clubs" class="tab-panel hidden"><h2>Club management</h2><div class="row"><div><label>Filter clubs</label><select id="clubFilter"><option value="all">All clubs</option><option value="pending">Pending</option><option value="approved">Approved</option><option value="rejected">Rejected</option></select></div><div><label>Search</label><input id="clubSearch" placeholder="Club name, country or email"></div></div><div id="clubList"></div></section>
@@ -54,6 +54,21 @@ img{max-width:100%}
 <section id="tab-tournaments" class="tab-panel hidden"><h2 id="tournamentFormTitle">Create tournament</h2><div class="panel"><input type="hidden" id="tournamentId"><label>Tournament name</label><input id="tournamentName" placeholder="Tournament name"><label>Description</label><textarea id="tournamentDescription" placeholder="Tournament description"></textarea><div class="row"><div><label>Game</label><input id="tournamentGame" value="EA SPORTS FC 27"></div><div><label>Format</label><select id="tournamentFormat"><option>11v11</option><option>8v8</option><option>1v1</option><option>2v2</option><option>3v3</option><option>5v5</option></select></div></div><div class="row"><div><label>Start date</label><input type="datetime-local" id="tournamentStart"></div><div><label>Registration deadline</label><input type="datetime-local" id="tournamentDeadline"></div></div><label>Status</label><select id="tournamentStatus"><option value="upcoming">UPCOMING (NOT PUBLIC)</option><option value="registration_open" selected>REGISTRATION OPEN</option><option value="live">LIVE</option><option value="completed">COMPLETED</option></select><p class="hint">Choose REGISTRATION OPEN to show the tournament on the public homepage. LIVE appears under Active Tournaments. UPCOMING stays hidden until its status changes.</p><div class="actions"><button id="saveTournament">CREATE TOURNAMENT</button><button id="cancelEdit" class="secondary hidden">CANCEL EDIT</button></div></div><h2>All tournaments</h2><div id="tournamentList"></div></section>
 <section id="tab-entries" class="tab-panel hidden"><h2>Tournament entries</h2><label>Select tournament</label><select id="entryTournamentFilter"><option value="all">All tournaments</option></select><div id="entryList"></div></section>
 <section id="tab-results" class="tab-panel hidden"><h2>Record match result</h2><div class="panel"><label>Tournament</label><select id="resultTournament"></select><div class="row"><div><label>Home club</label><select id="homeClub"></select></div><div><label>Away club</label><select id="awayClub"></select></div></div><div class="row"><div><label>Home score</label><input type="number" min="0" step="1" id="homeScore" value="0"></div><div><label>Away score</label><input type="number" min="0" step="1" id="awayScore" value="0"></div></div><button id="saveResult">SAVE RESULT</button><p class="hint">Only clubs approved by an admin are available for selection.</p></div><h2>Recorded results</h2><div id="resultList"></div><h2>Club rankings</h2><div id="rankingList"></div></section>
+<section id="tab-verification" class="tab-panel hidden">
+<h2>Discord Proof Verification</h2>
+<p class="muted">Match results and player statistics stay out of official rankings until an admin approves the proof.</p>
+<div class="panel">
+<h3>Discord channel setup</h3>
+<p class="hint">Paste the channel IDs from Discord (Developer Mode → right-click channel → Copy Channel ID).</p>
+<div class="row"><div><label>Match results channel ID</label><input id="matchProofChannel" inputmode="numeric" placeholder="Discord channel ID"></div><div><label>Player stats channel ID</label><input id="statsProofChannel" inputmode="numeric" placeholder="Discord channel ID"></div></div>
+<button id="saveProofChannels">SAVE CHANNELS</button>
+<button id="registerProofCommands" class="secondary">REGISTER / UPDATE DISCORD COMMANDS</button>
+<p class="hint">Discord Interactions Endpoint URL: https://anndmcqwvfjbnhsehrom.supabase.co/functions/v1/ipg-proof-submissions</p>
+<p class="hint">Set this URL under Discord Developer Portal → Your App → General Information → Interactions Endpoint URL. Discord will verify it when commands are registered.</p>
+</div>
+<div class="panel"><div class="row"><div><h3>Match result submissions</h3></div><div><label>Status filter</label><select id="matchProofFilter"><option value="pending">Pending review</option><option value="all">All submissions</option><option value="approved">Approved</option><option value="rejected">Rejected</option></select></div></div><div id="matchProofList"></div></div>
+<div class="panel"><div class="row"><div><h3>Player stat submissions</h3></div><div><label>Status filter</label><select id="statsProofFilter"><option value="pending">Pending review</option><option value="all">All submissions</option><option value="approved">Approved</option><option value="rejected">Rejected</option></select></div></div><div id="statsProofList"></div></div>
+</section>
 <section id="tab-news" class="tab-panel hidden">
 <h2>IPG News Manager</h2><p class="muted">Create official announcements and publish them to the public homepage.</p>
 <div class="panel"><input type="hidden" id="newsId"><label>Headline</label><input id="newsTitle" maxlength="140" placeholder="IPG announcement headline"><label>Category</label><select id="newsCategory"><option>ANNOUNCEMENT</option><option>TOURNAMENT</option><option>RESULTS</option><option>COMMUNITY</option></select><label>Short summary</label><textarea id="newsExcerpt" maxlength="260" placeholder="A short summary shown on the homepage"></textarea><label>Full story / details</label><textarea id="newsBody" placeholder="Full news content"></textarea><label>Publication status</label><select id="newsPublished"><option value="false">Draft</option><option value="true">Publish now</option></select><div class="actions"><button id="saveNews">SAVE NEWS</button><button id="cancelNews" class="secondary hidden">CANCEL EDIT</button></div></div><h2>Published news & drafts</h2><div id="newsList"></div>
@@ -184,6 +199,91 @@ db.auth.onAuthStateChange((event)=>{if(event==="SIGNED_OUT")showLogin()});checkA
  document.querySelectorAll('[data-tab="news"],[data-tab="brackets"]').forEach(b=>b.addEventListener("click",()=>{if(b.dataset.tab==="news")loadNews();else Promise.all([loadSelectData(),loadBrackets(),loadStats()])}));
  db.auth.onAuthStateChange((event,session)=>{if(session)init()});
  setTimeout(init,900);
+})();
+</script>
+<script id="ipg-proof-verification-tools">
+(()=> {
+ const $=id=>document.getElementById(id), esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+ const date=v=>v?new Date(v).toLocaleString():"—";
+ let matchRows=[],statsRows=[];
+ async function loadConfig(){
+  const {data,error}=await db.from("ipg_submission_config").select("*");
+  if(error){msg("Could not load Discord channel setup: "+error.message);return}
+  for(const x of data||[]){if(x.config_key==="match_channel_id")$("matchProofChannel").value=x.config_value;if(x.config_key==="player_stats_channel_id")$("statsProofChannel").value=x.config_value}
+ }
+ $("saveProofChannels").addEventListener("click",async()=>{
+  const match=$("matchProofChannel").value.trim(),stats=$("statsProofChannel").value.trim();
+  if(!/^\d{15,25}$/.test(match)||!/^\d{15,25}$/.test(stats)){msg("Enter both valid Discord channel IDs.");return}
+  const user=(await db.auth.getUser()).data.user;
+  const rows=[{config_key:"match_channel_id",config_value:match,updated_at:new Date().toISOString(),updated_by:user.id},{config_key:"player_stats_channel_id",config_value:stats,updated_at:new Date().toISOString(),updated_by:user.id}];
+  const {error}=await db.from("ipg_submission_config").upsert(rows,{onConflict:"config_key"});
+  msg(error?"Channel setup failed: "+error.message:"Discord submission channels saved.");
+ });
+ $("registerProofCommands").addEventListener("click",async()=>{
+  const b=$("registerProofCommands");b.disabled=true;msg("Registering Discord slash commands...");
+  const {data,error}=await db.functions.invoke("ipg-proof-submissions",{body:{action:"register_commands"}});
+  b.disabled=false;
+  msg(error?"Command registration failed: "+error.message:(data?.ok?"Discord commands registered. Set the Interactions Endpoint URL in the Discord Developer Portal if it is not set yet.":"Command registration failed."));
+ });
+ async function proofUrl(path){
+  const {data,error}=await db.storage.from("ipg-proof").createSignedUrl(path,900);
+  if(error)throw error;return data.signedUrl;
+ }
+ async function loadMatches(){
+  const {data,error}=await db.from("ipg_match_submissions").select("*").order("created_at",{ascending:false});
+  if(error){msg("Match submissions could not be loaded: "+error.message);return}
+  matchRows=data||[];await renderMatches();
+ }
+ async function renderMatches(){
+  const filter=$("matchProofFilter").value,rows=matchRows.filter(x=>filter==="all"||x.status===filter);
+  if(!rows.length){$("matchProofList").innerHTML='<div class="empty">No match submissions in this view.</div>';return}
+  const cards=await Promise.all(rows.map(async x=>{
+   let image="";try{const url=await proofUrl(x.proof_path);image='<a href="'+esc(url)+'" target="_blank" rel="noopener"><img src="'+esc(url)+'" alt="Match proof" style="display:block;max-width:100%;max-height:420px;object-fit:contain;border-radius:9px;border:1px solid #444;margin:12px 0"></a>'}catch(e){image='<p class="hint">Proof image could not be opened.</p>'}
+   const home=clubs.find(c=>c.id===x.home_club_id)?.club_name||"Unknown club",away=clubs.find(c=>c.id===x.away_club_id)?.club_name||"Unknown club",tour=tournaments.find(t=>t.id===x.tournament_id)?.name||"Tournament";
+   return '<article class="card"><div class="row"><div><h3>'+esc(tour)+'</h3><p><strong>'+esc(home)+' '+x.home_score+' – '+x.away_score+' '+esc(away)+'</strong></p><p class="muted">Submitted by '+esc(x.discord_username)+' · '+esc(date(x.created_at))+'</p><p>'+esc(x.status.toUpperCase())+'</p></div><div><small class="muted">Submission ID: '+esc(x.id)+'</small></div></div>'+image+(x.review_note?'<p>Review note: '+esc(x.review_note)+'</p>':'')+(x.status==="pending"?'<label>Review note (optional)</label><textarea data-match-note="'+x.id+'" placeholder="Reason if rejecting"></textarea><button class="good" data-approve-match="'+x.id+'">APPROVE RESULT</button><button class="danger" data-reject-match="'+x.id+'">REJECT</button>':'')+'</article>';
+  }));
+  $("matchProofList").innerHTML=cards.join("");
+ }
+ async function loadStats(){
+  const {data,error}=await db.from("ipg_player_stat_submissions").select("*").order("created_at",{ascending:false});
+  if(error){msg("Player stat submissions could not be loaded: "+error.message);return}
+  statsRows=data||[];await renderStats();
+ }
+ async function renderStats(){
+  const filter=$("statsProofFilter").value,rows=statsRows.filter(x=>filter==="all"||x.status===filter);
+  if(!rows.length){$("statsProofList").innerHTML='<div class="empty">No player stat submissions in this view.</div>';return}
+  const cards=await Promise.all(rows.map(async x=>{
+   let image="";try{const url=await proofUrl(x.proof_path);image='<a href="'+esc(url)+'" target="_blank" rel="noopener"><img src="'+esc(url)+'" alt="Player stats proof" style="display:block;max-width:100%;max-height:420px;object-fit:contain;border-radius:9px;border:1px solid #444;margin:12px 0"></a>'}catch(e){image='<p class="hint">Proof image could not be opened.</p>'}
+   const club=clubs.find(c=>c.id===x.club_id)?.club_name||"Unknown club",tour=tournaments.find(t=>t.id===x.tournament_id)?.name||"Tournament";
+   return '<article class="card"><div class="row"><div><h3>'+esc(x.player_name)+'</h3><p>'+esc(club)+' · '+esc(tour)+'</p><p><strong>Goals '+x.goals+' · Assists '+x.assists+' · Appearances '+x.appearances+' · MVP '+x.mvp_awards+'</strong></p><p class="muted">Submitted by '+esc(x.discord_username)+' · '+esc(date(x.created_at))+'</p><p>'+esc(x.status.toUpperCase())+'</p></div><div><small class="muted">Submission ID: '+esc(x.id)+'</small></div></div>'+image+(x.review_note?'<p>Review note: '+esc(x.review_note)+'</p>':'')+(x.status==="pending"?'<label>Review note (optional)</label><textarea data-stats-note="'+x.id+'" placeholder="Reason if rejecting"></textarea><button class="good" data-approve-stats="'+x.id+'">APPROVE STATS</button><button class="danger" data-reject-stats="'+x.id+'">REJECT</button>':'')+'</article>';
+  }));
+  $("statsProofList").innerHTML=cards.join("");
+ }
+ $("matchProofFilter").addEventListener("change",renderMatches);$("statsProofFilter").addEventListener("change",renderStats);
+ $("matchProofList").addEventListener("click",async e=>{
+  const a=e.target.closest("[data-approve-match]"),r=e.target.closest("[data-reject-match]");if(!a&&!r)return;
+  const id=(a||r).dataset.approveMatch||(a||r).dataset.rejectMatch;
+  if(!confirm(a?"Approve this match result and add it to official rankings?":"Reject this match submission?"))return;
+  const {data,error}=a?await db.rpc("approve_ipg_match_submission",{p_submission_id:id}):await db.rpc("reject_ipg_match_submission",{p_submission_id:id,p_note:$("[data-match-note='"+id+"']").value.trim()});
+  if(error){msg("Match review failed: "+error.message);return}
+  if(a){const x=matchRows.find(v=>v.id===id),home=clubs.find(c=>c.id===x.home_club_id)?.club_name||"Club",away=clubs.find(c=>c.id===x.away_club_id)?.club_name||"Club",tour=tournaments.find(t=>t.id===x.tournament_id)?.name||"Tournament";await notifyDiscord({event:"result_published",tournament_name:tour,home_club:home,away_club:away,home_score:x.home_score,away_score:x.away_score})}
+  await loadMatches();await loadResults();msg(a?"Match approved and added to official results.":"Match submission rejected.");
+ });
+ $("statsProofList").addEventListener("click",async e=>{
+  const a=e.target.closest("[data-approve-stats]"),r=e.target.closest("[data-reject-stats]");if(!a&&!r)return;
+  const id=(a||r).dataset.approveStats||(a||r).dataset.rejectStats;
+  if(!confirm(a?"Approve these player stats and add them to official statistics?":"Reject this player stats submission?"))return;
+  const {error}=a?await db.rpc("approve_ipg_player_stat_submission",{p_submission_id:id}):await db.rpc("reject_ipg_player_stat_submission",{p_submission_id:id,p_note:$("[data-stats-note='"+id+"']").value.trim()});
+  if(error){msg("Player stats review failed: "+error.message);return}
+  await loadStats();await loadAdminPlayerStats();msg(a?"Player stats approved and published.":"Player stats submission rejected.");
+ });
+ async function loadAdminPlayerStats(){try{const {data}=await db.from("tournament_player_stats").select("*,tournaments(name),clubs(club_name)").order("goals",{ascending:false});statRows=data||[];const el=$("adminPlayerStatsList");if(el)el.dataset.lastApprovedRefresh=String(Date.now())}catch(e){console.warn(e)}}
+ const oldRefresh=window.refreshAll;
+ async function start(){await loadConfig();await loadMatches();await loadStats()}
+ document.querySelector('[data-tab="verification"]').addEventListener("click",start);
+ const oldCheck=window.checkAdmin;
+ // Initial load when dashboard has already authenticated.
+ if(!$("dashboard").classList.contains("hidden"))start();
 })();
 </script>
 </body></html>
