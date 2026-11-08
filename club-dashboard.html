@@ -253,21 +253,22 @@ supabaseClient.auth.getSession().then(({data,error})=>{if(error)showError("Could
 <script id="ipg-club-performance-data">
 async function loadClubPerformance(){
  if(!verifiedClub?.id)return;
- const id=verifiedClub.id,fmt=(n)=>String(n??0);
- const [rr,entry,stats,contracts]=await Promise.all([
-  supabaseClient.from("tournament_results").select("id,home_club_id,away_club_id,home_score,away_score,played_at,tournaments(name),home:clubs!tournament_results_home_club_id_fkey(club_name),away:clubs!tournament_results_away_club_id_fkey(club_name)").or("home_club_id.eq."+id+",away_club_id.eq."+id).order("played_at",{ascending:false}).limit(12),
+ const id=verifiedClub.id,fmt=n=>String(n??0);
+ const [rr,entry,stats,contracts,bracket]=await Promise.all([
+  supabaseClient.from("tournament_results").select("id,home_club_id,away_club_id,home_score,away_score,played_at,tournaments(name),home:clubs!tournament_results_home_club_id_fkey(club_name),away:clubs!tournament_results_away_club_id_fkey(club_name)").or("home_club_id.eq."+id+",away_club_id.eq."+id).order("played_at",{ascending:false}),
   supabaseClient.from("tournament_entries").select("id,tournament_id,status,tournaments(name,status)").eq("club_id",id),
   supabaseClient.from("tournament_player_stats").select("player_name,goals,assists,mvp_awards").eq("club_id",id).order("goals",{ascending:false}).limit(8),
-  supabaseClient.from("player_contracts").select("id,status,player:player_profiles(display_name,primary_position)").eq("club_id",id).eq("status","active")
+  supabaseClient.from("player_contracts").select("id,status,player:player_profiles(display_name,primary_position)").eq("club_id",id).eq("status","active"),
+  supabaseClient.from("tournament_bracket_matches").select("id,round_name,tournament_id,tournaments(name),winner_club_id,status").eq("winner_club_id",id).eq("status","completed")
  ]);
- const results=rr.data||[],entries=entry.data||[],players=contracts.data||[],playerStats=stats.data||[];
+ const results=rr.data||[],entries=entry.data||[],players=contracts.data||[],playerStats=stats.data||[],titles=(bracket.data||[]).filter(m=>/final/i.test(m.round_name||""));
  let wins=0,goals=0;results.forEach(r=>{const home=r.home_club_id===id;const own=home?r.home_score:r.away_score,opp=home?r.away_score:r.home_score;goals+=own;if(own>opp)wins++});
- $("clubMatchesPlayed").textContent=fmt(results.length);$("clubWins").textContent=fmt(wins);$("clubGoalsFor").textContent=fmt(goals);$("clubTrophies").textContent=fmt(wins);
- $("clubRecentResults").innerHTML=results.length?results.slice(0,5).map(r=>{const home=r.home_club_id===id;return '<div class="club-performance-row"><span>'+String(r.home?.club_name||"Club")+' '+r.home_score+' – '+r.away_score+' '+String(r.away?.club_name||"Club")+'</span><strong>'+String(r.tournaments?.name||"IPG Match")+'</strong></div>'}).join(""):'<div class="club-performance-empty">No official match results yet.</div>';
- $("clubTrophyRoom").innerHTML=entries.length?entries.map(e=>'<div class="club-performance-row"><span>'+String(e.tournaments?.name||"IPG Tournament")+'</span><strong>'+String(e.tournaments?.status||e.status||"ENTERED").toUpperCase()+'</strong></div>').join(""):'<div class="club-performance-empty">Tournament entries and honours will appear here.</div>';
+ $("clubMatchesPlayed").textContent=fmt(results.length);$("clubWins").textContent=fmt(wins);$("clubGoalsFor").textContent=fmt(goals);$("clubTrophies").textContent=fmt(titles.length);
+ $("clubRecentResults").innerHTML=results.length?results.slice(0,5).map(r=>'<div class="club-performance-row"><span>'+String(r.home?.club_name||"Club")+' '+r.home_score+' – '+r.away_score+' '+String(r.away?.club_name||"Club")+'</span><strong>'+String(r.tournaments?.name||"IPG Match")+'</strong></div>').join(""):'<div class="club-performance-empty">No official match results yet.</div>';
+ const honours=[...titles.map(m=>({name:m.tournaments?.name||"IPG Tournament",label:"CHAMPIONS"})),...entries.map(e=>({name:e.tournaments?.name||"IPG Tournament",label:String(e.tournaments?.status||e.status||"ENTERED").toUpperCase()}))];
+ $("clubTrophyRoom").innerHTML=honours.length?honours.map(e=>'<div class="club-performance-row"><span>'+String(e.name)+'</span><strong>'+String(e.label)+'</strong></div>').join(""):'<div class="club-performance-empty">Tournament entries and titles will appear here.</div>';
  $("clubRoster").innerHTML=players.length?players.map(p=>'<div class="club-performance-row"><span>'+String(p.player?.display_name||"Player")+' · '+String(p.player?.primary_position||"—")+'</span><strong>ACTIVE</strong></div>').join(""):'<div class="club-performance-empty">No active player contracts registered yet.</div>';
  $("clubTopScorer").innerHTML=playerStats.length?playerStats.map(p=>'<div class="club-performance-row"><span>'+String(p.player_name)+'</span><strong>'+p.goals+' GOALS · '+p.assists+' AST</strong></div>').join(""):'<div class="club-performance-empty">Player statistics will appear when IPG admins add them.</div>';
-}
-</script>
+}</script>
 </body>
 </html>
