@@ -3,29 +3,18 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>IPG ESPORTS | Discord Account</title>
+<title>IPG ESPORTS | Club Login</title>
 <style>
-:root{color-scheme:dark;--navy:#0b1423;--ice:#b9d8f2;--muted:#aeb7c5}
-*{box-sizing:border-box}
+:root{color-scheme:dark;--ice:#b9d8f2;--muted:#aeb7c5}*{box-sizing:border-box}
 body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 50% 0%,#182944 0,#080d18 58%);color:#f4f6fa;font-family:Arial,sans-serif;display:grid;place-items:center;padding:28px 16px}
-.wrap{width:min(100%,470px)}
-.brand{text-align:center;margin-bottom:26px}
-.brand img{width:100px;height:70px;object-fit:contain}
-.brand p{font-size:11px;letter-spacing:.2em;color:var(--muted);font-weight:700}
+.wrap{width:min(100%,470px)}.brand{text-align:center;margin-bottom:26px}.brand img{width:100px;height:70px;object-fit:contain}.brand p{font-size:11px;letter-spacing:.2em;color:var(--muted);font-weight:700}
 .panel{background:linear-gradient(145deg,rgba(20,34,58,.97),rgba(8,13,24,.98));border:1px solid rgba(185,216,242,.25);border-radius:12px;padding:30px;box-shadow:0 22px 70px rgba(0,0,0,.35)}
-h1{font-size:25px;letter-spacing:.07em;text-align:center;margin:0 0 8px}
-.intro{text-align:center;color:var(--muted);font-size:13px;line-height:1.6;margin:0 0 24px}
-.types{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:18px}
-.types button,.action{min-height:48px;border-radius:6px;font-weight:800;letter-spacing:.07em;cursor:pointer}
-.types button{background:#0b1423;border:1px solid rgba(174,187,205,.28);color:#dce3ed}
-.types button.active{border-color:var(--ice);color:#fff;background:rgba(185,216,242,.1)}
-.action{width:100%;margin-top:8px;border:1px solid #d7e9f8;background:linear-gradient(135deg,#e8f3fc,#8fb7da);color:#101a28}
-.action:disabled{opacity:.65;cursor:wait}
-.status{min-height:42px;margin:16px 0 0;color:var(--ice);font-size:13px;line-height:1.5;text-align:center}
-.back{display:block;text-align:center;color:var(--muted);font-size:12px;margin-top:20px;text-decoration:none}
-.back:hover{color:#fff}
-.note{font-size:11px;color:#8f9bad;text-align:center;line-height:1.6;margin:18px 0 0}
-[hidden]{display:none!important}
+h1{font-size:25px;letter-spacing:.07em;text-align:center;margin:0 0 8px}.intro{text-align:center;color:var(--muted);font-size:13px;line-height:1.6;margin:0 0 24px}
+label{display:block;color:var(--muted);font-size:11px;font-weight:800;letter-spacing:.12em;margin:0 0 9px}
+input{width:100%;min-height:48px;padding:12px;background:#080f1d;border:1px solid #29364b;border-radius:6px;color:#fff;font-size:16px}
+.action{width:100%;min-height:48px;margin-top:14px;border:1px solid #d7e9f8;border-radius:6px;background:linear-gradient(135deg,#e8f3fc,#8fb7da);color:#101a28;font-weight:800;letter-spacing:.07em;cursor:pointer}
+.action:disabled{opacity:.65;cursor:wait}.status{min-height:42px;margin:16px 0 0;color:var(--ice);font-size:13px;line-height:1.5;text-align:center}
+.back{display:block;text-align:center;color:var(--muted);font-size:12px;margin-top:20px;text-decoration:none}.note{font-size:11px;color:#8f9bad;text-align:center;line-height:1.6;margin:18px 0 0}[hidden]{display:none!important}
 @media(max-width:420px){.panel{padding:23px 18px}h1{font-size:22px}}
 </style>
 </head>
@@ -33,17 +22,16 @@ h1{font-size:25px;letter-spacing:.07em;text-align:center;margin:0 0 8px}
 <main class="wrap">
 <div class="brand"><a href="index.html"><img src="ipg-logo.png" alt="IPG ESPORTS"></a><p>COMPETE. DOMINATE. BECOME LEGENDS.</p></div>
 <section class="panel">
-<h1 id="heading">JOIN IPG ESPORTS</h1>
-<p class="intro" id="intro">Create or access your IPG account securely with Discord.</p>
-<label style="display:block;color:var(--muted);font-size:11px;font-weight:800;letter-spacing:.12em;margin:0 0 9px">ACCOUNT TYPE</label>
-<div class="types" role="group" aria-label="Account type">
-<button type="button" data-type="player" class="active">PLAYER</button>
-<button type="button" data-type="club">CLUB / MANAGER</button>
-</div>
-<button type="button" class="action" id="discordButton">CONTINUE WITH DISCORD</button>
-<button type="button" class="action" id="continueButton" hidden>CONTINUE TO IPG</button>
-<p class="status" id="status" role="status" aria-live="polite">Use your Discord account for both registration and future logins. No IPG password or email code needed.</p>
-<p class="note">Your Discord account is used to authenticate you. You can review your IPG profile details after signing in.</p>
+<h1>IPG CLUB ACCESS</h1>
+<p class="intro">Sign in with the email address registered as your club contact. Player accounts are not available.</p>
+<form id="clubLoginForm">
+<label for="clubEmail">CLUB CONTACT EMAIL</label>
+<input id="clubEmail" type="email" autocomplete="email" placeholder="name@club.com" required>
+<button class="action" id="sendLink" type="submit">EMAIL ME A SECURE SIGN-IN LINK</button>
+</form>
+<button class="action" id="continueButton" type="button" hidden>CONTINUE TO CLUB DASHBOARD</button>
+<p class="status" id="status" role="status" aria-live="polite">We will send a one-time sign-in link to your club contact email.</p>
+<p class="note">Only club accounts can use this login. New clubs can submit a registration for IPG approval after signing in.</p>
 </section>
 <a class="back" href="index.html">← BACK TO IPG ESPORTS</a>
 </main>
@@ -51,59 +39,20 @@ h1{font-size:25px;letter-spacing:.07em;text-align:center;margin:0 0 8px}
 <script>
 const supabaseClient=window.supabase.createClient("https://anndmcqwvfjbnhsehrom.supabase.co","sb_publishable_4OwZ-opv95mMay8hW-5yMA_gmWhMLDC",{auth:{storageKey:"ipg-auth-token",persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
 const $=id=>document.getElementById(id);
-let accountType=localStorage.getItem("ipg_account_type")||"player";
-function selectType(type){
- accountType=type;
- document.querySelectorAll("[data-type]").forEach(button=>button.classList.toggle("active",button.dataset.type===type));
+function showSession(session){
+ if(session){$("clubLoginForm").hidden=true;$("continueButton").hidden=false;$("status").textContent="Your email sign-in is complete. Continue to your club dashboard.";}
+ else{$("clubLoginForm").hidden=false;$("continueButton").hidden=true;}
 }
-document.querySelectorAll("[data-type]").forEach(button=>button.addEventListener("click",()=>selectType(button.dataset.type)));
-selectType(accountType);
-const mode=new URLSearchParams(location.search).get("mode");
-if(mode==="login"){
- $("heading").textContent="WELCOME BACK";
- $("intro").textContent="Log in to IPG ESPORTS using your Discord account.";
- $("discordButton").textContent="LOG IN WITH DISCORD";
-}
-function showAccountSession(session){
- const discordButton=$("discordButton");
- const continueButton=$("continueButton");
- if(session){
-  localStorage.setItem("ipg_account_type",accountType);
-  discordButton.hidden=true;
-  continueButton.hidden=false;
-  $("status").textContent="You are signed in with Discord. Continue to IPG when you're ready.";
- }else{
-  discordButton.hidden=false;
-  discordButton.disabled=false;
-  continueButton.hidden=true;
- }
-}
-$("continueButton").addEventListener("click",()=>location.assign("index.html"));
-$("discordButton").addEventListener("click",async()=>{
- const button=$("discordButton");
- button.disabled=true;
- $("status").textContent="Connecting securely to Discord...";
- localStorage.setItem("ipg_account_type",accountType);
- try{
-  const {error}=await supabaseClient.auth.signInWithOAuth({
-   provider:"discord",
-   options:{redirectTo:location.origin+location.pathname}
-  });
-  if(error)throw error;
- }catch(error){
-  button.disabled=false;
-  $("status").textContent="Discord sign-in could not start: "+(error&&error.message?error.message:"Unknown error")+". Check that Discord is enabled for IPG in Supabase.";
- }
+$("clubLoginForm").addEventListener("submit",async event=>{
+ event.preventDefault();const button=$("sendLink"),email=$("clubEmail").value.trim();if(!email)return;
+ button.disabled=true;$("status").textContent="Sending your secure sign-in link...";
+ try{const {error}=await supabaseClient.auth.signInWithOtp({email,options:{emailRedirectTo:location.origin+location.pathname}});if(error)throw error;$("status").textContent="Sign-in link sent. Open the email on this device, then return here to continue.";}
+ catch(error){$("status").textContent="Could not send sign-in link: "+(error.message||"Unknown error");}
+ finally{button.disabled=false;}
 });
-supabaseClient.auth.onAuthStateChange((event,session)=>{
- if(event==="INITIAL_SESSION"||event==="SIGNED_IN"||event==="TOKEN_REFRESHED"){
-  showAccountSession(session);
- }
-});
-supabaseClient.auth.getSession().then(({data,error})=>{
- if(error){$("status").textContent="Could not read your login session: "+error.message;return;}
- showAccountSession(data.session);
-});
+$("continueButton").addEventListener("click",()=>location.assign("index.html#register"));
+supabaseClient.auth.onAuthStateChange((event,session)=>{if(["INITIAL_SESSION","SIGNED_IN","TOKEN_REFRESHED"].includes(event))showSession(session);});
+supabaseClient.auth.getSession().then(({data,error})=>{if(error){$("status").textContent="Could not check your login session: "+error.message;return;}showSession(data.session);});
 </script>
 </body>
 </html>
