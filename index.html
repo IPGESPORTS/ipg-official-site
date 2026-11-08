@@ -1867,7 +1867,7 @@ function setClubHeaderState(state){
     const applyLink = document.getElementById("applyNavLink");
     const signedInBadge = document.getElementById("clubSignedInBadge");
     if (!accessLink || !applyLink || !signedInBadge) return;
-    if (state === "dashboard") {
+    if (state === "dashboard" || state === "session") {
         applyLink.hidden = true;
         accessLink.hidden = false;
         accessLink.textContent = "DASHBOARD";
@@ -1893,6 +1893,10 @@ async function updateIPGHeaderAuth(session){
         setClubHeaderState("guest");
         return;
     }
+
+    // A persisted authenticated session should immediately show the account entry point.
+    // The dashboard itself performs the authoritative server-side club verification.
+    setClubHeaderState("session");
 
     // Keep the verified state when the same session is refreshed or re-emitted.
     if (dashboardVerificationToken === session.access_token) {
@@ -1934,7 +1938,9 @@ async function updateIPGHeaderAuth(session){
         } catch (error) {
             console.warn("Could not verify club dashboard navigation:", error);
             if (currentSession?.access_token === session.access_token) {
-                setClubHeaderState("guest");
+                // Keep the dashboard entry visible for signed-in users; the dashboard
+                // will show a clear access error if this session is not an approved club.
+                setClubHeaderState("session");
             }
         } finally {
             if (dashboardVerificationInFlight?.token === session.access_token) {
