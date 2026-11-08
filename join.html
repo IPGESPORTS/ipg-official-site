@@ -1,0 +1,2417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IPG ESPORTS | Join IPG</title>
+    <!-- INTER FONT -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+
+    <style> 
+.logo img {
+    height: 55px;
+    width: auto;
+    max-width: 160px;
+    display: block;
+}       
+    header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 6%;
+    background: #080d18;
+    border-bottom: 1px solid rgba(255,255,255,0.3);
+}
+
+nav {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    transition: 0.3s;
+}
+
+nav a:hover {
+    color: #ffffff;
+}
+nav a.discord-nav {
+    padding: 11px 16px;
+    border: 1px solid #ffffff;
+    border-radius: 5px;
+    color: #080d18;
+    background: linear-gradient(135deg, #ffffff, #dce5f2);
+}
+nav a.discord-nav:hover {
+    color: #080d18;
+    box-shadow: 0 6px 18px rgba(255,255,255,.22);
+}
+@media (max-width: 700px) {
+    header { flex-wrap: wrap; gap: 14px; }
+    nav { gap: 12px; flex-wrap: wrap; justify-content: flex-end; }
+    nav a { font-size: 11px; }
+    nav a.discord-nav { padding: 9px 11px; }
+}
+   .hero-logo {
+    width: 120px !important;
+    height: 120px !important;
+    max-width: 120px;
+    max-height: 120px;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto 25px;
+}
+        body {
+    margin: 0 !important;
+    background: #070b16 !important;
+    color: #ffffff !important;
+   font-family: 'Inter', sans-serif !important;
+}
+
+.hero {
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    min-height: 85vh;
+    padding: 70px 20px;
+    background: radial-gradient(
+        ellipse at center,
+        #17243b 0%,
+        #080d18 60%,
+        #05070c 100%
+    ) !important;
+    color: white !important;
+}
+}
+
+.hero h1 {
+    color: #ffffff !important;
+    font-weight: 900 !important;
+    text-align: center;
+}
+
+.hero h1 span {
+    color: #ffffff !important;
+}
+
+.hero p {
+    color: #d5d9e2 !important;
+    text-align: center;
+}
+
+.hero-tagline {
+    color: #ffffff !important;
+    font-weight: bold;
+    letter-spacing: 3px;
+}
+
+.hero-description {
+    color: #b8c2d3 !important;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.9;
+    letter-spacing: 0.3px;
+    max-width: 600px;
+    margin: 20px auto 30px;
+}
+
+.hero-button {
+    color: #080d18 !important;
+    text-decoration: none !important;
+}
+   /* IPG REGISTRATION FORM */
+
+.registration-form {
+    max-width: 520px;
+    margin: 60px auto;
+    padding: 38px;
+    background: linear-gradient(145deg, #111c30, #080d18);
+    border: 1px solid rgba(255,255,255,0.25);
+    border-radius: 10px;
+    box-shadow: 0 15px 45px rgba(0,0,0,0.35);
+}
+
+.form-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.form-label {
+    color: #ffffff;
+    font-size: 10px;
+    letter-spacing: 3px;
+    font-weight: bold;
+}
+
+.form-header h2 {
+    color: white;
+    font-size: 27px;
+    margin: 12px 0;
+    letter-spacing: 1px;
+}
+
+.form-header p {
+    color: #9da9ba;
+    font-size: 13px;
+}
+
+.form-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.registration-form input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 16px;
+    background: #080f1d;
+    border: 1px solid #29364b;
+    border-radius: 5px;
+    color: white;
+    font-size: 14px;
+    outline: none;
+    transition: 0.2s;
+}
+
+.registration-form input:focus {
+    border-color: #ffffff;
+    box-shadow: 0 0 0 2px rgba(255,255,255,0.1);
+}
+
+.registration-form input::placeholder {
+    color: #78869b;
+}
+
+.register-button {
+    width: 100%;
+    margin-top: 24px;
+    padding: 17px;
+    background: linear-gradient(135deg, #ffffff, #dce5f2);
+    border: none;
+    border-radius: 5px;
+    color: #080d18;
+    font-weight: 900;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.register-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(255,255,255,0.2);
+}
+
+.register-button span {
+    margin-left: 8px;
+}
+
+.form-message {
+    color: white;
+    text-align: center;
+}
+  /* IPG TOURNAMENT MENU */
+
+.tournament-menu {
+    display: none;
+    max-width: 950px;
+    margin: 50px auto;
+    padding: 35px;
+    background: linear-gradient(145deg, #111c30, #080d18);
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 10px;
+}
+
+.tournament-menu.show {
+    display: block;
+}
+
+.tournament-menu-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.tournament-menu-header span {
+    color: #ffffff;
+    font-size: 11px;
+    letter-spacing: 3px;
+}
+
+.tournament-menu-header h2 {
+    color: white;
+    font-size: 32px;
+    margin: 12px 0;
+}
+
+.tournament-menu-header p {
+    color: #aeb7c7;
+}
+
+.tournament-category {
+    margin-top: 35px;
+}
+
+.tournament-category h3 {
+    color: #ffffff;
+    font-size: 15px;
+    letter-spacing: 2px;
+    margin-bottom: 18px;
+}
+
+.tournament-card {
+    position: relative;
+    background: linear-gradient(135deg, #111c30, #080d18);
+    border: 1px solid rgba(212, 175, 55, 0.25);
+    border-radius: 10px;
+    padding: 28px;
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+}
+
+.tournament-card:hover {
+    transform: translateY(-5px);
+    border-color: #ffffff;
+    box-shadow: 0 12px 35px rgba(212, 175, 55, 0.12);
+}
+
+.tournament-card h3,
+.tournament-card h4 {
+    color: #ffffff;
+    font-size: 21px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    margin: 16px 0 10px;
+}
+
+.tournament-card p {
+    color: #aeb7c7;
+    line-height: 1.7;
+}
+
+.tournament-card h4 {
+    color: white;
+    font-size: 19px;
+    margin: 15px 0 8px;
+}
+
+.tournament-card p {
+    color: #aeb7c7;
+    font-size: 14px;
+}
+
+.status-live {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 13px;
+    background: rgba(255, 55, 55, 0.12);
+    border: 1px solid rgba(255, 55, 55, 0.4);
+    border-radius: 4px;
+    color: #ff5555;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    box-shadow: 0 0 15px rgba(255, 55, 55, 0.12);
+    
+}
+        .status-live {
+    animation: livePulse 1.8s infinite;
+}
+
+@keyframes livePulse {
+    0%, 100% {
+        box-shadow: 0 0 5px rgba(255, 55, 55, 0.15);
+    }
+    50% {
+        box-shadow: 0 0 16px rgba(255, 55, 55, 0.5);
+    }
+}
+
+.status-open {
+    color: #ffffff;
+    font-size: 11px;
+    font-weight: bold;
+}
+
+.join-tournament {
+    margin-top: 15px;
+    padding: 13px 22px;
+    background: linear-gradient(135deg, #ffffff, #dce5f2);
+    border: none;
+    border-radius: 4px;
+    color: #080d18;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+@media (max-width: 600px) {
+    .tournament-menu {
+        margin: 25px 12px;
+        padding: 22px;
+    }
+}
+ .logo img {
+    height: 55px;
+    width: auto;
+    max-width: 160px;
+    display: block;
+}       
+    header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 6%;
+    background: #080d18;
+    border-bottom: 1px solid rgba(255,255,255,0.3);
+}
+
+nav {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    transition: 0.3s;
+}
+
+nav a:hover {
+    color: #ffffff;
+}
+   .hero-logo {
+    width: 120px !important;
+    height: 120px !important;
+    max-width: 120px;
+    max-height: 120px;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto 25px;
+}
+        body {
+    margin: 0 !important;
+    background: #070b16 !important;
+    color: #ffffff !important;
+    font-family: Arial, sans-serif !important;
+}
+
+.hero {
+    background: radial-gradient(
+        ellipse at center,
+        #17243b 0%,
+        #080d18 60%,
+        #05070c 100%
+    ) !important;
+    color: white !important;
+    min-height: 85vh;
+}
+
+.hero h1 {
+    color: #ffffff !important;
+    font-weight: 900 !important;
+    text-align: center;
+}
+
+.hero h1 span {
+    color: #ffffff !important;
+}
+
+.hero p {
+    color: #d5d9e2 !important;
+    text-align: center;
+}
+
+.hero-tagline {
+    color: #ffffff !important;
+    font-weight: bold;
+    letter-spacing: 3px;
+}
+
+.hero-description {
+    color: #aeb7c7 !important;
+    line-height: 1.8;
+}
+
+.hero-button {
+    display: inline-block;
+    padding: 15px 34px;
+    background: linear-gradient(135deg, #ffffff, #dce5f2);
+    color: #080d18 !important;
+    text-decoration: none !important;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    border-radius: 5px;
+    border: 1px solid #ffffff;
+    transition: all 0.25s ease;
+}
+
+.hero-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 22px rgba(212, 175, 55, 0.3);
+}
+
+/* IPG LOWER PAGE REDESIGN */
+.ipg-content-section {
+    position: relative;
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 90px 24px;
+    text-align: center;
+}
+.ipg-eyebrow {
+    display: inline-block;
+    color: #ffffff;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 3px;
+    margin-bottom: 14px;
+}
+.ipg-content-section h2 {
+    color: #fff;
+    font-size: clamp(28px, 4vw, 42px);
+    font-weight: 900;
+    letter-spacing: 1px;
+    margin: 0 0 14px;
+}
+.ipg-section-intro {
+    max-width: 620px;
+    margin: 0 auto 38px;
+    color: #aebbd0;
+    font-size: 15px;
+    line-height: 1.8;
+}
+.ipg-feature-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 22px;
+    text-align: left;
+}
+.ipg-feature-card {
+    position: relative;
+    overflow: hidden;
+    min-height: 230px;
+    padding: 30px;
+    border: 1px solid rgba(255,255,255,.25);
+    border-radius: 12px;
+    background:
+        radial-gradient(ellipse at 85% 15%, rgba(255,255,255,.18), transparent 42%),
+        linear-gradient(145deg, #14223a, #080d18 78%);
+    box-shadow: 0 18px 45px rgba(0,0,0,.22);
+    transition: transform .25s ease, border-color .25s ease;
+}
+.ipg-feature-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(255,255,255,.7);
+}
+.ipg-feature-art {
+    height: 82px;
+    width: 82px;
+    display: grid;
+    place-items: center;
+    margin-bottom: 24px;
+    border: 1px solid rgba(255,255,255,.45);
+    border-radius: 18px;
+    color: #ffffff;
+    font-size: 34px;
+    background: linear-gradient(145deg, rgba(255,255,255,.18), rgba(255,255,255,.025));
+}
+.ipg-feature-card h3 {
+    color: #fff;
+    font-size: 21px;
+    margin: 0 0 10px;
+}
+.ipg-feature-card p {
+    color: #aebbd0;
+    line-height: 1.75;
+    margin: 0;
+}
+.ipg-ranking-panel {
+    max-width: 760px;
+    margin: 34px auto 0;
+    padding: 34px 28px;
+    border: 1px solid rgba(255,255,255,.25);
+    border-radius: 12px;
+    background: linear-gradient(145deg, #111c30, #080d18);
+}
+.ipg-ranking-mark {
+    color: #ffffff;
+    font-size: 42px;
+    margin-bottom: 12px;
+}
+.ipg-ranking-panel p {
+    color: #aebbd0;
+    line-height: 1.8;
+    margin: 0;
+}
+.ipg-club-banner {
+    max-width: 1000px;
+    margin: 20px auto 0;
+    padding: 48px 28px;
+    border: 1px solid rgba(255,255,255,.35);
+    border-radius: 14px;
+    background:
+        radial-gradient(ellipse at 50% 0%, rgba(255,255,255,.2), transparent 55%),
+        linear-gradient(120deg, #14223a, #080d18);
+}
+.ipg-club-banner p {
+    max-width: 600px;
+    margin: 0 auto 24px;
+    color: #b8c2d3;
+    line-height: 1.8;
+}
+.ipg-gold-link {
+    display: inline-block;
+    padding: 14px 26px;
+    border-radius: 5px;
+    border: 1px solid #ffffff;
+    background: linear-gradient(135deg, #ffffff, #dce5f2);
+    color: #080d18 !important;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 900;
+    letter-spacing: 1.2px;
+    transition: transform .2s ease, box-shadow .2s ease;
+}
+.ipg-gold-link:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(255,255,255,.25);
+}
+#clubs[hidden]{display:none!important}
+#clubDashboardNavLink[hidden]{display:none!important}
+#register {
+    padding: 70px 20px;
+    text-align: center;
+    background: linear-gradient(180deg, #080d18, #0c1424);
+}
+#register > h2 {
+    color: #fff;
+    text-align: center;
+    font-size: 30px;
+}
+#register > p {
+    color: #aebbd0;
+    text-align: center;
+}
+.ipg-footer {
+    padding: 32px 20px;
+    text-align: center;
+    color: #8794a9;
+    background: #050912;
+    border-top: 1px solid rgba(255,255,255,.2);
+    font-size: 12px;
+    letter-spacing: 1px;
+    line-height: 1.8;
+}
+@media (max-width: 700px) {
+    .ipg-content-section { padding: 65px 18px; }
+    .ipg-feature-grid { grid-template-columns: 1fr; }
+    .ipg-feature-card { min-height: 0; padding: 25px; }
+}
+
+
+/* IPG ACCOUNT AND JOIN FLOW */
+.ipg-account-panel{max-width:560px;margin:28px auto 0;padding:28px;background:linear-gradient(145deg,#111c30,#080d18);border:1px solid rgba(255,255,255,.28);border-radius:10px;text-align:left}
+.ipg-account-panel h3{color:#ffffff;margin:0 0 10px}
+.ipg-account-panel p{color:#aebbd0;line-height:1.6}
+.ipg-account-panel input{width:100%;box-sizing:border-box;padding:14px;margin:8px 0;background:#080f1d;border:1px solid #29364b;border-radius:5px;color:white}
+.ipg-account-panel button,.ipg-account-panel .account-button{padding:13px 20px;background:linear-gradient(135deg,#ffffff,#dce5f2);border:0;border-radius:5px;color:#080d18;font-weight:800;cursor:pointer}
+.ipg-account-panel .account-muted{color:#9da9ba;font-size:13px}
+#clubForm[hidden],#clubAccountDashboard[hidden],#emailOtpForm[hidden],#magicLinkForm[hidden]{display:none!important}
+ #magicLinkForm,#accountStatus{display:none!important}
+.account-type-button{padding:18px 14px;background:#111c30;border:1px solid rgba(255,255,255,.4);border-radius:8px;color:#fff;font-weight:800;cursor:pointer;line-height:1.7}
+.account-type-button small{font-weight:500;color:#aebbd0}
+.account-type-button.selected{border-color:#ffffff;background:#1b2a43;box-shadow:0 0 0 2px rgba(255,255,255,.12)}
+
+    
+/* IPG PLAYER MARKETPLACE */
+#player-marketplace{max-width:1120px;margin:0 auto;padding:70px 22px}
+.ipg-market-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px}
+.ipg-market-card{background:linear-gradient(145deg,#111c30,#080d18);border:1px solid rgba(255,255,255,.25);border-radius:10px;padding:22px;text-align:left}
+.ipg-market-card h3{color:#ffffff;margin-top:0}
+.ipg-market-card p{color:#aebbd0;line-height:1.6}
+.ipg-market-card input,.ipg-market-card select,.ipg-market-card textarea{width:100%;box-sizing:border-box;padding:12px;margin:6px 0 12px;background:#080f1d;border:1px solid #29364b;border-radius:5px;color:#fff}
+.ipg-market-card button{padding:12px 16px;background:linear-gradient(135deg,#ffffff,#dce5f2);border:0;border-radius:5px;color:#080d18;font-weight:800;cursor:pointer;margin:5px 5px 5px 0}
+.ipg-market-muted{color:#9da9ba;font-size:13px}
+
+    
+/* IPG ESPORTS — homepage visual refinement */
+:root{color-scheme:dark;--ipg-gold:#ffffff;--ipg-gold-light:#ffffff;--ipg-bg:#070b16;--ipg-panel:#101827;--ipg-line:rgba(255,255,255,.22)}
+html{scroll-behavior:smooth;scroll-padding-top:88px}
+body{color:#f7f8fb;background:radial-gradient(ellipse at 50% -12%,rgba(30,54,92,.42),transparent 48%),#070b16}
+header{position:sticky;top:0;z-index:1000;backdrop-filter:blur(16px);background:rgba(7,11,22,.94);box-shadow:0 8px 28px rgba(0,0,0,.2)}
+.logo img{transition:transform .25s ease}
+.logo a:hover img{transform:scale(1.04)}
+nav a{transition:color .2s ease,background .2s ease,transform .2s ease}
+nav a:hover{transform:translateY(-1px)}
+.hero{position:relative;isolation:isolate;min-height:590px;display:grid;place-items:center;overflow:hidden;background:radial-gradient(ellipse at 50% 40%,rgba(29,54,91,.52),transparent 54%),linear-gradient(135deg,#080d19 0%,#101b2d 52%,#080d19 100%)}
+.hero:before,.hero:after{content:"";position:absolute;z-index:-1;pointer-events:none}
+.hero:before{inset:0;background:linear-gradient(115deg,transparent 0 35%,rgba(255,255,255,.055) 35.2%,transparent 35.6% 64%,rgba(255,255,255,.045) 64.2%,transparent 64.6%)}
+.hero:after{width:min(72vw,760px);aspect-ratio:1;border:1px solid rgba(255,255,255,.12);border-radius:50%;box-shadow:0 0 0 42px rgba(255,255,255,.025),0 0 0 90px rgba(255,255,255,.018)}
+.hero-content{position:relative;z-index:1;max-width:900px;padding:72px 22px}
+.hero h1{font-size:clamp(2.1rem,6vw,4.8rem);line-height:1.03;letter-spacing:.035em;text-shadow:0 8px 32px rgba(0,0,0,.42)}
+.hero h1 span{color:var(--ipg-gold-light)}
+.hero-tagline{font-weight:900;letter-spacing:.2em;color:var(--ipg-gold-light)}
+.hero-description{max-width:620px;margin:18px auto 28px;color:#c6ceda;line-height:1.8}
+.hero-button,.ipg-gold-link,.register-button{display:inline-flex;align-items:center;justify-content:center;gap:12px;border:1px solid rgba(255,231,164,.45);border-radius:6px;background:linear-gradient(135deg,#ffffff,#dce5f2);color:#10131a!important;font-weight:900;letter-spacing:.07em;text-decoration:none;padding:15px 23px;box-shadow:0 10px 30px rgba(255,255,255,.16);transition:transform .2s ease,box-shadow .2s ease}
+.hero-button:hover,.ipg-gold-link:hover,.register-button:hover{transform:translateY(-2px);box-shadow:0 14px 34px rgba(255,255,255,.25)}
+.ipg-content-section,.public-tournaments,#player-marketplace{position:relative}
+.ipg-content-section{padding-top:76px!important;padding-bottom:76px!important}
+.ipg-eyebrow,.public-tournaments-header>span{color:var(--ipg-gold-light);font-size:11px;font-weight:900;letter-spacing:.22em}
+.ipg-content-section h2,.public-tournaments h2{font-size:clamp(1.65rem,3vw,2.5rem);letter-spacing:.045em}
+.ipg-section-intro{max-width:720px;margin:12px auto 30px;color:#aeb8c8;line-height:1.75;text-align:center}
+.ipg-feature-card,.ipg-ranking-panel,.ipg-market-card,.tournament-card{background:linear-gradient(145deg,rgba(19,30,48,.96),rgba(10,16,28,.98))!important;border:1px solid var(--ipg-line)!important;border-radius:12px!important;box-shadow:0 16px 42px rgba(0,0,0,.2);transition:transform .22s ease,border-color .22s ease,box-shadow .22s ease}
+.ipg-feature-card:hover,.ipg-market-card:hover,.tournament-card:hover{transform:translateY(-3px);border-color:rgba(255,255,255,.48)!important;box-shadow:0 20px 48px rgba(0,0,0,.28)}
+.ipg-feature-art{font-size:36px;filter:drop-shadow(0 5px 12px rgba(255,255,255,.2))}
+.public-tournaments{padding:72px 6%;background:linear-gradient(180deg,#0a1120,#080d18)}
+.registered-teams{margin-top:18px;padding:15px 16px;border:1px solid rgba(255,255,255,.2);border-radius:8px;background:rgba(5,10,18,.55);text-align:left}
+.registered-teams h4{margin:0 0 10px;color:var(--ipg-gold-light);font-size:12px;font-weight:900;letter-spacing:.12em}
+.registered-teams ol{margin:0;padding-left:22px;color:#e7ebf2;line-height:1.9}
+.registered-teams li{padding-left:4px}
+.registered-teams .no-registered-teams{margin:0;color:#9ca8ba;font-size:13px}
+
+#player-marketplace{padding-top:72px!important;padding-bottom:72px!important}
+#player-marketplace h2 h2{letter-spacing:.04em}
+.ipg-market-card{padding:22px!important}
+.ipg-market-card h3{color:var(--ipg-gold-light);letter-spacing:.06em}
+input,select,textarea{background:#080e19!important;border:1px solid #354258!important;border-radius:7px!important;color:#f7f8fb!important}
+input:focus,select:focus,textarea:focus{outline:2px solid rgba(255,255,255,.48);outline-offset:1px;border-color:var(--ipg-gold)!important}
+button{border-radius:7px;transition:transform .18s ease,filter .18s ease}
+button:hover{filter:brightness(1.08);transform:translateY(-1px)}
+.account-type-button{min-height:84px;border:1px solid var(--ipg-line)!important;background:#111c2d!important;color:#fff!important}
+.account-type-button.selected{border-color:var(--ipg-gold)!important;background:linear-gradient(135deg,rgba(255,255,255,.2),rgba(17,28,45,.98))!important;box-shadow:inset 0 0 0 1px rgba(255,255,255,.22)}
+.ipg-footer{padding:34px 20px!important;background:#050912!important;border-top:1px solid var(--ipg-line);color:#929bad!important;line-height:2;letter-spacing:.04em;text-align:center}
+.tournament-menu{z-index:999}
+@media(max-width:700px){
+ header{padding:12px 4%;gap:10px}
+ .logo img{height:43px}
+ nav{width:100%;justify-content:center;gap:8px 14px}
+ nav a{font-size:10px;letter-spacing:.06em}
+ .hero{min-height:540px}
+ .hero-content{padding:58px 18px}
+ .hero-logo{width:96px!important;height:96px!important}
+ .hero-tagline{font-size:12px;letter-spacing:.12em;line-height:1.8}
+ .ipg-content-section{padding:55px 18px!important}
+ .public-tournaments{padding:54px 18px}
+ #player-marketplace{padding:54px 18px!important}
+}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition:none!important;animation:none!important}}
+
+
+/* IPG PUBLIC PROFILES */
+.ipg-profile-switch{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin:28px 0}
+.ipg-profile-tab{padding:12px 20px;border:1px solid rgba(255,255,255,.4);border-radius:6px;background:#101827;color:#fff;font-weight:900;letter-spacing:.06em;cursor:pointer}
+.ipg-profile-tab.active{background:linear-gradient(135deg,#ffffff,#dce5f2);color:#080d18}
+.ipg-profile-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(245px,1fr));gap:18px;text-align:left}
+/* Keep inactive profile tabs and closed detail panels hidden despite grid display rules. */
+.ipg-profile-grid[hidden],.ipg-profile-detail[hidden]{display:none!important}
+.ipg-profile-card{padding:22px;border:1px solid rgba(255,255,255,.25);border-radius:12px;background:linear-gradient(145deg,#14223a,#080d18)}
+.ipg-profile-card h3{color:#ffffff;margin:12px 0 7px}
+.ipg-profile-card p{color:#b8c2d3;line-height:1.6;margin:6px 0}
+.ipg-profile-card img{width:76px;height:76px;object-fit:contain;border-radius:50%;background:#080d18;border:1px solid rgba(255,255,255,.3)}
+.ipg-profile-card button{margin-top:12px;padding:11px 15px;border:0;border-radius:5px;background:linear-gradient(135deg,#ffffff,#dce5f2);color:#080d18;font-weight:900;cursor:pointer}
+.ipg-profile-detail{margin:24px 0 0;padding:25px;text-align:left;border:1px solid rgba(255,255,255,.4);border-radius:12px;background:linear-gradient(145deg,#14223a,#080d18)}
+.ipg-profile-detail h3{color:#ffffff}
+.ipg-profile-detail p{color:#c1cad8;line-height:1.7}
+.ipg-profile-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:10px;margin:18px 0}
+.ipg-profile-stat{padding:13px;background:rgba(0,0,0,.2);border:1px solid rgba(255,255,255,.15);border-radius:7px}
+.ipg-profile-stat strong{display:block;color:#ffffff;font-size:22px}
+.ipg-profile-stat span{color:#9da9ba;font-size:11px;letter-spacing:.08em}
+
+/* Ensure hidden authentication controls stay hidden on mobile browsers. */
+.ipg-header-auth button[hidden], .ipg-header-auth a[hidden], #ipg-profile-modal[hidden] { display: none !important; }
+</style>
+<style id="ipg-clean-ui">
+/* IPG CLEAN UI PASS — visual-only refinement; existing functionality preserved */
+:root{
+ --ipg-bg:#080d18;--ipg-surface:#101a2b;--ipg-surface-2:#131f33;
+ --ipg-text:#f5f7fb;--ipg-muted:#9eabc0;--ipg-gold:#d8b64d;
+ --ipg-border:rgba(185,199,220,.12);--ipg-gold-border:rgba(216,182,77,.28);
+}
+html{scroll-padding-top:100px}
+body{background:#080d18!important;color:var(--ipg-text)!important;letter-spacing:0}
+header{
+ min-height:76px;padding:12px clamp(18px,5vw,72px)!important;
+ border-bottom:1px solid var(--ipg-border)!important;
+ background:rgba(8,13,24,.94)!important;backdrop-filter:blur(18px);
+}
+.logo img{height:46px!important}
+nav{gap:clamp(12px,2vw,26px)!important}
+nav a{font-size:11px!important;letter-spacing:.09em!important;color:#c6cfdd!important}
+nav a.discord-nav{border-radius:7px!important;box-shadow:none!important}
+.hero{min-height:560px!important;padding:64px 20px!important;
+ background:radial-gradient(ellipse at 50% 15%,rgba(40,62,96,.48),transparent 55%),#080d18!important}
+.hero:before{opacity:.45}
+.hero:after{border-color:rgba(216,182,77,.09)!important}
+.hero-content{max-width:820px!important;padding:68px 22px!important}
+.hero-logo{width:104px!important;height:104px!important;margin-bottom:26px!important}
+.hero h1{font-size:clamp(2.2rem,6vw,4.5rem)!important;line-height:1.02!important;letter-spacing:-.035em!important}
+.hero-tagline{font-size:11px!important;letter-spacing:.2em!important}
+.hero-description{font-size:15px!important;color:#aeb9ca!important;line-height:1.85!important}
+.hero-button,.ipg-gold-link,.register-button,.join-tournament{
+ border-radius:7px!important;box-shadow:none!important;letter-spacing:.07em!important
+}
+.ipg-content-section{max-width:1160px!important;padding:76px 24px!important}
+.ipg-eyebrow,.public-tournaments-header>span{font-size:10px!important;letter-spacing:.2em!important}
+.ipg-content-section h2,.public-tournaments h2{letter-spacing:-.025em!important}
+.ipg-section-intro{color:var(--ipg-muted)!important;font-size:14px!important}
+.ipg-feature-grid{gap:16px!important}
+.ipg-feature-card,.ipg-ranking-panel,.ipg-market-card,.tournament-card,
+.ipg-account-panel,.registration-form,.tournament-menu,.ipg-profile-card,.ipg-profile-detail{
+ background:var(--ipg-surface)!important;
+ border:1px solid var(--ipg-border)!important;
+ border-radius:12px!important;box-shadow:none!important;
+}
+.ipg-feature-card{min-height:190px!important;padding:26px!important}
+.ipg-feature-card:hover,.ipg-market-card:hover,.tournament-card:hover{
+ transform:translateY(-2px)!important;border-color:var(--ipg-gold-border)!important;
+ box-shadow:0 12px 28px rgba(0,0,0,.16)!important
+}
+.ipg-feature-art{width:58px!important;height:58px!important;border-radius:12px!important;font-size:26px!important;margin-bottom:20px!important}
+.ipg-feature-card h3,.ipg-market-card h3{font-size:17px!important;letter-spacing:-.01em!important}
+.ipg-feature-card p,.ipg-market-card p{font-size:13px!important;color:var(--ipg-muted)!important;line-height:1.7!important}
+.public-tournaments{padding:68px clamp(18px,5vw,72px)!important;background:#0b1220!important}
+.tournament-card{padding:24px!important;margin-bottom:14px!important}
+.tournament-card h3,.tournament-card h4{font-size:18px!important}
+.registered-teams{background:#0b1423!important;border-color:var(--ipg-border)!important}
+#player-marketplace{max-width:1160px!important;padding-left:24px!important;padding-right:24px!important}
+.ipg-market-grid{gap:14px!important}
+.ipg-market-card{padding:20px!important}
+.ipg-account-panel,.registration-form{max-width:560px!important;padding:clamp(20px,4vw,32px)!important}
+.ipg-account-panel input,.ipg-market-card input,.ipg-market-card select,.ipg-market-card textarea,
+.registration-form input{
+ background:#0a1220!important;border:1px solid #29364b!important;border-radius:7px!important;
+ min-height:46px!important
+}
+.ipg-account-panel input:focus,.ipg-market-card input:focus,.ipg-market-card select:focus,
+.ipg-market-card textarea:focus,.registration-form input:focus{
+ outline:none!important;border-color:var(--ipg-gold)!important;box-shadow:0 0 0 3px rgba(216,182,77,.1)!important
+}
+.ipg-account-panel button,.ipg-market-card button,.account-type-button,.join-tournament{
+ border-radius:7px!important;transition:transform .18s ease,filter .18s ease!important
+}
+.ipg-profile-tabs{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin:26px auto}
+.ipg-profile-tabs button,[data-profile-tab]{
+ border:1px solid var(--ipg-border)!important;border-radius:7px!important;
+ background:#101a2b!important;color:#cbd4e2!important;padding:12px 18px!important;
+ font-size:11px!important;font-weight:800!important;letter-spacing:.08em!important
+}
+.ipg-profile-tabs button.active,[data-profile-tab].active{
+ color:#111722!important;background:var(--ipg-gold)!important;border-color:var(--ipg-gold)!important
+}
+.ipg-profile-grid{gap:14px!important}
+.ipg-profile-card{padding:22px!important;text-align:left!important;transition:border-color .2s ease,transform .2s ease!important}
+.ipg-profile-card:hover{border-color:var(--ipg-gold-border)!important;transform:translateY(-2px)!important}
+.ipg-profile-card img{width:68px!important;height:68px!important;object-fit:cover!important;border-radius:14px!important}
+.ipg-profile-art{width:68px!important;height:68px!important;border-radius:14px!important}
+.ipg-profile-card h3{font-size:17px!important;letter-spacing:-.02em!important}
+.ipg-profile-card p{font-size:12px!important;color:var(--ipg-muted)!important;line-height:1.6!important}
+.ipg-profile-card button{border-radius:6px!important}
+.ipg-profile-detail{padding:24px!important;margin-top:18px!important}
+.ipg-profile-stats{gap:10px!important}
+.ipg-profile-stat{background:#0b1423!important;border:1px solid var(--ipg-border)!important;border-radius:8px!important}
+.ipg-footer{border-top:1px solid var(--ipg-border)!important;background:#060a12!important}
+button,a,input,select,textarea{font-family:inherit}
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{
+ outline:2px solid var(--ipg-gold)!important;outline-offset:3px!important
+}
+@media(max-width:700px){
+ header{align-items:center!important}
+ nav{justify-content:flex-start!important;gap:9px 13px!important}
+ nav a{font-size:10px!important}
+ .hero{min-height:500px!important}
+ .hero-content{padding:52px 18px!important}
+ .ipg-content-section{padding:58px 18px!important}
+ .public-tournaments{padding:56px 16px!important}
+ .ipg-profile-card{padding:18px!important}
+}
+@media(prefers-reduced-motion:reduce){
+ html{scroll-behavior:auto!important}
+ *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+}
+</style>
+<style id="ipg-motion">
+/* IPG MOTION PASS — subtle esports motion, with reduced-motion support */
+@keyframes ipg-orbit-drift{
+  from{transform:translate(-50%,-50%) rotate(0deg)}
+  to{transform:translate(-50%,-50%) rotate(360deg)}
+}
+@keyframes ipg-hero-glow{
+  0%,100%{opacity:.28;transform:scale(.96)}
+  50%{opacity:.62;transform:scale(1.06)}
+}
+@keyframes ipg-gold-sweep{
+  0%{background-position:180% 0}
+  100%{background-position:-180% 0}
+}
+@keyframes ipg-float-in{
+  from{opacity:0;transform:translateY(16px)}
+  to{opacity:1;transform:translateY(0)}
+}
+.hero{isolation:isolate}
+.hero:after{
+  animation:ipg-orbit-drift 48s linear infinite;
+  transform-origin:center;
+}
+.hero:before{
+  animation:ipg-hero-glow 8s ease-in-out infinite;
+}
+.hero-content>*{
+  animation:ipg-float-in .8s both;
+}
+.hero-content>*:nth-child(1){animation-delay:.08s}
+.hero-content>*:nth-child(2){animation-delay:.18s}
+.hero-content>*:nth-child(3){animation-delay:.28s}
+.hero-content>*:nth-child(4){animation-delay:.38s}
+.hero-button,.ipg-gold-link,.register-button{
+  background-size:200% 100%!important;
+  animation:ipg-gold-sweep 7s ease-in-out infinite alternate;
+}
+.ipg-feature-card,.ipg-profile-card,.ipg-market-card,.tournament-card{
+  transition:transform .28s cubic-bezier(.2,.7,.2,1),border-color .28s ease,box-shadow .28s ease!important;
+}
+@media(hover:hover) and (pointer:fine){
+ .ipg-feature-card:hover,.ipg-profile-card:hover,.ipg-market-card:hover,.tournament-card:hover{
+   transform:translateY(-5px)!important;
+ }
+}
+@media(prefers-reduced-motion:reduce){
+ .hero:before,.hero:after,.hero-content>*,.hero-button,.ipg-gold-link,.register-button{
+   animation:none!important
+ }
+ .ipg-feature-card,.ipg-profile-card,.ipg-market-card,.tournament-card{
+   transition:none!important
+ }
+}
+
+/* IPG PRESTIGE SIGNATURE */
+.ipg-prestige-seal{display:flex;align-items:center;justify-content:center;gap:14px;width:max-content;max-width:100%;margin:22px auto 8px;padding:10px 18px;border-top:1px solid rgba(255,255,255,.42);border-bottom:1px solid rgba(255,255,255,.42);color:#ffffff}
+.ipg-prestige-rule{width:clamp(18px,5vw,54px);height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.8))}
+.ipg-prestige-rule:last-child{transform:rotate(180deg)}
+.ipg-prestige-icon{font-size:25px;line-height:1;text-shadow:0 0 18px rgba(255,255,255,.35)}
+.ipg-prestige-copy{display:flex;flex-direction:column;gap:3px;text-align:center}
+.ipg-prestige-copy strong{font-size:12px;letter-spacing:.32em;font-weight:900}
+.ipg-prestige-copy small{font-size:8px;letter-spacing:.16em;color:#b9a66b}
+@media(max-width:480px){.ipg-prestige-seal{gap:9px;padding:9px 10px}.ipg-prestige-copy small{font-size:7px;letter-spacing:.1em}}
+@media(prefers-reduced-motion:no-preference){.ipg-prestige-icon{animation:ipgCrownGlow 3.8s ease-in-out infinite}@keyframes ipgCrownGlow{0%,100%{filter:drop-shadow(0 0 2px rgba(255,255,255,.15));transform:translateY(0)}50%{filter:drop-shadow(0 0 9px rgba(255,255,255,.65));transform:translateY(-2px)}}}
+
+/* IPG SCROLL REVEAL — subtle premium entrance */
+.ipg-scroll-reveal{opacity:0;transform:translate3d(0,26px,0);transition:opacity .72s cubic-bezier(.2,.7,.2,1),transform .72s cubic-bezier(.2,.7,.2,1);transition-delay:var(--ipg-reveal-delay,0ms);will-change:opacity,transform}
+.ipg-scroll-reveal.ipg-in-view{opacity:1;transform:translate3d(0,0,0);will-change:auto}
+@media(prefers-reduced-motion:reduce){.ipg-scroll-reveal{opacity:1!important;transform:none!important;transition:none!important;will-change:auto}}
+</style>
+
+<style id="ipg-logo-only-profile-previews">
+/* Profile directory previews: show only the club logo or player avatar. */
+.ipg-profile-card.ipg-logo-preview{display:grid;place-items:center;min-height:154px;padding:18px;text-align:center;background:linear-gradient(145deg,#14223a,#080d18)}
+.ipg-profile-logo-button{width:112px;height:112px;display:grid;place-items:center;padding:10px;margin:0 auto;border:1px solid rgba(255,255,255,.38);border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.10),rgba(8,13,24,.96) 72%);cursor:pointer;transition:transform .22s ease,border-color .22s ease,box-shadow .22s ease}
+.ipg-profile-logo-button:hover,.ipg-profile-logo-button:focus-visible{transform:scale(1.055);border-color:#ffffff;box-shadow:0 0 24px rgba(255,255,255,.16);outline:none}
+.ipg-profile-logo-button img{width:100%;height:100%;object-fit:contain;border:0;border-radius:50%;background:transparent}
+.ipg-profile-logo-button .ipg-profile-art{display:grid;place-items:center;width:100%;height:100%;font-size:15px;font-weight:800;letter-spacing:1.5px;color:#c4ccd8}\n.ipg-profile-preview-name{margin:12px 0 0;color:#b8c1ce;font-size:14px;font-weight:700;letter-spacing:.5px;text-align:center;text-transform:uppercase}
+@media(max-width:600px){.ipg-profile-card.ipg-logo-preview{min-height:136px}.ipg-profile-logo-button{width:96px;height:96px}}
+</style>
+
+<style id="ipg-manager-style-profile-names">
+/* Manager-style profile identity: emblem first, muted silver name below. */
+.ipg-profile-card.ipg-logo-preview{gap:13px;min-height:194px;padding:20px 16px}
+.ipg-profile-preview-name{margin:0!important;color:#aeb7c5!important;font-size:13px!important;font-weight:800!important;letter-spacing:.13em;text-align:center;text-transform:uppercase;line-height:1.4;overflow-wrap:anywhere}
+@media(max-width:600px){.ipg-profile-card.ipg-logo-preview{min-height:174px;gap:11px}.ipg-profile-preview-name{font-size:12px!important}}
+</style>
+
+
+
+<style id="ipg-champions-spotlights">
+/* ARENA SPOTLIGHTS — subtle stadium atmosphere */
+body::before{
+ content:"";
+ position:fixed;
+ inset:0;
+ z-index:2;
+ pointer-events:none;
+ opacity:.72;
+ background:
+  radial-gradient(ellipse 24% 58% at -5% 34%,rgba(67,139,255,.19),transparent 72%),
+  radial-gradient(ellipse 22% 54% at 105% 30%,rgba(91,157,255,.17),transparent 72%),
+  radial-gradient(ellipse 34% 30% at 0% 100%,rgba(255,255,255,.09),transparent 74%),
+  radial-gradient(ellipse 34% 30% at 100% 100%,rgba(255,255,255,.09),transparent 74%);
+ background-repeat:no-repeat;
+ animation:ipgArenaGlow 12s ease-in-out infinite alternate;
+}
+@keyframes ipgArenaGlow{
+ 0%{opacity:.48;filter:blur(0)}
+ 100%{opacity:.82;filter:blur(2px)}
+}
+@media(max-width:700px){
+ body::before{
+  opacity:.55;
+  background:
+   radial-gradient(ellipse 34% 42% at -12% 25%,rgba(67,139,255,.16),transparent 72%),
+   radial-gradient(ellipse 34% 42% at 112% 25%,rgba(91,157,255,.15),transparent 72%),
+   radial-gradient(ellipse 45% 22% at 0% 100%,rgba(255,255,255,.07),transparent 74%),
+   radial-gradient(ellipse 45% 22% at 100% 100%,rgba(255,255,255,.07),transparent 74%);
+ }
+}
+@media(prefers-reduced-motion:reduce){
+ body::before{animation:none}
+}
+</style>
+
+<style id="ipg-champions-type-glow">
+/* Subtle stadium-light glow for IPG typography */
+.hero h1 {
+  text-shadow:
+    0 0 10px rgba(255,255,255,.22),
+    0 0 26px rgba(91,166,255,.24),
+    0 0 54px rgba(65,135,255,.16) !important;
+}
+.hero h1 span {
+  text-shadow:
+    0 0 9px rgba(244,207,111,.48),
+    0 0 24px rgba(255,255,255,.38),
+    0 0 48px rgba(255,255,255,.18) !important;
+}
+.hero-tagline {
+  text-shadow: 0 0 10px rgba(255,255,255,.42), 0 0 25px rgba(80,145,255,.2);
+}
+section h2, .section-title, .form-header h2, .tournament-menu-header h2 {
+  text-shadow: 0 0 15px rgba(89,151,255,.2), 0 0 28px rgba(255,255,255,.10);
+}
+nav a:hover, nav a:focus-visible {
+  text-shadow: 0 0 10px rgba(255,255,255,.5), 0 0 22px rgba(82,151,255,.42);
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero h1, .hero h1 span, .hero-tagline, section h2, .section-title,
+  .form-header h2, .tournament-menu-header h2 { text-shadow: none; }
+}
+</style>
+
+<style id="ipg-floating-particles">
+#ipg-particle-canvas{
+ position:fixed;inset:0;width:100%;height:100%;
+ z-index:1;pointer-events:none;opacity:.62;
+}
+@media(prefers-reduced-motion:reduce){#ipg-particle-canvas{display:none}}
+</style>
+
+
+<style id="ipg-account-choice-styles">
+.ipg-account-choices{display:flex;flex-wrap:wrap;gap:12px;margin:16px 0;align-items:center}
+.ipg-account-choices p{width:100%;margin:0 0 2px;color:#c5d0e0;font-size:12px;font-weight:800;letter-spacing:1.5px}
+.ipg-account-choices button{min-width:170px}
+</style>
+
+<style id="ipg-club-create-form-styles">
+.ipg-club-create-fields{display:grid;grid-template-columns:1fr 1fr;gap:10px 16px}
+.ipg-club-create-fields>label,.ipg-upload-field,.ipg-social-fields{grid-column:1/-1}
+.ipg-club-create-fields>label,.ipg-upload-field>label,.ipg-social-fields label{color:#e9d28c;font-size:12px;font-weight:800;letter-spacing:1.2px}
+.ipg-upload-field{margin:10px 0 18px}
+.ipg-upload-field p{color:#aebbd0;font-size:13px;margin:5px 0 10px}
+.ipg-dropzone{min-height:145px;border:1px dashed rgba(255,255,255,.65);border-radius:9px;background:linear-gradient(135deg,rgba(20,37,65,.85),rgba(8,14,27,.9));display:flex;align-items:center;justify-content:center;text-align:center;padding:18px;cursor:pointer;color:#ffffff;font-size:12px;font-weight:900;letter-spacing:1px;transition:border-color .2s,background .2s}
+.ipg-dropzone small{display:inline-block;margin-top:8px;color:#aebbd0;font-size:10px;font-weight:500;letter-spacing:0}
+.ipg-dropzone.is-dragging{border-color:#fff;background:rgba(55,105,180,.25)}
+.ipg-dropzone img{max-width:150px;max-height:120px;object-fit:contain}
+.ipg-social-fields{border-top:1px solid rgba(255,255,255,.22);padding-top:18px;margin-top:8px;display:grid;grid-template-columns:1fr 1fr;gap:8px 14px}
+.ipg-social-fields h3{grid-column:1/-1;color:#ffffff;margin:0 0 8px}
+.ipg-social-fields input{width:100%;box-sizing:border-box}
+@media(max-width:620px){.ipg-club-create-fields,.ipg-social-fields{grid-template-columns:1fr}.ipg-club-create-fields>label{margin-top:5px}}
+</style>
+
+<style id="ipg-orange-white-refresh">
+:root{--ipg-gold:#fff;--ipg-gold-light:#fff;--ipg-line:rgba(255,255,255,.22);--ipg-orange:#FE7F2D}
+header{border-bottom:1px solid rgba(254,127,45,.48)!important;box-shadow:0 5px 24px rgba(254,127,45,.08)}
+nav a:hover,.hero h1 span,.hero-tagline,.ipg-eyebrow,.public-tournaments-header>span,.form-label,.tournament-category h3,.ipg-market-card h3,.ipg-account-panel h3{color:#fff!important}
+.hero:before{inset:0;background:linear-gradient(112deg,transparent 0 19%,rgba(254,127,45,0) 19.2%,rgba(254,127,45,.9) 19.35%,rgba(254,127,45,.12) 19.55%,transparent 19.8% 79%,rgba(254,127,45,.12) 79.2%,rgba(254,127,45,.85) 79.4%,transparent 79.65%)!important;filter:drop-shadow(0 0 5px rgba(254,127,45,.9));opacity:.72}
+.hero:after{border-color:rgba(254,127,45,.3)!important;box-shadow:0 0 18px rgba(254,127,45,.12),0 0 0 42px rgba(254,127,45,.045),0 0 0 90px rgba(254,127,45,.025)!important}
+.ipg-feature-card,.ipg-ranking-panel,.ipg-market-card,.tournament-card,.ipg-account-panel,.registration-form,.ipg-club-banner{border-color:rgba(255,255,255,.2)!important}
+.ipg-feature-card:hover,.ipg-market-card:hover,.tournament-card:hover{border-color:rgba(254,127,45,.85)!important;box-shadow:0 0 22px rgba(254,127,45,.13),0 20px 48px rgba(0,0,0,.28)!important}
+.hero-button,.ipg-gold-link,.register-button,.join-tournament,.ipg-account-panel button,.ipg-account-panel .account-button,.ipg-market-card button{background:linear-gradient(120deg,#fff,#dce5f2)!important;color:#101827!important;border:1px solid #fff!important;box-shadow:0 0 16px rgba(255,255,255,.13)!important}
+.hero-button:hover,.ipg-gold-link:hover,.register-button:hover{box-shadow:0 0 22px rgba(254,127,45,.42)!important}
+input:focus,select:focus,textarea:focus,.registration-form input:focus{outline:2px solid rgba(254,127,45,.48)!important;border-color:#FE7F2D!important;box-shadow:0 0 12px rgba(254,127,45,.15)!important}
+.ipg-feature-art{border-color:rgba(254,127,45,.62)!important;color:#fff!important;box-shadow:0 0 16px rgba(254,127,45,.12)}
+.ipg-footer{border-top-color:rgba(254,127,45,.35)!important}
+.ipg-ranking-mark{color:#fff!important;text-shadow:0 0 18px rgba(73,119,174,.42)}
+.status-open{color:#fff!important}
+@media(max-width:700px){.hero:before{opacity:.42}}
+@media(prefers-reduced-motion:reduce){.hero:before{filter:none}}
+</style>
+
+<style id="ipg-champions-cta-style">
+.ipg-champions-cta{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:13px;margin:22px auto 0;padding:13px 25px;min-width:220px;color:#fff!important;text-decoration:none;font-size:11px;font-weight:900;letter-spacing:.2em;border:1px solid rgba(254,127,45,.9);background:linear-gradient(110deg,rgba(8,13,24,.96),rgba(20,31,50,.94),rgba(8,13,24,.96));clip-path:polygon(9% 0,91% 0,100% 50%,91% 100%,9% 100%,0 50%);box-shadow:0 0 12px rgba(254,127,45,.32),inset 0 0 18px rgba(254,127,45,.12);text-shadow:0 0 10px rgba(255,255,255,.35);transition:transform .22s ease,box-shadow .22s ease,background .22s ease}
+.ipg-champions-cta:before{content:"";position:absolute;inset:3px;clip-path:inherit;border:1px solid rgba(255,255,255,.22);pointer-events:none}
+.ipg-champions-cta:hover{transform:translateY(-3px);box-shadow:0 0 10px rgba(254,127,45,.8),0 0 28px rgba(254,127,45,.42),inset 0 0 22px rgba(254,127,45,.2);background:linear-gradient(110deg,#111c30,#263b5b,#111c30)}
+.ipg-champions-star{color:#FE7F2D;font-size:18px;text-shadow:0 0 12px rgba(254,127,45,.95)}
+.ipg-champions-arrow{color:#FE7F2D;font-size:17px}
+@media(prefers-reduced-motion:reduce){.ipg-champions-cta{transition:none}}
+</style>
+
+<style id="ipg-free-visual-upgrade">
+:root{--ipg-orange:#FE7F2D;--ipg-orange-soft:rgba(254,127,45,.18);--ipg-navy:#080d18}
+body{overflow-x:hidden}
+header{border-bottom-color:rgba(254,127,45,.22)!important}
+nav a:not(.discord-nav):hover{color:var(--ipg-orange)!important;text-shadow:0 0 16px rgba(254,127,45,.42)}
+.hero{isolation:isolate}
+.hero:before{background:
+ linear-gradient(115deg,transparent 0 34%,rgba(254,127,45,.13) 34.15%,transparent 34.5% 65%,rgba(255,255,255,.045) 65.2%,transparent 65.55%),
+ repeating-linear-gradient(0deg,transparent 0 54px,rgba(255,255,255,.018) 55px 56px)!important}
+.hero:after{border-color:rgba(254,127,45,.22)!important;box-shadow:0 0 28px rgba(254,127,45,.08),0 0 0 42px rgba(254,127,45,.035),0 0 0 90px rgba(255,255,255,.016)!important;animation:ipgOrbitBreath 8s ease-in-out infinite}
+.hero-content:after{content:"";position:absolute;left:50%;bottom:26px;width:min(68vw,560px);height:1px;transform:translateX(-50%);background:linear-gradient(90deg,transparent,var(--ipg-orange),#fff,var(--ipg-orange),transparent);box-shadow:0 0 12px rgba(254,127,45,.75),0 0 28px rgba(254,127,45,.28);animation:ipgLinePulse 3.6s ease-in-out infinite}
+.hero-button,.ipg-gold-link,.register-button,.join-tournament,.ipg-market-card button,.ipg-account-panel button,.ipg-account-panel .account-button{border-color:rgba(254,127,45,.75)!important;box-shadow:0 0 0 1px rgba(254,127,45,.08),0 8px 26px rgba(254,127,45,.14)!important;transition:transform .22s ease,box-shadow .22s ease,filter .22s ease!important}
+.hero-button:hover,.ipg-gold-link:hover,.register-button:hover,.join-tournament:hover,.ipg-market-card button:hover,.ipg-account-panel button:hover,.ipg-account-panel .account-button:hover{transform:translateY(-3px)!important;box-shadow:0 0 18px rgba(254,127,45,.32),0 12px 34px rgba(254,127,45,.2)!important;filter:brightness(1.04)}
+.ipg-feature-card,.ipg-market-card,.tournament-card,.ipg-profile-card,.ipg-ranking-panel,.ipg-club-banner{position:relative;isolation:isolate;overflow:hidden}
+.ipg-feature-card:before,.ipg-market-card:before,.tournament-card:before,.ipg-profile-card:before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(360px circle at var(--ipg-pointer-x,50%) var(--ipg-pointer-y,0%),rgba(254,127,45,.14),transparent 62%);opacity:0;transition:opacity .25s ease}
+.ipg-feature-card:hover:before,.ipg-market-card:hover:before,.tournament-card:hover:before,.ipg-profile-card:hover:before{opacity:1}
+.ipg-feature-card:hover,.ipg-market-card:hover,.tournament-card:hover,.ipg-profile-card:hover{border-color:rgba(73,119,174,.42)!important;box-shadow:0 18px 48px rgba(0,0,0,.3),0 0 24px rgba(254,127,45,.08)!important}
+.ipg-feature-art{border-color:rgba(254,127,45,.5)!important;color:#fff!important;box-shadow:inset 0 0 22px rgba(254,127,45,.08),0 0 20px rgba(254,127,45,.08)}
+.ipg-eyebrow,.public-tournaments-header>span,.registered-teams h4{color:var(--ipg-orange)!important}
+input:focus,select:focus,textarea:focus{border-color:var(--ipg-orange)!important;box-shadow:0 0 0 3px rgba(254,127,45,.12)!important;outline:none}
+#ipg-particle-canvas{opacity:.72}
+.ipg-orange-edge{height:1px;max-width:760px;margin:0 auto;background:linear-gradient(90deg,transparent,rgba(254,127,45,.9),rgba(255,255,255,.8),rgba(254,127,45,.9),transparent);box-shadow:0 0 14px rgba(73,119,174,.42)}
+@keyframes ipgOrbitBreath{0%,100%{transform:scale(.98);opacity:.72}50%{transform:scale(1.025);opacity:1}}
+@keyframes ipgLinePulse{0%,100%{opacity:.55;filter:brightness(.8)}50%{opacity:1;filter:brightness(1.5)}}
+@media(max-width:700px){.hero-content{padding-bottom:82px}.hero:after{width:88vw;box-shadow:0 0 0 22px rgba(254,127,45,.025),0 0 0 48px rgba(255,255,255,.012)!important}.ipg-feature-card:hover,.ipg-market-card:hover,.tournament-card:hover{transform:none}}
+@media(prefers-reduced-motion:reduce){.hero:after,.hero-content:after{animation:none!important}*,*:before,*:after{scroll-behavior:auto!important;transition-duration:.01ms!important}}
+</style>
+
+
+    <!-- IPG visual system: motorsport editorial precision, adapted from the BMW M design study -->
+    <style id="ipg-bmw-m-design-system">
+      :root {
+        --ipg-canvas: #070b14;
+        --ipg-surface: #101722;
+        --ipg-surface-raised: #172232;
+        --ipg-white: #f7f9fc;
+        --ipg-body: #c2cad5;
+        --ipg-muted: #8793a3;
+        --ipg-line: rgba(205,218,235,.18);
+        --ipg-line-strong: rgba(205,218,235,.3);
+        --ipg-orange: #FE7F2D;
+      }
+      html { scroll-behavior: smooth; }
+      body {
+        background-color: var(--ipg-canvas);
+        color: var(--ipg-white);
+        font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+      h1, h2, h3, h4, .section-title {
+        color: var(--ipg-white);
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: -.035em;
+        line-height: 1.06;
+      }
+      p, .description, .subtitle { color: var(--ipg-body); line-height: 1.6; }
+      nav a, button, .btn, input, select, textarea {
+        font-family: inherit;
+      }
+      button, .btn, a.button, input[type="submit"] {
+        border-radius: 0 !important;
+        text-transform: uppercase;
+        letter-spacing: 1.25px;
+        font-weight: 800;
+      }
+      input, select, textarea {
+        border-radius: 0 !important;
+        background: var(--ipg-surface) !important;
+        border: 1px solid var(--ipg-line) !important;
+        color: var(--ipg-white) !important;
+      }
+      input:focus, select:focus, textarea:focus {
+        outline: 1px solid var(--ipg-orange);
+        border-color: var(--ipg-orange) !important;
+      }
+      /* Editorial, sharp-edged cards; retain orange as IPG's own signature accent. */
+      .card, .profile-card, .club-card, .player-card, .tournament-card,
+      .panel, .account-panel, .feature-card {
+        border-radius: 0 !important;
+        border: 1px solid var(--ipg-line) !important;
+        box-shadow: none;
+      }
+      section { scroll-margin-top: 88px; }
+      .section-divider, .ipg-section-rule {
+        height: 3px;
+        border: 0;
+        background: linear-gradient(90deg, var(--ipg-orange), rgba(254,127,45,.16) 58%, transparent);
+      }
+      a { text-underline-offset: 4px; }
+      a:focus-visible, button:focus-visible {
+        outline: 2px solid var(--ipg-orange);
+        outline-offset: 4px;
+      }
+      @media (min-width: 1100px) {
+        section { padding-top: clamp(64px, 7vw, 96px); padding-bottom: clamp(64px, 7vw, 96px); }
+      }
+      @media (max-width: 767px) {
+        h1 { font-size: clamp(2.25rem, 10vw, 3.25rem); }
+        h2, .section-title { font-size: clamp(1.7rem, 7vw, 2.4rem); }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        html { scroll-behavior: auto; }
+      }
+    </style>
+
+
+    <style id="ipg-premium-navy-refresh">
+      :root {
+        --ipg-orange: #173f73;
+        --ipg-orange-soft: rgba(45,105,174,.16);
+        --ipg-navy: #071426;
+        --ipg-premium-blue: #24558a;
+        --ipg-premium-blue-light: #6f9bc9;
+        --ipg-premium-line: rgba(116,157,204,.28);
+      }
+      body { background-color:#050b14 !important; color:#f4f7fb; }
+      header {
+        border-bottom:1px solid rgba(105,145,190,.24) !important;
+        box-shadow:0 8px 28px rgba(0,0,0,.28) !important;
+      }
+      nav a:not(.discord-nav):hover,
+      .ipg-eyebrow,.public-tournaments-header>span,.registered-teams h4 {
+        color:#9bb9dc !important;
+        text-shadow:0 0 14px rgba(71,119,177,.22) !important;
+      }
+      .hero:before {
+        background:linear-gradient(112deg,transparent 0 19%,rgba(63,111,168,0) 19.2%,rgba(63,111,168,.55) 19.35%,rgba(63,111,168,.08) 19.55%,transparent 19.8% 79%,rgba(63,111,168,.08) 79.2%,rgba(63,111,168,.5) 79.4%,transparent 79.8%) !important;
+      }
+      .hero:after {
+        border-color:rgba(83,132,190,.28) !important;
+        box-shadow:0 0 26px rgba(44,91,148,.12),0 0 0 42px rgba(55,101,156,.035),0 0 0 90px rgba(55,101,156,.018) !important;
+      }
+      .hero-content:after {
+        background:linear-gradient(90deg,transparent,#315f91,#a9c4e3,#315f91,transparent) !important;
+        box-shadow:0 0 12px rgba(73,121,177,.28) !important;
+      }
+      .hero-button,.ipg-gold-link,.register-button,.join-tournament,
+      .ipg-market-card button,.ipg-account-panel button,.ipg-account-panel .account-button {
+        border-color:rgba(107,151,202,.62) !important;
+        box-shadow:0 0 0 1px rgba(74,119,172,.08),0 8px 24px rgba(0,0,0,.24) !important;
+      }
+      .hero-button:hover,.ipg-gold-link:hover,.register-button:hover,
+      .join-tournament:hover,.ipg-market-card button:hover,
+      .ipg-account-panel button:hover,.ipg-account-panel .account-button:hover {
+        box-shadow:0 0 22px rgba(66,113,169,.24),0 14px 32px rgba(0,0,0,.3) !important;
+      }
+      .ipg-feature-card:hover,.ipg-market-card:hover,.tournament-card:hover,.ipg-profile-card:hover {
+        border-color:rgba(105,151,202,.58) !important;
+        box-shadow:0 18px 48px rgba(0,0,0,.34),0 0 22px rgba(51,100,157,.10) !important;
+      }
+      .ipg-feature-art {
+        border-color:rgba(105,151,202,.48) !important;
+        box-shadow:inset 0 0 22px rgba(51,100,157,.07),0 0 18px rgba(51,100,157,.08) !important;
+      }
+      input:focus,select:focus,textarea:focus,.registration-form input:focus {
+        border-color:#6f9bc9 !important;
+        box-shadow:0 0 0 3px rgba(77,124,179,.14) !important;
+        outline:none;
+      }
+      .ipg-orange-edge {
+        background:linear-gradient(90deg,transparent,rgba(89,133,184,.72),rgba(210,225,243,.65),rgba(89,133,184,.72),transparent) !important;
+        box-shadow:0 0 12px rgba(67,112,166,.25) !important;
+      }
+      .ipg-champions-cta {
+        border-color:rgba(110,153,202,.65) !important;
+        box-shadow:0 0 18px rgba(47,91,145,.16),inset 0 0 16px rgba(47,91,145,.08) !important;
+        background:linear-gradient(110deg,#091629,#142b49,#091629) !important;
+      }
+      .ipg-champions-cta:hover {
+        box-shadow:0 0 24px rgba(76,124,181,.3),inset 0 0 20px rgba(76,124,181,.12) !important;
+      }
+      .ipg-champions-star,.ipg-champions-arrow {
+        color:#a8c3e2 !important;
+        text-shadow:0 0 12px rgba(87,133,186,.4) !important;
+      }
+      .ipg-footer { border-top-color:rgba(105,145,190,.24) !important; }
+      a:focus-visible,button:focus-visible { outline-color:#8fb2d9 !important; }
+      @media(prefers-reduced-motion:reduce) {
+        .hero:after { animation:none !important; }
+      }
+    </style>
+
+
+<style id="ipg-arena-pitch-and-hero-type">
+/* IPG stadium atmosphere: subtle pitch geometry and premium typography. */
+.hero{
+  background:
+    radial-gradient(ellipse 31% 48% at 3% 8%,rgba(116,169,225,.19),transparent 74%),
+    radial-gradient(ellipse 31% 48% at 97% 8%,rgba(116,169,225,.17),transparent 74%),
+    linear-gradient(180deg,rgba(5,13,26,.18),rgba(4,10,20,.72)),
+    radial-gradient(circle at 50% 52%,transparent 0 10.7%,rgba(144,180,221,.12) 10.85% 11.05%,transparent 11.2%),
+    linear-gradient(90deg,transparent calc(50% - .7px),rgba(144,180,221,.10) 50%,transparent calc(50% + .7px)),
+    linear-gradient(0deg,transparent calc(50% - .7px),rgba(144,180,221,.07) 50%,transparent calc(50% + .7px)),
+    linear-gradient(90deg,transparent 8%,rgba(144,180,221,.075) 8.1%,transparent 8.25% 91.75%,rgba(144,180,221,.075) 91.9%,transparent 92%),
+    linear-gradient(180deg,#0b1b31 0%,#071426 56%,#050c18 100%) !important;
+  background-size:100% 100%;
+}
+.hero-content{
+  width:min(1120px,100%);
+  max-width:1120px;
+  padding:clamp(34px,6vw,76px) 24px !important;
+}
+.hero h1{
+  max-width:1100px;
+  margin:0 auto 24px !important;
+  font-size:clamp(42px,7.4vw,92px) !important;
+  line-height:1.08 !important;
+  letter-spacing:clamp(.09em,1.15vw,.19em) !important;
+  text-indent:clamp(.09em,1.15vw,.19em);
+}
+.hero h1 span{
+  letter-spacing:clamp(.055em,.8vw,.14em) !important;
+}
+.hero-tagline{
+  letter-spacing:clamp(.16em,.75vw,.27em) !important;
+  line-height:1.9;
+  margin-top:26px !important;
+}
+.hero-description{
+  max-width:660px;
+  margin:22px auto 0 !important;
+  line-height:1.9 !important;
+  letter-spacing:.075em;
+}
+@media(max-width:640px){
+  .hero h1{font-size:clamp(30px,8.2vw,52px) !important;letter-spacing:.075em !important;text-indent:.075em}
+  .hero h1 span{letter-spacing:.045em !important}
+  .hero-tagline{letter-spacing:.12em !important;font-size:11px}
+  .hero-content{padding:42px 16px !important}
+}
+@media(prefers-reduced-motion:reduce){
+  .hero{background-attachment:scroll}
+}
+</style>
+
+
+<style id="ipg-championship-experience">
+:root{--ipg-ice:#9fc5ed;--ipg-line:rgba(143,183,226,.22);--ipg-surface:#0a192c}
+html{scroll-behavior:smooth;scroll-padding-top:92px}
+body{background-image:radial-gradient(ellipse at 50% 0%,rgba(35,75,122,.13),transparent 48%)}
+.hero{isolation:isolate}
+.hero:before{animation:ipgHeroSweep 16s ease-in-out infinite alternate}
+@keyframes ipgHeroSweep{0%{opacity:.48;transform:translateX(-.7%)}100%{opacity:.9;transform:translateX(.7%)}}
+.hero h1,.hero-tagline{animation:ipgTitleEnter .95s cubic-bezier(.2,.75,.2,1) both}
+.hero-tagline{animation-delay:.12s}
+@keyframes ipgTitleEnter{from{opacity:0;transform:translateY(18px);filter:blur(5px)}to{opacity:1;transform:translateY(0);filter:blur(0)}}
+.ipg-tournament-spotlight{position:relative;isolation:isolate;overflow:hidden;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(260px,.95fr);gap:30px;align-items:center;max-width:1240px;margin:72px auto 34px;padding:clamp(28px,5vw,62px);border:1px solid var(--ipg-line);background:linear-gradient(112deg,rgba(12,31,54,.98),rgba(5,13,25,.97));}
+.ipg-tournament-spotlight:before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(115deg,transparent 35%,rgba(112,161,218,.09),transparent 68%);pointer-events:none}
+.ipg-spotlight-copy{position:relative;z-index:1}.ipg-spotlight-kicker{margin:18px 0 10px;color:#8eafd4;font-size:10px;font-weight:900;letter-spacing:.24em}
+.ipg-spotlight-copy h2{margin:0;color:#fff;font-size:clamp(30px,4.5vw,58px);line-height:1.04;letter-spacing:.075em}
+.ipg-spotlight-copy>p:not(.ipg-spotlight-kicker){max-width:520px;color:#b9c8db;line-height:1.8}
+.ipg-spotlight-meta{display:flex;flex-wrap:wrap;gap:10px;margin:22px 0}.ipg-spotlight-meta span{padding:8px 11px;border:1px solid var(--ipg-line);color:#c5d9f0;font-size:10px;font-weight:800;letter-spacing:.13em}
+.ipg-spotlight-link{display:inline-flex;gap:18px;align-items:center;color:#fff;text-decoration:none;font-size:11px;font-weight:900;letter-spacing:.16em;border-bottom:1px solid #8eafd4;padding:12px 0}
+.ipg-spotlight-link span{color:var(--ipg-ice);font-size:18px}
+.ipg-spotlight-visual{position:relative;min-height:245px;display:grid;place-items:center;overflow:hidden;background:radial-gradient(ellipse at center,rgba(71,124,184,.2),transparent 66%)}
+.ipg-spotlight-pitch{position:relative;width:min(100%,390px);aspect-ratio:1.48;border:1px solid rgba(155,190,228,.38);background:linear-gradient(90deg,transparent 49.8%,rgba(155,190,228,.28) 50%,transparent 50.2%);box-shadow:0 0 50px rgba(55,110,173,.13),inset 0 0 35px rgba(55,110,173,.08)}
+.ipg-spotlight-pitch:before{content:"";position:absolute;inset:0 50%;border:1px solid rgba(155,190,228,.28);border-radius:50%;transform:translateX(-50%)}
+.ipg-spotlight-pitch:after{content:"";position:absolute;left:50%;top:50%;width:9px;height:9px;border-radius:50%;background:#c9e2ff;box-shadow:0 0 18px 5px rgba(133,185,240,.5);transform:translate(-50%,-50%)}
+.ipg-spotlight-pitch i,.ipg-spotlight-pitch b{position:absolute;top:25%;height:50%;width:13%;border:1px solid rgba(155,190,228,.26)}
+.ipg-spotlight-pitch i{left:0;border-left:0}.ipg-spotlight-pitch b{right:0;border-right:0}
+.ipg-spotlight-pitch em{position:absolute;left:50%;top:50%;width:2px;height:2px;border-radius:50%;box-shadow:0 0 0 75px rgba(155,190,228,.025);transform:translate(-50%,-50%)}
+.ipg-spotlight-orbit{position:absolute;bottom:5px;right:5px;color:rgba(177,205,237,.48);font-size:9px;letter-spacing:.25em}
+.public-tournaments{padding-top:34px}
+.ipg-rankings-section .ipg-ranking-panel{padding:0;overflow:hidden;border:1px solid var(--ipg-line);background:linear-gradient(145deg,rgba(12,29,50,.96),rgba(5,13,24,.98))}
+.ipg-ranking-heading{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding:20px 22px;border-bottom:1px solid var(--ipg-line)}
+.ipg-ranking-heading span{color:#fff;font-size:12px;font-weight:900;letter-spacing:.2em}.ipg-ranking-heading small{color:#8ea9c8;font-size:9px;font-weight:800;letter-spacing:.13em}
+.ipg-ranking-table-wrap{width:100%;overflow-x:auto}.ipg-ranking-table{width:100%;border-collapse:collapse;min-width:560px;text-align:left}
+.ipg-ranking-table th{padding:15px 18px;color:#8eafd4;font-size:9px;letter-spacing:.16em;font-weight:900;border-bottom:1px solid var(--ipg-line)}
+.ipg-ranking-table td{padding:17px 18px;color:#dce7f4;font-size:12px;border-bottom:1px solid rgba(143,183,226,.09)}
+.ipg-ranking-table tbody tr:first-child td:first-child{color:#c5e0ff;font-weight:900}.ipg-ranking-table tbody tr:hover{background:rgba(93,145,203,.08)}
+.ipg-ranking-note{padding:0 22px 18px;color:#8298b3;font-size:10px;line-height:1.6}
+.ipg-championship-close{position:relative;overflow:hidden;margin:70px 0 0;padding:clamp(55px,9vw,112px) 20px;text-align:center;border-top:1px solid var(--ipg-line);background:radial-gradient(ellipse at 50% 100%,rgba(46,91,145,.23),transparent 62%),linear-gradient(180deg,#071426,#050b14)}
+.ipg-championship-close>span{color:#8eafd4;font-size:10px;font-weight:900;letter-spacing:.28em}
+.ipg-championship-close h2{margin:20px 0;color:#fff;font-size:clamp(36px,7vw,82px);line-height:1.02;letter-spacing:.12em}
+.ipg-championship-close h2 strong{color:#a8c9ed;font-weight:900}.ipg-championship-close p{color:#d9e7f8;font-size:11px;font-weight:900;letter-spacing:.35em}
+.ipg-footer{border-top:1px solid var(--ipg-line)}
+.tournament-card,.ipg-profile-card,.ipg-feature-card,.ipg-market-card{transition:transform .28s ease,border-color .28s ease,box-shadow .28s ease}
+@media(max-width:760px){.ipg-tournament-spotlight{grid-template-columns:1fr;margin:42px 14px 22px;padding:25px 20px}.ipg-spotlight-visual{min-height:170px}.ipg-ranking-heading{align-items:flex-start}.ipg-championship-close{margin-top:45px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.hero:before,.hero h1,.hero-tagline{animation:none!important}.hero h1,.hero-tagline{opacity:1;transform:none;filter:none}}
+</style>
+
+
+<style id="ipg-header-auth-actions">
+header{gap:22px}
+.ipg-header-auth{display:flex;align-items:center;gap:9px;flex-shrink:0}
+.ipg-header-auth button,.ipg-header-auth a{min-height:40px;padding:0 15px;border-radius:5px;font-size:11px;font-weight:900;letter-spacing:.1em;cursor:pointer;transition:transform .2s ease,background .2s ease,border-color .2s ease;display:inline-flex;align-items:center;justify-content:center;text-decoration:none;box-sizing:border-box}
+.ipg-header-auth [hidden]{display:none!important}
+.ipg-header-dashboard{color:#d6deea;background:transparent;border:1px solid rgba(174,187,205,.48)}
+.ipg-header-dashboard:hover{border-color:#fff;color:#fff}
+.ipg-header-login{color:#d6deea;background:transparent;border:1px solid rgba(174,187,205,.48)}
+.ipg-header-login:hover{border-color:#fff;color:#fff}
+.ipg-header-signup{color:#10131a;background:linear-gradient(135deg,#fff,#dce5f2);border:1px solid #fff}
+.ipg-header-auth button:hover,.ipg-header-auth a:hover{transform:translateY(-1px)}
+@media(max-width:900px){header{gap:12px}.ipg-header-auth{margin-left:auto}}
+@media(max-width:700px){.ipg-header-auth{width:100%;justify-content:flex-end}.ipg-header-auth button,.ipg-header-auth a{min-height:38px}header{align-items:center}}
+</style>
+
+
+<style id="ipg-center-homepage-title">
+.hero-content{width:100%!important;max-width:1120px!important;margin-left:auto!important;margin-right:auto!important;text-align:center!important}
+.hero h1{display:block!important;width:100%!important;max-width:100%!important;margin-left:auto!important;margin-right:auto!important;text-align:center!important;text-indent:0!important;letter-spacing:clamp(.035em,.55vw,.09em)!important}
+.hero h1 span{display:block!important;text-align:center!important;letter-spacing:clamp(.025em,.4vw,.065em)!important}
+@media(max-width:640px){.hero h1{letter-spacing:.025em!important}.hero h1 span{letter-spacing:.015em!important}}
+</style>
+
+
+<style id="ipg-profile-modal-styles">
+.ipg-header-avatar{width:42px;height:42px;border-radius:50%;border:1px solid rgba(177,205,237,.8);background:linear-gradient(145deg,#18385e,#071426);color:#fff;font-weight:900;cursor:pointer;display:grid;place-items:center}.ipg-header-avatar[hidden]{display:none}
+.ipg-profile-modal{position:fixed;inset:0;z-index:10000;display:grid;place-items:center;padding:18px}.ipg-profile-modal[hidden]{display:none}.ipg-profile-backdrop{position:absolute;inset:0;background:rgba(1,6,13,.84);backdrop-filter:blur(8px)}
+.ipg-profile-dialog{position:relative;width:min(760px,100%);max-height:88vh;overflow:auto;padding:clamp(22px,4vw,38px);border:1px solid rgba(143,183,226,.28);background:linear-gradient(145deg,#0c1d32,#050d18);color:#eef5ff;box-shadow:0 25px 90px rgba(0,0,0,.55)}
+.ipg-profile-dialog h2{margin:10px 0 8px;font-size:clamp(24px,4vw,36px);letter-spacing:.1em}.ipg-profile-close{position:absolute;right:16px;top:12px;border:0;background:transparent;color:#fff;font-size:32px;cursor:pointer}.ipg-profile-summary{color:#9fb5d0;font-size:13px;margin-bottom:22px}
+#ipg-profile-form-slot .ipg-market-card{display:block!important;width:100%;padding:0;border:0;background:transparent;box-shadow:none}#ipg-profile-form-slot form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 14px}
+#ipg-profile-form-slot form label{grid-column:1/-1;color:#b9cce2;font-size:10px;font-weight:800;letter-spacing:.12em;text-transform:uppercase}#ipg-profile-form-slot form input,#ipg-profile-form-slot form select,#ipg-profile-form-slot form textarea{grid-column:1/-1;width:100%;min-width:0;background:#071426;color:#fff;border:1px solid rgba(143,183,226,.25);padding:12px}
+#ipg-profile-form-slot form button{grid-column:1/-1;padding:14px;background:#dce8f7;color:#071426;border:0;font-weight:900;letter-spacing:.1em;cursor:pointer}.ipg-profile-signout{margin-top:24px;padding:11px 16px;border:1px solid rgba(174,187,205,.45);background:transparent;color:#fff;font-weight:800;cursor:pointer}
+@media(max-width:600px){.ipg-profile-dialog{max-height:92vh}#ipg-profile-form-slot form{grid-template-columns:1fr}}
+</style>
+
+
+<style id="ipg-join-page-layout">
+body{visibility:hidden!important}
+body > :not(#register):not(script):not(style){display:none!important}
+body > #register{display:block!important;visibility:visible!important;min-height:100vh;padding:70px 20px!important}
+#register[hidden]{display:block!important}
+#register .ipg-account-panel,#register .registration-form{display:block}
+#register .registration-form[hidden],#register [hidden]{display:none!important}
+</style>
+</head>
+
+<body>
+<canvas id="ipg-particle-canvas" aria-hidden="true"></canvas>
+
+
+<header>
+    <div class="logo">
+        <a href="index.html">
+            <img src="ipg-logo.png" alt="IPG Logo">
+        </a>
+    </div>
+
+    <nav>
+        <a href="#home">HOME</a>
+        <a href="club-dashboard.html" id="clubDashboardNavLink" hidden>CLUB DASHBOARD</a>
+     <a href="#" id="tournamentMenuButton">TOURNAMENTS</a>
+        <a href="#rankings">RANKINGS</a>
+        <a href="#player-marketplace" id="headerProfileButton">PROFILE</a>
+        <a class="discord-nav" href="https://discord.gg/PNYkEztN5K" target="_blank" rel="noopener noreferrer">JOIN DISCORD ↗</a>
+    </nav>
+    <!-- Authentication controls intentionally omitted from the public header. -->
+</header>
+
+<div id="ipg-profile-modal" class="ipg-profile-modal" hidden aria-hidden="true"><div class="ipg-profile-backdrop" data-profile-close></div><section class="ipg-profile-dialog" role="dialog" aria-modal="true" aria-labelledby="ipg-profile-title"><button type="button" class="ipg-profile-close" data-profile-close aria-label="Close profile">×</button><span class="ipg-eyebrow">IPG PLAYER NETWORK</span><h2 id="ipg-profile-title">MY PLAYER PROFILE</h2><p id="ipg-profile-summary" class="ipg-profile-summary">Loading your profile…</p><div id="ipg-profile-form-slot"></div><button type="button" id="ipg-profile-signout" class="ipg-profile-signout">SIGN OUT</button></section></div>
+
+<div id="tournamentMenu" class="tournament-menu">
+
+    <div class="tournament-menu-header">
+        <span>IPG COMPETITION HUB</span>
+        <h2>TOURNAMENTS</h2>
+        <p>Find your next competition.</p>
+    </div>
+
+    <div class="tournament-category">
+        <h3>ACTIVE TOURNAMENTS</h3>
+
+        <div class="tournament-card">
+            <span class="status-live">● LIVE</span>
+            <h4>No active tournaments yet</h4>
+            <p>Active competitions will appear here.</p>
+        </div>
+    </div>
+    <div class="tournament-category">
+        <h3>OPEN FOR REGISTRATION</h3>
+
+        <div class="tournament-card">
+            <span class="status-open">REGISTRATION OPEN</span>
+            <h4>Upcoming IPG Tournament</h4>
+            <p>Get your club ready for the next competition.</p>
+
+            <button type="button" class="join-tournament">
+                JOIN TOURNAMENT →
+            </button>
+        </div>
+     </div>
+ </div>
+<section class="hero" id="home">
+
+    <div class="hero-content">
+
+
+        <h1>
+            INTERNATIONAL<br>
+            <span>PROFESSIONAL GAMING</span>
+        </h1>
+
+        <div class="hero-line"></div>
+        <a class="ipg-champions-cta" href="#tournaments"><span class="ipg-champions-star" aria-hidden="true">✦</span><span>ENTER THE ARENA</span><span class="ipg-champions-arrow" aria-hidden="true">↗</span></a>
+
+        <p class="hero-tagline">
+            COMPETE. DOMINATE. BECOME LEGENDS.
+        </p>
+
+        <div class="ipg-prestige-seal" aria-label="IPG Prestige — earned, never given">
+            <span class="ipg-prestige-rule"></span>
+            <span class="ipg-prestige-icon" aria-hidden="true">IPG</span>
+            <span class="ipg-prestige-copy">
+                <strong>PRESTIGE</strong>
+                <small>IPG ESPORTS · EARNED, NEVER GIVEN</small>
+            </span>
+            <span class="ipg-prestige-rule"></span>
+        </div>
+
+        <p class="hero-description">
+            Welcome to the next generation of competitive gaming.
+            COMPETE. DOMINATE. BECOME REMEMBERED.
+        </p>
+
+        <a href="#tournaments" class="hero-button">
+            EXPLORE TOURNAMENTS <span>→</span>
+        </a>
+
+    </div>
+
+    <div class="hero-background-glow"></div>
+</section>
+    <section class="ipg-tournament-spotlight" id="tournamentSpotlight" aria-live="polite">
+  <div class="ipg-spotlight-copy">
+    <span class="ipg-eyebrow">THE NEXT CHAPTER STARTS HERE</span>
+    <p class="ipg-spotlight-kicker">IPG FEATURED COMPETITION</p>
+    <h2 id="spotlightTitle">THE ARENA IS WAITING</h2>
+    <p id="spotlightDescription">The next competition will take the spotlight here. Prepare your club.</p>
+    <div class="ipg-spotlight-meta"><span id="spotlightStatus">TOURNAMENT HUB</span><span id="spotlightGame">EA SPORTS FC</span></div>
+    <a href="#tournaments" class="ipg-spotlight-link">EXPLORE COMPETITIONS <span>↗</span></a>
+  </div>
+  <div class="ipg-spotlight-visual" aria-hidden="true"><div class="ipg-spotlight-pitch"><i></i><b></b><em></em></div><span class="ipg-spotlight-orbit">IPG · COMPETE · DOMINATE</span></div>
+</section>
+
+<section class="public-tournaments" id="tournaments">
+
+    <div class="public-tournaments-header">
+        <span>IPG COMPETITION HUB</span>
+        <h2>ACTIVE TOURNAMENTS</h2>
+        <p>Follow the competitions. Challenge the best.</p>
+    </div>
+
+    <div id="activeTournamentList">
+        <p>No active tournaments yet.</p>
+    </div>
+
+    <div class="public-tournaments-header">
+        <h2>OPEN FOR REGISTRATION</h2>
+    </div>
+
+    <div id="openTournamentList">
+        <p>No tournaments open for registration.</p>
+    </div>
+
+</section>
+</section>
+
+
+
+<section class="ipg-content-section ipg-rankings-section" id="rankings">
+    <span class="ipg-eyebrow">EARN YOUR PLACE</span>
+    <h2>GLOBAL RANKINGS</h2>
+    <p class="ipg-section-intro">Every match is an opportunity to climb. Track the clubs building their record across IPG competitions.</p>
+    <div class="ipg-ranking-panel">
+      <div class="ipg-ranking-heading"><span>CLUB PERFORMANCE</span><small>LIVE CLUB PROFILE DATA · SORTED BY WIN RATE</small></div>
+      <div class="ipg-ranking-table-wrap">
+        <table class="ipg-ranking-table">
+          <thead><tr><th>RANK</th><th>CLUB</th><th>MATCHES</th><th>WINS</th><th>WIN RATE</th></tr></thead>
+          <tbody id="ipgRankingRows"><tr><td colspan="5">Loading club performance…</td></tr></tbody>
+        </table>
+      </div>
+      <p class="ipg-ranking-note">Performance index is calculated from published club profile statistics. It is not an official tournament-points ranking.</p>
+    </div>
+</section>
+
+<section id="profiles" class="ipg-content-section">
+ <span class="ipg-eyebrow">THE IPG COMMUNITY</span><h2>CLUB PROFILES</h2>
+ <p class="ipg-section-intro">Discover approved clubs and follow their results across IPG competitions.</p>
+ <div id="clubProfiles" class="ipg-profile-grid"><p>Loading approved clubs...</p></div>
+ <div id="profileDetail" class="ipg-profile-detail" hidden aria-live="polite"></div>
+</section>
+
+<section class="section" id="register">
+    
+    
+
+    <div class="ipg-account-panel" id="clubAccountPanel">
+        <p id="accountStatus" hidden></p>
+        <div id="magicLinkForm" hidden aria-hidden="true">
+            <h3>2. EMAIL LOGIN</h3>
+            <input id="accountEmail" type="email" placeholder="Your email address" autocomplete="email" required>
+            <button type="button" id="sendMagicLink">EMAIL ME A LOGIN CODE →</button>
+            <p class="account-muted">We will email you an eight-digit, one-time login code.</p>
+        </div>
+        <div id="emailOtpForm" hidden>
+            <input id="emailOtpCode" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="8" placeholder="Enter your 8-digit code">
+            <button type="button" id="verifyEmailOtp">VERIFY CODE →</button>
+            <button type="button" id="resendEmailOtp" style="margin-left:8px">SEND NEW CODE</button>
+            <p class="account-muted">Enter the code sent to <span id="otpEmailLabel"></span>.</p>
+        </div>
+        <div id="clubAccountDashboard" hidden>
+            <p id="clubAccountDetails"></p>
+            <button type="button" id="editClubProfileButton" hidden>EDIT CLUB PROFILE</button>
+            <button type="button" id="signOutButton">SIGN OUT</button>
+        </div>
+    </div>
+
+    <form id="clubForm" class="registration-form" hidden>
+        <div class="form-header">
+            <span class="form-label">IPG OFFICIAL REGISTRATION</span>
+            <h2 id="clubFormHeading">REGISTER YOUR CLUB</h2>
+            <p>Your verified email will be used as the club contact email.</p>
+        </div>
+        <div class="form-fields ipg-club-create-fields">
+            <label for="clubNameInput">TEAM NAME</label>
+            <input id="clubNameInput" name="club_name" placeholder="Enter your team name" required maxlength="70">
+            <label for="clubCountryInput">COUNTRY</label>
+            <input id="clubCountryInput" name="country" placeholder="Country" required>
+            <label for="clubCaptainInput">CAPTAIN NAME</label>
+            <input id="clubCaptainInput" name="captain_name" placeholder="Captain name" required>
+            <label for="clubDiscordInput">CAPTAIN DISCORD</label>
+            <input id="clubDiscordInput" name="captain_discord" placeholder="Captain Discord username" required>
+            <input name="logo_url" type="hidden">
+            <div class="ipg-upload-field">
+                <label>TEAM LOGO</label>
+                <p>Drop your team's main logo here or choose a file.</p>
+                <label class="ipg-dropzone" id="teamLogoDrop" for="teamLogoFile">
+                    <img id="teamLogoPreview" alt="Team logo preview" hidden>
+                    <span id="teamLogoPrompt">DROP TEAM LOGO HERE<br><small>PNG, JPG, WEBP or SVG · max 5 MB</small></span>
+                </label>
+                <input id="teamLogoFile" type="file" accept="image/png,image/jpeg,image/webp,image/svg+xml" hidden>
+            </div>
+            <div class="ipg-upload-field">
+                <label>PRESTIGE LOGO</label>
+                <p>Upload a special prestige badge for your team.</p>
+                <label class="ipg-dropzone" id="prestigeLogoDrop" for="prestigeLogoFile">
+                    <img id="prestigeLogoPreview" alt="Prestige logo preview" hidden>
+                    <span id="prestigeLogoPrompt">DROP PRESTIGE LOGO HERE<br><small>PNG, JPG, WEBP or SVG · max 5 MB</small></span>
+                </label>
+                <input id="prestigeLogoFile" type="file" accept="image/png,image/jpeg,image/webp,image/svg+xml" hidden>
+            </div>
+            <div class="ipg-social-fields">
+                <h3>TEAM SOCIAL LINKS</h3>
+                <label for="clubTiktok">TIKTOK</label><input id="clubTiktok" name="social_tiktok" type="url" placeholder="https://www.tiktok.com/@yourteam">
+                <label for="clubInstagram">INSTAGRAM</label><input id="clubInstagram" name="social_instagram" type="url" placeholder="https://www.instagram.com/yourteam">
+                <label for="clubX">X</label><input id="clubX" name="social_x" type="url" placeholder="https://x.com/yourteam">
+                <label for="clubDiscordServer">DISCORD SERVER</label><input id="clubDiscordServer" name="social_discord" type="url" placeholder="https://discord.gg/yourserver">
+            </div>
+        </div>
+        <button class="register-button" type="submit" id="clubFormSubmit">SUBMIT CLUB REGISTRATION →</button>
+        <button type="button" id="cancelClubEdit" hidden>CANCEL</button>
+        <p id="formMessage" class="form-message"></p>
+    </form>
+</section>
+
+
+
+<style id="ipg-hide-player-account-card">
+#player-marketplace .ipg-market-grid > .ipg-market-card:first-child { display: none !important; }
+</style>
+<section id="player-marketplace">
+ <span class="ipg-eyebrow">IPG PLAYER NETWORK</span>
+ 
+ <p class="ipg-section-intro">Create your player profile and connect with clubs.</p>
+ <div class="ipg-market-grid">
+  <div class="ipg-market-card">
+   <h3>PLAYER ACCOUNT</h3>
+   <p id="playerAuthStatus">Sign in or create an account to manage your player profile.</p>
+   <form id="playerProfileForm">
+    <label>Player name</label><input name="display_name" required maxlength="70">
+    <label>Country</label><input name="country" required maxlength="60">
+    <label>Primary position</label><select name="primary_position"><option>GK</option><option>CB</option><option>LB</option><option>RB</option><option>CDM</option><option>CM</option><option>CAM</option><option>LM</option><option>RM</option><option>LW</option><option>RW</option><option>ST</option></select>
+    <label>Secondary position</label><input name="secondary_position" maxlength="20" placeholder="Optional">
+    <label>Shirt number</label><input name="shirt_number" type="number" min="1" max="99">
+    <label>Preferred foot</label><select name="preferred_foot"><option>Right</option><option>Left</option><option>Either</option></select>
+    <label>Play style</label><input name="play_style" maxlength="100">
+    <label>Experience</label><input name="experience" maxlength="120" placeholder="Seasons, level or role">
+    <label>Former clubs</label><input name="former_clubs" placeholder="Separate clubs with commas">
+    <label>Achievements</label><textarea name="achievements" rows="2" maxlength="1000"></textarea>
+    <label>Player bio</label><textarea name="bio" rows="3" maxlength="1200"></textarea>
+    <label>Profile image URL (optional — default image used if empty)</label><input name="avatar_url" type="url">
+    <label>Availability</label><select name="availability"><option value="free_agent">Free Agent — visible to clubs</option><option value="not_listed">Not listed publicly</option></select>
+    <button type="submit">SAVE PLAYER PROFILE</button>
+   </form>
+   <p class="ipg-market-muted" id="playerProfileMessage" aria-live="polite"></p>
+  </div>
+   </div>
+
+</section>
+\n<section class="ipg-championship-close" aria-label="IPG championship statement">
+  <span>BUILT FOR THE COMPETITIVE</span>
+  <h2>YOUR LEGACY<br><strong>STARTS HERE.</strong></h2>
+  <p>EARNED, NEVER GIVEN.</p>
+</section>
+<footer class="ipg-footer">
+    © 2026 INTERNATIONAL PROFESSIONAL GAMING<br>
+    COMPETE. DOMINATE. BECOME LEGENDS.<br>
+    <a href="https://discord.gg/PNYkEztN5K" target="_blank" rel="noopener noreferrer" style="display:inline-block;margin-top:12px;color:#ffffff;text-decoration:none;font-weight:800;letter-spacing:1.5px;">JOIN THE IPG DISCORD ↗</a>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+const SUPABASE_URL = "https://anndmcqwvfjbnhsehrom.supabase.co";
+const SUPABASE_KEY = "sb_publishable_4OwZ-opv95mMay8hW-5yMA_gmWhMLDC";
+
+const supabaseClient = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY,
+    { auth: { storageKey: "ipg-auth-token", persistSession: true, autoRefreshToken: true, detectSessionInUrl: true } }
+);
+
+// LOAD PUBLIC TOURNAMENTS
+async function loadPublicTournaments() {
+    const activeContainer = document.getElementById("activeTournamentList");
+    const openContainer = document.getElementById("openTournamentList");
+
+    if (!activeContainer || !openContainer) return;
+
+    activeContainer.textContent = "Loading tournaments...";
+    openContainer.textContent = "Loading tournaments...";
+
+    const { data, error } = await supabaseClient
+        .from("tournaments")
+        .select("*")
+        .in("status", ["live", "registration_open"])
+        .order("created_at", { ascending: false });
+
+    if (error) {
+        activeContainer.textContent = "Could not load tournaments.";
+        openContainer.textContent = "Could not load tournaments.";
+        console.error(error);
+        return;
+    }
+
+    const spotlight = data.find(t => t.status === "live") || data.find(t => t.status === "registration_open");
+    const spotlightTitle = document.getElementById("spotlightTitle");
+    const spotlightDescription = document.getElementById("spotlightDescription");
+    const spotlightStatus = document.getElementById("spotlightStatus");
+    const spotlightGame = document.getElementById("spotlightGame");
+    if (spotlightTitle && spotlightDescription && spotlightStatus && spotlightGame) {
+        spotlightTitle.textContent = spotlight ? spotlight.name : "THE ARENA IS WAITING";
+        spotlightDescription.textContent = spotlight
+            ? (spotlight.description || "A new IPG competition is ready. Explore the details and prepare your club.")
+            : "The next competition will take the spotlight here. Prepare your club.";
+        spotlightStatus.textContent = spotlight ? (spotlight.status === "live" ? "● LIVE NOW" : "REGISTRATION OPEN") : "TOURNAMENT HUB";
+        spotlightGame.textContent = spotlight ? (spotlight.game || "EA SPORTS FC") : "EA SPORTS FC";
+    }
+
+    const tournamentIds = data.map(t => t.id);
+    const { data: registeredTeams, error: teamsError } = tournamentIds.length
+        ? await supabaseClient.rpc("get_public_tournament_teams", { p_tournament_ids: tournamentIds })
+        : { data: [], error: null };
+
+    if (teamsError) {
+        console.error("Could not load public registered teams:", teamsError);
+    }
+    const teamsByTournament = new Map();
+    (registeredTeams || []).forEach(row => {
+        if (!teamsByTournament.has(row.tournament_id)) teamsByTournament.set(row.tournament_id, []);
+        teamsByTournament.get(row.tournament_id).push(row.club_name);
+    });
+
+    renderPublicTournamentCards(
+        data.filter(t => t.status === "live"),
+        activeContainer,
+        "No active tournaments yet.",
+        teamsByTournament
+    );
+
+    renderPublicTournamentCards(
+        data.filter(t => t.status === "registration_open"),
+        openContainer,
+        "No tournaments open for registration.",
+        teamsByTournament
+    );
+}
+
+// RENDER TOURNAMENTS
+let currentSession = null;
+let currentClub = null;
+
+function renderPublicTournamentCards(tournaments, container, emptyMessage, teamsByTournament = new Map()) {
+    container.innerHTML = "";
+    if (!tournaments.length) {
+        container.textContent = emptyMessage;
+        return;
+    }
+    tournaments.forEach(tournament => {
+        const card = document.createElement("div");
+        card.className = "tournament-card";
+        const status = document.createElement("span");
+        status.className = tournament.status === "live" ? "status-live" : "status-open";
+        status.textContent = tournament.status === "live" ? "● LIVE" : "REGISTRATION OPEN";
+        const title = document.createElement("h3");
+        title.textContent = tournament.name;
+        const description = document.createElement("p");
+        description.textContent = tournament.description || "Get ready for the competition.";
+        const details = document.createElement("p");
+        details.textContent = (tournament.game || "EA SPORTS FC 27") + " • " + (tournament.format || "11v11");
+        card.append(status, title, description, details);
+
+        const teams = teamsByTournament.get(tournament.id) || [];
+        const teamsSection = document.createElement("div");
+        teamsSection.className = "registered-teams";
+        const teamsHeading = document.createElement("h4");
+        teamsHeading.textContent = "REGISTERED TEAMS (" + teams.length + ")";
+        teamsSection.appendChild(teamsHeading);
+
+        if (teams.length) {
+            const teamsList = document.createElement("ol");
+            teams.forEach(teamName => {
+                const item = document.createElement("li");
+                item.textContent = teamName;
+                teamsList.appendChild(item);
+            });
+            teamsSection.appendChild(teamsList);
+        } else {
+            const noTeams = document.createElement("p");
+            noTeams.className = "no-registered-teams";
+            noTeams.textContent = "No teams registered yet.";
+            teamsSection.appendChild(noTeams);
+        }
+        card.appendChild(teamsSection);
+
+        if (tournament.status === "registration_open") {
+            const joinButton = document.createElement("button");
+            joinButton.type = "button";
+            joinButton.className = "join-tournament";
+            joinButton.textContent = "JOIN TOURNAMENT →";
+            joinButton.addEventListener("click", () => joinTournament(tournament));
+            card.appendChild(joinButton);
+        }
+        if (tournament.start_date) {
+            const date = document.createElement("p");
+            date.textContent = "START: " + new Date(tournament.start_date).toLocaleDateString("sv-SE");
+            card.appendChild(date);
+        }
+        if (tournament.registration_deadline) {
+            const deadline = document.createElement("p");
+            deadline.textContent = "REGISTRATION DEADLINE: " + new Date(tournament.registration_deadline).toLocaleDateString("sv-SE");
+            card.appendChild(deadline);
+        }
+        container.appendChild(card);
+    });
+}
+
+// IPG uses club accounts only. Player authentication is disabled.
+let selectedAccountType = "club";
+localStorage.setItem("ipg_account_type", "club");
+const accountEmailInput = document.getElementById("accountEmail");
+if (accountEmailInput) accountEmailInput.placeholder = "Club contact email";
+const magicLinkForm = document.getElementById("magicLinkForm");
+if (magicLinkForm) magicLinkForm.hidden = false;
+
+function setAccountMessage(text) {
+    document.getElementById("accountStatus").textContent = text;
+}
+
+let dashboardVerificationToken = null;
+async function updateIPGHeaderAuth(session){
+    const dashboardLink = document.getElementById("clubDashboardNavLink");
+    const competeSection = document.getElementById("clubs");
+    if (competeSection) competeSection.hidden = !!session;
+    if (!dashboardLink) return;
+    dashboardLink.hidden = true;
+    if (!session?.access_token) {
+        dashboardVerificationToken = null;
+        return;
+    }
+    if (dashboardVerificationToken === session.access_token) return;
+    dashboardVerificationToken = session.access_token;
+    try {
+        const response = await fetch(SUPABASE_URL + "/functions/v1/ipg-discord-link-auth", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "apikey": SUPABASE_KEY,
+                "Authorization": "Bearer " + session.access_token
+            },
+            body: "{}"
+        });
+        const result = await response.json();
+        if (response.ok && result?.club?.name && currentSession?.access_token === session.access_token) {
+            dashboardLink.hidden = false;
+        }
+    } catch (error) {
+        console.warn("Could not verify club dashboard navigation:", error);
+    }
+}
+async function refreshClubAccount(session) {
+    currentSession = session;
+    window.currentSession = session;
+    updateIPGHeaderAuth(session);
+    const dashboard = document.getElementById("clubAccountDashboard");
+    const magicForm = document.getElementById("magicLinkForm");
+    const clubForm = document.getElementById("clubForm");
+    if (!session) {
+        currentClub = null;
+        document.getElementById("editClubProfileButton").hidden = true;
+        dashboard.hidden = true;
+        clubForm.hidden = true;
+        magicForm.hidden = false;
+        setAccountMessage("Sign in with your club contact email to access your IPG club account.");
+        return;
+    }
+    magicForm.hidden = true;
+    if (selectedAccountType === "player") {
+        const { data: playerClub, error: playerClubError } = await supabaseClient.from("clubs").select("*").eq("owner_id", session.user.id).maybeSingle();
+        if (playerClubError) console.error("Player club application lookup:", playerClubError);
+        currentClub = playerClub || null;
+        dashboard.hidden = false;
+        clubForm.hidden = true;
+        document.getElementById("applyForClubButton").hidden = !!playerClub;
+        document.getElementById("editClubProfileButton").hidden = true;
+        document.getElementById("clubAccountDetails").textContent = playerClub
+            ? playerClub.club_name + " • " + playerClub.status.toUpperCase() + (playerClub.status === "approved" ? " — Club approved." : " — Club application awaiting review.")
+            : "PLAYER ACCOUNT · " + session.user.email;
+        setAccountMessage(playerClub ? (playerClub.status === "pending" ? "Your club application is waiting for IPG approval." : "Your club application status: " + playerClub.status + ".") : "Signed in as a player. You can apply to create a club below.");
+        if(typeof loadPlayerHub==="function") await loadPlayerHub();
+        return;
+    }
+    if (selectedAccountType !== "club") {
+        dashboard.hidden = true;
+        clubForm.hidden = true;
+        setAccountMessage("Choose Club / Manager or Player above to continue.");
+        return;
+    }
+    setAccountMessage("Checking your club account...");
+    const { data: claimed, error: claimError } = await supabaseClient.rpc("claim_existing_club");
+    if (claimError) console.error("Club claim check:", claimError);
+    let club = Array.isArray(claimed) ? claimed[0] : claimed;
+    if (!club) {
+        const { data, error } = await supabaseClient.from("clubs").select("*").eq("owner_id", session.user.id).maybeSingle();
+        if (error) console.error(error);
+        club = data;
+    }
+    currentClub = club || null;
+    dashboard.hidden = false;
+    clubForm.hidden = true;
+    if (!club) {
+        document.getElementById("editClubProfileButton").hidden = true;
+        dashboard.hidden = true;
+        clubForm.hidden = false;
+        setAccountMessage("You are signed in. Complete the club registration below.");
+        return;
+    }
+    document.getElementById("clubAccountDetails").textContent =
+        club.club_name + " • " + club.status.toUpperCase() +
+        (club.status === "approved" ? " — Your club can now join open tournaments." :
+         club.status === "pending" ? " — Waiting for admin approval." :
+         " — Contact IPG administration for help.");
+    document.getElementById("editClubProfileButton").hidden = false;
+    setAccountMessage("Signed in as " + session.user.email);
+}
+
+let pendingOtpEmail = "";
+
+async function sendEmailOtp() {
+    if (!selectedAccountType) { setAccountMessage("Choose Club / Manager or Player first."); return; }
+    const email = document.getElementById("accountEmail").value.trim();
+    if (!email) { setAccountMessage("Enter your email address first."); return; }
+    setAccountMessage("Sending your eight-digit login code...");
+    const { error } = await supabaseClient.auth.signInWithOtp({
+        email,
+        options: { shouldCreateUser: true }
+    });
+    if (error) {
+        setAccountMessage("Could not send code: " + error.message);
+        return;
+    }
+    pendingOtpEmail = email;
+    document.getElementById("otpEmailLabel").textContent = email;
+    document.getElementById("magicLinkForm").hidden = true;
+    document.getElementById("emailOtpForm").hidden = false;
+    document.getElementById("emailOtpCode").value = "";
+    setAccountMessage("Code sent. Check your inbox and enter the eight digits below.");
+}
+
+document.getElementById("sendMagicLink").addEventListener("click", sendEmailOtp);
+document.getElementById("resendEmailOtp").addEventListener("click", sendEmailOtp);
+
+document.getElementById("verifyEmailOtp").addEventListener("click", async () => {
+    const token = document.getElementById("emailOtpCode").value.trim();
+    if (!pendingOtpEmail) { setAccountMessage("Request a login code first."); return; }
+    if (!/^\d{8}$/.test(token)) { setAccountMessage("Enter the eight-digit code from your email."); return; }
+    setAccountMessage("Verifying your login code...");
+    const { data, error } = await supabaseClient.auth.verifyOtp({
+        email: pendingOtpEmail,
+        token,
+        type: "email"
+    });
+    if (error) {
+        setAccountMessage("Could not verify code: " + error.message);
+        return;
+    }
+    document.getElementById("emailOtpForm").hidden = true;
+    pendingOtpEmail = "";
+    await refreshClubAccount(data.session);
+});
+
+document.getElementById("signOutButton").addEventListener("click", async () => {
+    await supabaseClient.auth.signOut();
+    await refreshClubAccount(null);
+});
+
+document.getElementById("editClubProfileButton").addEventListener("click",()=>{
+ if(!currentClub)return;
+ const form=document.getElementById("clubForm");
+ ["club_name","country","captain_name","captain_discord","logo_url"].forEach(k=>form.elements[k].value=currentClub[k]||"");
+ form.hidden=false;document.getElementById("clubFormHeading").textContent="EDIT CLUB PROFILE";
+ document.getElementById("clubFormSubmit").textContent="SAVE CLUB CHANGES";
+ document.getElementById("cancelClubEdit").hidden=false;
+ document.getElementById("formMessage").textContent="Approval status cannot be changed here.";
+ form.scrollIntoView({behavior:"smooth",block:"center"});
+});
+document.getElementById("cancelClubEdit").addEventListener("click",()=>{
+ document.getElementById("clubForm").hidden=true;
+ document.getElementById("clubFormHeading").textContent="REGISTER YOUR CLUB";
+ document.getElementById("clubFormSubmit").textContent="SUBMIT CLUB REGISTRATION →";
+ document.getElementById("cancelClubEdit").hidden=true;
+});
+document.getElementById("applyForClubButton").addEventListener("click",()=>{ if(!currentSession)return; document.getElementById("clubForm").hidden=false; document.getElementById("clubFormHeading").textContent="APPLY TO CREATE A CLUB"; document.getElementById("clubFormSubmit").textContent="SUBMIT CLUB APPLICATION →"; document.getElementById("clubForm").scrollIntoView({behavior:"smooth",block:"center"}); });
+async function uploadClubImage(file,kind){
+ if(!file)return null;
+ const allowed=["image/png","image/jpeg","image/webp","image/svg+xml"];
+ if(!allowed.includes(file.type))throw new Error("Use PNG, JPG, WEBP or SVG files.");
+ if(file.size>5*1024*1024)throw new Error("Each logo must be 5 MB or smaller.");
+ const ext=({ "image/png":"png","image/jpeg":"jpg","image/webp":"webp","image/svg+xml":"svg"})[file.type];
+ const path=currentSession.user.id+"/"+kind+"-"+Date.now()+"-"+Math.random().toString(36).slice(2)+"."+ext;
+ const {error}=await supabaseClient.storage.from("club-assets").upload(path,file,{contentType:file.type,upsert:false});
+ if(error)throw error;
+ return supabaseClient.storage.from("club-assets").getPublicUrl(path).data.publicUrl;
+}
+document.getElementById("clubForm").addEventListener("submit",async function(event){
+ event.preventDefault();
+ if(!currentSession||!["club","player"].includes(selectedAccountType)){setAccountMessage("Sign in to your player account before submitting a club application.");return}
+ const form=event.target,message=document.getElementById("formMessage"),submit=document.getElementById("clubFormSubmit");
+ const teamFile=document.getElementById("teamLogoFile").files[0],prestigeFile=document.getElementById("prestigeLogoFile").files[0];
+ const values={p_club_name:form.club_name.value.trim(),p_country:form.country.value.trim(),p_captain_name:form.captain_name.value.trim(),p_captain_discord:form.captain_discord.value.trim(),p_logo_url:form.logo_url.value.trim()};
+ const social_links={tiktok:form.social_tiktok.value.trim(),instagram:form.social_instagram.value.trim(),x:form.social_x.value.trim(),discord:form.social_discord.value.trim()};
+ if(!currentClub&&!teamFile){message.textContent="Please add your team's main logo.";return}
+ if(!currentClub&&!prestigeFile){message.textContent="Please add your prestige logo.";return}
+ submit.disabled=true;message.textContent="Uploading logos and submitting club application...";
+ try{
+  let logoUrl=currentClub?.logo_url||null,prestigeUrl=currentClub?.prestige_logo_url||null;
+  if(teamFile)logoUrl=await uploadClubImage(teamFile,"team-logo");
+  if(prestigeFile)prestigeUrl=await uploadClubImage(prestigeFile,"prestige-logo");
+  if(currentClub){
+   const {error}=await supabaseClient.rpc("update_my_club_profile",values);
+   if(error)throw error;
+   const {error:extraError}=await supabaseClient.rpc("update_my_club_branding",{p_club_id:currentClub.id,p_prestige_logo_url:prestigeUrl,p_social_links:social_links});
+   if(extraError)throw extraError;
+   message.textContent="Club profile updated. Approval status has not changed.";
+   form.hidden=true;document.getElementById("clubFormHeading").textContent="REGISTER YOUR CLUB";
+   document.getElementById("clubFormSubmit").textContent="SUBMIT CLUB REGISTRATION →";
+   document.getElementById("cancelClubEdit").hidden=true;await refreshClubAccount(currentSession);
+  }else{
+   const club={owner_id:currentSession.user.id,club_name:values.p_club_name,country:values.p_country,captain_name:values.p_captain_name,captain_discord:values.p_captain_discord,contact_email:currentSession.user.email,logo_url:logoUrl,prestige_logo_url:prestigeUrl,social_links,status:"pending"};
+   const {error}=await supabaseClient.from("clubs").insert([club]);
+   if(error)throw error;
+   message.textContent="Club submitted! Await admin approval.";
+   form.reset();document.getElementById("teamLogoPreview").hidden=true;document.getElementById("prestigeLogoPreview").hidden=true;
+   document.getElementById("teamLogoPrompt").hidden=false;document.getElementById("prestigeLogoPrompt").hidden=false;
+   await refreshClubAccount(currentSession);
+  }
+ }catch(error){message.textContent="Could not submit club: "+error.message;console.error(error)}
+ finally{submit.disabled=false}
+});
+async function joinTournament(tournament) {
+    if (!currentSession) {
+        setAccountMessage("Sign in with your club contact email before joining a tournament.");
+        document.getElementById("register").scrollIntoView({behavior:"smooth",block:"start"});
+        return;
+    }
+    if (!currentClub) {
+        setAccountMessage("Register or claim your club account before joining.");
+        document.getElementById("register").scrollIntoView({behavior:"smooth",block:"start"});
+        return;
+    }
+    if (currentClub.status !== "approved") {
+        alert(currentClub.status === "pending" ? "Your club is awaiting admin approval." : "Your club is not approved. Contact IPG administration.");
+        return;
+    }
+    const confirmed = window.confirm("Are you sure you want to join " + tournament.name + " as " + currentClub.club_name + "?");
+    if (!confirmed) return;
+    const { error } = await supabaseClient.from("tournament_entries").insert([{
+        tournament_id: tournament.id,
+        club_id: currentClub.id,
+        status: "joined"
+    }]);
+    if (error && error.code === "23505") {
+        alert("Your club has already joined this tournament.");
+    } else if (error) {
+        console.error(error);
+        alert("Could not join tournament: " + error.message);
+    } else {
+        await loadPublicTournaments();
+        alert("Your club has successfully joined " + tournament.name + "!");
+    }
+}
+
+async function initializeIPGAccount() {
+    // Subscribe before reading the stored session so a login event cannot be missed.
+    let authStateRevision = 0;
+    supabaseClient.auth.onAuthStateChange((_event, session) => {
+        authStateRevision += 1;
+        setTimeout(() => {
+            refreshClubAccount(session).catch(error => {
+                console.error("Could not refresh IPG account after auth change:", error);
+            });
+        }, 0);
+    });
+
+    try {
+        const revisionAtStart = authStateRevision;
+        const { data, error } = await supabaseClient.auth.getSession();
+        if (error) throw error;
+
+        // If an auth event arrived while getSession was running, its newer session wins.
+        if (revisionAtStart === authStateRevision) {
+            await refreshClubAccount(data.session || null);
+        }
+    } catch (error) {
+        console.error("Could not restore IPG login session:", error);
+        currentSession = null;
+        window.currentSession = null;
+        updateIPGHeaderAuth(null);
+        setAccountMessage("Could not check your login session. Please refresh the page and try again.");
+    }
+}
+
+// START
+loadPublicTournaments();
+initializeIPGAccount();
+
+</script>
+        <script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const tournamentButton = document.getElementById("tournamentMenuButton");
+    const tournamentMenu = document.getElementById("tournamentMenu");
+
+    if (!tournamentButton || !tournamentMenu) return;
+
+    tournamentButton.addEventListener("click", function (event) {
+        event.preventDefault();
+
+        tournamentMenu.classList.toggle("show");
+
+        if (tournamentMenu.classList.contains("show")) {
+            tournamentMenu.scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            });
+        }
+    });
+
+});
+</script>
+
+<script>
+const playerForm = document.getElementById("playerProfileForm");
+const playerMessage = document.getElementById("playerProfileMessage");
+let playerProfile = null;
+function playerMsg(t){playerMessage.textContent=t}
+async function loadPlayerHub(){
+ const status=document.getElementById("playerAuthStatus");
+ if(!currentSession || selectedAccountType!=="player"){status.textContent=selectedAccountType==="club"?"You are signed in as a club/manager. Switch to Player above to manage a player profile.":"Choose Player above and sign in to manage your player profile.";playerForm.querySelectorAll("input,select,textarea,button").forEach(x=>x.disabled=true);return}
+ playerForm.querySelectorAll("input,select,textarea,button").forEach(x=>x.disabled=false);
+ status.textContent="Signed in as "+currentSession.user.email+" — complete your player profile.";
+ const {data,error}=await supabaseClient.from("player_profiles").select("*").eq("user_id",currentSession.user.id).maybeSingle();
+ if(error){playerMsg("Could not load profile: "+error.message);return}
+ playerProfile=data;
+ if(data){Object.entries(data).forEach(([k,v])=>{const el=playerForm.elements[k];if(el)el.value=k==="former_clubs"?(v||[]).join(", "):(v??"")});}
+
+}
+playerForm.addEventListener("submit",async e=>{
+ e.preventDefault();if(!currentSession || selectedAccountType!=="player"){playerMsg("Choose Player and sign in before saving a player profile.");return}
+ const f=new FormData(playerForm), payload={user_id:currentSession.user.id,display_name:String(f.get("display_name")).trim(),country:String(f.get("country")).trim(),primary_position:f.get("primary_position"),secondary_position:String(f.get("secondary_position")).trim()||null,shirt_number:f.get("shirt_number")?Number(f.get("shirt_number")):null,preferred_foot:f.get("preferred_foot"),play_style:String(f.get("play_style")).trim()||null,experience:String(f.get("experience")).trim()||null,former_clubs:String(f.get("former_clubs")).split(",").map(x=>x.trim()).filter(Boolean),achievements:String(f.get("achievements")).trim()||null,bio:String(f.get("bio")).trim()||null,avatar_url:String(f.get("avatar_url")).trim()||null,availability:f.get("availability"),public_profile:true};
+ playerMsg("Saving profile...");
+ const {error}=await supabaseClient.from("player_profiles").upsert(payload,{onConflict:"user_id"});
+ if(error){playerMsg("Could not save profile: "+error.message);return}
+ playerMsg("Player profile saved. You can edit these details any time while signed in.");
+});
+function escPlayer(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+
+const previousRefreshClubAccount=refreshClubAccount;
+refreshClubAccount=async function(session){await previousRefreshClubAccount(session);await loadPlayerHub()};
+</script>
+</script>
+\n
+<script>
+(function(){
+ const clubBox=document.getElementById("clubProfiles"),detail=document.getElementById("profileDetail");
+ if(!clubBox||!detail)return;
+ const safe=v=>String(v??"").replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));
+ const stat=(n,label)=>'<div class="ipg-profile-stat"><strong>'+Number(n||0)+'</strong><span>'+label+'</span></div>';
+ let clubs=[];
+ async function loadClubProfiles(){
+  clubBox.innerHTML="<p>Loading approved clubs...</p>";
+  const {data,error}=await supabaseClient.rpc("get_public_club_profiles");
+  if(error){clubBox.innerHTML='<p>Club profiles could not be loaded. '+safe(error.message)+'</p>';return}
+  clubs=data||[];
+  const rankingRows=document.getElementById("ipgRankingRows");
+  if(rankingRows){
+    const ranked=[...clubs].map(club=>{
+      const matches=Number(club.matches_played)||0,wins=Number(club.wins)||0;
+      return {...club,_matches:matches,_wins:wins,_rate:matches>0?wins/matches:0};
+    }).filter(club=>club._matches>0).sort((a,b)=>b._rate-a._rate||b._wins-a._wins||b._matches-a._matches);
+    rankingRows.innerHTML=ranked.length?ranked.slice(0,10).map((club,index)=>'<tr><td>#'+(index+1)+'</td><td>'+safe(club.club_name)+'</td><td>'+club._matches+'</td><td>'+club._wins+'</td><td>'+Math.round(club._rate*100)+'%</td></tr>').join(""):'<tr><td colspan="5">Club performance will appear when approved clubs have recorded matches.</td></tr>';
+  }
+  if(!clubs.length){clubBox.innerHTML="<p>No approved clubs yet.</p>";return}
+  clubBox.innerHTML=clubs.map(x=>'<article class="ipg-profile-card ipg-logo-preview"><button class="ipg-profile-logo-button" type="button" data-club-profile="'+safe(x.id)+'" aria-label="View '+safe(x.club_name)+' profile">'+(x.logo_url?'<img src="'+safe(x.logo_url)+'" alt="'+safe(x.club_name)+' logo">':'<img src="default-club.svg" alt="Default club profile image">')+'</button><h3 class="ipg-profile-preview-name">'+safe(x.club_name)+'</h3></article>').join("");
+ }
+ clubBox.addEventListener("click",e=>{
+  const b=e.target.closest("[data-club-profile]");if(!b)return;
+  const x=clubs.find(v=>v.id===b.dataset.clubProfile);if(!x)return;
+  detail.hidden=false;detail.innerHTML='<h3>'+safe(x.club_name)+'</h3><p>'+safe(x.country||"")+' · Captain: '+safe(x.captain_name||"Not listed")+'</p><div class="ipg-profile-stats">'+stat(x.matches_played,"MATCHES")+stat(x.wins,"WINS")+stat(x.draws,"DRAWS")+stat(x.losses,"LOSSES")+stat(x.goals_for,"GOALS FOR")+stat(x.goals_against,"GOALS AGAINST")+stat(x.roster_size,"SQUAD SIZE")+'</div><p>Member since '+new Date(x.created_at).toLocaleDateString()+'</p>'+(window.currentSession?'<button type="button" data-apply-to-club="'+safe(x.id)+'">APPLY TO JOIN THIS TEAM</button>':'<p>Log in to apply to join this team.</p>');
+  detail.scrollIntoView({behavior:"smooth",block:"nearest"});
+ });
+ loadClubProfiles();
+})();
+</script>
+
+
+<script>
+/* IPG scroll reveal: progressive enhancement with a visible fallback */
+(function(){
+  const reduce=window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if(reduce || !("IntersectionObserver" in window)) return;
+  const selectors=[
+    ".ipg-content-section > *",
+    ".ipg-feature-card",
+    ".ipg-ranking-panel",
+    ".ipg-club-banner",
+    ".public-tournaments-header",
+    ".tournament-card",
+    ".ipg-market-card",
+    ".ipg-profile-card",
+    ".ipg-profile-detail",
+    ".ipg-account-panel",
+    ".registration-form",
+    "#player-marketplace > *",
+
+  ];
+  const nodes=[...new Set(selectors.flatMap(sel=>Array.from(document.querySelectorAll(sel))))];
+  nodes.forEach((el,i)=>{
+    if(el.closest(".hero") || el.classList.contains("ipg-scroll-reveal")) return;
+    el.classList.add("ipg-scroll-reveal");
+    const delay=(i%4)*75;
+    el.style.setProperty("--ipg-reveal-delay",delay+"ms");
+  });
+  const observer=new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){
+        entry.target.classList.add("ipg-in-view");
+        observer.unobserve(entry.target);
+      }
+    });
+  },{threshold:0.12,rootMargin:"0px 0px -45px 0px"});
+  nodes.forEach(el=>{if(el.classList.contains("ipg-scroll-reveal")) observer.observe(el)});
+})();
+</script>
+
+<script id="ipg-header-auth-navigation">
+(()=>{
+ const goToAccount=(mode)=>{
+  const section=document.getElementById("register");
+  if(!section)return;
+  section.scrollIntoView({behavior:"smooth",block:"start"});
+  window.setTimeout(()=>{
+   if(mode==="signup"){
+    document.getElementById("accountTypeChooser")?.scrollIntoView({behavior:"smooth",block:"center"});
+    document.querySelector("[data-account-type]")?.focus({preventScroll:true});
+   }else if(window.selectedAccountType){
+    document.getElementById("accountEmail")?.focus({preventScroll:true});
+   }else{
+    document.getElementById("accountTypeChooser")?.scrollIntoView({behavior:"smooth",block:"center"});
+   }
+  },350);
+ };
+ document.getElementById("headerProfileButton")?.addEventListener("click",(event)=>{
+  event.preventDefault();
+  if(!window.currentSession){
+   location.href="account.html?mode=login&next=profile";
+   return;
+  }
+  const profileSection=document.getElementById("player-marketplace");
+  if(profileSection){
+   profileSection.scrollIntoView({behavior:"smooth",block:"start"});
+   window.setTimeout(()=>document.getElementById("playerProfileForm")?.scrollIntoView({behavior:"smooth",block:"center"}),250);
+  }
+ });
+})();
+</script>
+
+<script id="ipg-floating-particles-script">
+(()=> {
+ const canvas=document.getElementById("ipg-particle-canvas");
+ if(!canvas)return;
+ const ctx=canvas.getContext("2d");
+ if(!ctx)return;
+ const reduce=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+ if(reduce)return;
+ let w=0,h=0,raf=0,particles=[];
+ const makeParticle=()=>({
+  x:Math.random()*w,y:Math.random()*h,
+  r:Math.random()*1.5+.45,
+  vx:(Math.random()-.5)*.22,
+  vy:-(Math.random()*.24+.06),
+  alpha:Math.random()*.42+.16,
+  gold:Math.random()<.18
+ });
+ const resize=()=>{
+  const dpr=Math.min(window.devicePixelRatio||1,2);
+  w=window.innerWidth;h=window.innerHeight;
+  canvas.width=Math.round(w*dpr);canvas.height=Math.round(h*dpr);
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+  particles=Array.from({length:Math.min(105,Math.max(34,Math.floor(w*h/14500)))},makeParticle);
+ };
+ const draw=()=>{
+  ctx.clearRect(0,0,w,h);
+  for(const p of particles){
+   p.x+=p.vx;p.y+=p.vy;
+   if(p.y<-8){p.y=h+8;p.x=Math.random()*w}
+   if(p.x<-8)p.x=w+8;
+   if(p.x>w+8)p.x=-8;
+   ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+   ctx.fillStyle=p.gold?`rgba(93,139,194,${p.alpha})`:`rgba(183,207,235,${p.alpha})`;
+   ctx.shadowBlur=p.r>1.3?9:4;
+   ctx.shadowColor=p.gold?"rgba(73,119,174,.42)":"rgba(73,119,174,.5)";
+   ctx.fill();
+  }
+  ctx.shadowBlur=0;
+  raf=requestAnimationFrame(draw);
+ };
+ resize();draw();
+ window.addEventListener("resize",resize,{passive:true});
+ document.addEventListener("visibilitychange",()=>{
+  if(document.hidden){cancelAnimationFrame(raf)}
+  else if(!raf)draw();
+ });
+})();
+</script>
+
+
+<script id="ipg-player-account-choices">
+(()=>{
+ const create=document.getElementById("createClubChoice");
+ const join=document.getElementById("joinTeamChoice");
+ const apply=document.getElementById("applyForClubButton");
+ const form=document.getElementById("clubForm");
+ create?.addEventListener("click",()=>{
+  if(apply && !apply.hidden){apply.click();return}
+  if(form){form.hidden=false;form.scrollIntoView({behavior:"smooth",block:"center"});}
+ });
+ join?.addEventListener("click",()=>{
+  const section=document.getElementById("profiles");
+  if(section){
+   section.scrollIntoView({behavior:"smooth",block:"start"});
+   const clubsTab=document.querySelector('[data-profile-tab="clubs"]');
+   clubsTab?.click();
+   const detail=document.getElementById("profileDetail");
+   if(detail){detail.hidden=true;detail.innerHTML="";}
+  }
+ });
+ const box=document.getElementById("clubProfiles");
+ box?.addEventListener("click",async event=>{
+  const button=event.target.closest("[data-apply-to-club]");
+  if(!button)return;
+  if(!currentSession){alert("Log in to apply to a team.");return;}
+  const clubId=button.dataset.applyToClub;
+  const note=prompt("Write a short message to the club (optional):");
+  if(note===null)return;
+  const {error}=await supabaseClient.from("player_applications").insert({
+   player_id:currentSession.user.id,club_id:clubId,message:note.trim()
+  });
+  if(error){
+   alert(error.code==="23505"?"You have already applied to this club.":"Could not send application: "+error.message);
+   return;
+  }
+  button.disabled=true;button.textContent="APPLICATION SENT";
+  alert("Your application has been sent to the club.");
+ });
+})();
+</script>
+
+<script id="ipg-club-logo-drop-upload">
+(()=>{
+ const pairs=[["teamLogoFile","teamLogoDrop","teamLogoPreview","teamLogoPrompt"],["prestigeLogoFile","prestigeLogoDrop","prestigeLogoPreview","prestigeLogoPrompt"]];
+ for(const [inputId,zoneId,previewId,promptId] of pairs){
+  const input=document.getElementById(inputId),zone=document.getElementById(zoneId),preview=document.getElementById(previewId),prompt=document.getElementById(promptId);
+  if(!input||!zone)continue;
+  const show=file=>{
+   if(!file)return;
+   if(!["image/png","image/jpeg","image/webp","image/svg+xml"].includes(file.type)||file.size>5*1024*1024){alert("Choose a PNG, JPG, WEBP or SVG image up to 5 MB.");input.value="";return}
+   preview.src=URL.createObjectURL(file);preview.hidden=false;prompt.hidden=true;
+  };
+  input.addEventListener("change",()=>show(input.files[0]));
+  ["dragenter","dragover"].forEach(name=>zone.addEventListener(name,e=>{e.preventDefault();zone.classList.add("is-dragging")}));
+  ["dragleave","drop"].forEach(name=>zone.addEventListener(name,e=>{e.preventDefault();zone.classList.remove("is-dragging")}));
+  zone.addEventListener("drop",e=>{
+   const file=e.dataTransfer?.files?.[0];if(!file)return;
+   const transfer=new DataTransfer();transfer.items.add(file);input.files=transfer.files;show(file);
+  });
+ }
+})();
+</script>
+
+<script id="ipg-free-depth-interactions">
+(()=> {
+ const reduce=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+ if(reduce || !window.matchMedia("(hover:hover) and (pointer:fine)").matches)return;
+ const cards=document.querySelectorAll(".ipg-feature-card,.ipg-market-card,.tournament-card,.ipg-profile-card");
+ cards.forEach(card=>{
+  card.addEventListener("pointermove",e=>{
+   const r=card.getBoundingClientRect();
+   const x=e.clientX-r.left,y=e.clientY-r.top;
+   card.style.setProperty("--ipg-pointer-x",x+"px");
+   card.style.setProperty("--ipg-pointer-y",y+"px");
+   if(card.matches(".ipg-feature-card,.ipg-market-card,.tournament-card")){
+    const dx=(x/r.width-.5)*2,dy=(y/r.height-.5)*2;
+    card.style.transform="perspective(900px) rotateX("+(-dy*1.35)+"deg) rotateY("+(dx*1.5)+"deg) translateY(-3px)";
+   }
+  });
+  card.addEventListener("pointerleave",()=>{card.style.transform="";});
+ });
+})();
+</script>
+
+
+
+
+
+<script id="ipg-profile-modal-events">(()=>{const modal=document.getElementById("ipg-profile-modal"),avatar=document.getElementById("headerAvatarButton"),form=document.getElementById("playerProfileForm");if(form)document.getElementById("ipg-profile-form-slot").appendChild(form);const close=()=>{modal.hidden=true;modal.setAttribute("aria-hidden","true");document.body.style.overflow="";};const open=async()=>{if(!window.currentSession){location.href="account.html?mode=login&next=profile";return;}modal.hidden=false;modal.setAttribute("aria-hidden","false");document.body.style.overflow="hidden";const m=window.currentSession.user.user_metadata||{};document.getElementById("ipg-profile-summary").textContent=(m.player_name||m.username||"IPG MEMBER")+" · "+(window.currentSession.user.email||"");if(typeof loadPlayerHub==="function")await loadPlayerHub();};avatar?.addEventListener("click",open);document.getElementById("headerProfileButton")?.addEventListener("click",e=>{e.preventDefault();open();});modal?.querySelectorAll("[data-profile-close]").forEach(el=>el.addEventListener("click",close));document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!modal.hidden)close();});document.getElementById("ipg-profile-signout")?.addEventListener("click",async()=>{const {error}=await supabaseClient.auth.signOut();if(error){document.getElementById("ipg-profile-summary").textContent="Could not sign out: "+error.message;return;}close();await refreshClubAccount(null);});})();</script>
+
+
+<script id="ipg-join-auth-guard">
+(async()=>{
+ const showJoin=()=>{document.body.style.visibility="visible";};
+ try{
+  const client=window.supabase.createClient("https://anndmcqwvfjbnhsehrom.supabase.co","sb_publishable_4OwZ-opv95mMay8hW-5yMA_gmWhMLDC",{auth:{storageKey:"ipg-auth-token",persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
+  const {data,error}=await client.auth.getSession();
+  if(error)throw error;
+  if(data.session){location.replace("index.html");return;}
+  showJoin();
+  client.auth.onAuthStateChange((_event,session)=>{if(session)location.replace("index.html");});
+ }catch(error){console.error("Join page access check failed:",error);showJoin();}
+})();
+</script>
+</body>
+</html>
