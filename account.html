@@ -74,7 +74,7 @@ $("discordLogin").addEventListener("click",async()=>{
  const {error}=await supabaseClient.auth.signInWithOAuth({provider:"discord",options:{redirectTo:location.origin+location.pathname,scopes:"identify email"}});
  if(error){$("status").textContent="Could not start Discord sign-in: "+error.message;$("discordLogin").disabled=false;}
 });
-$("continueButton").addEventListener("click",()=>location.assign("index.html#register"));
+$("continueButton").addEventListener("click",()=>location.assign("club-dashboard.html"));
 $("signOutButton").addEventListener("click",async()=>{
  await supabaseClient.auth.signOut();
  resetView();
