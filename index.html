@@ -1852,42 +1852,80 @@ function setAccountMessage(text) {
 }
 
 let dashboardVerificationToken = null;
+let dashboardVerificationInFlight = null;
 async function updateIPGHeaderAuth(session){
     const accessLink = document.getElementById("clubAccessNavLink");
     if (!accessLink) return;
 
     accessLink.hidden = false;
-    accessLink.textContent = "LOGIN";
-    accessLink.href = "account.html?mode=login";
-    accessLink.removeAttribute("aria-label");
 
     if (!session?.access_token) {
         dashboardVerificationToken = null;
+        dashboardVerificationInFlight = null;
+        accessLink.textContent = "LOGIN";
+        accessLink.href = "account.html?mode=login";
+        accessLink.removeAttribute("aria-label");
         return;
     }
 
-    if (dashboardVerificationToken === session.access_token) return;
-    dashboardVerificationToken = session.access_token;
-
-    try {
-        const response = await fetch(SUPABASE_URL + "/functions/v1/ipg-discord-link-auth", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "apikey": SUPABASE_KEY,
-                "Authorization": "Bearer " + session.access_token
-            },
-            body: "{}"
-        });
-        const result = await response.json();
-        if (response.ok && result?.club?.name && currentSession?.access_token === session.access_token) {
-            accessLink.textContent = "DASHBOARD";
-            accessLink.href = "club-dashboard.html";
-            accessLink.setAttribute("aria-label", "Open club dashboard");
-        }
-    } catch (error) {
-        console.warn("Could not verify club dashboard navigation:", error);
+    // Keep the verified state when the same session is refreshed or re-emitted.
+    if (dashboardVerificationToken === session.access_token) {
+        accessLink.textContent = "DASHBOARD";
+        accessLink.href = "club-dashboard.html";
+        accessLink.setAttribute("aria-label", "Open club dashboard");
+        return;
     }
+
+    if (dashboardVerificationInFlight?.token === session.access_token) {
+        return dashboardVerificationInFlight.promise;
+    }
+
+    accessLink.textContent = "CHECKING...";
+    accessLink.href = "account.html?mode=login";
+    accessLink.removeAttribute("aria-label");
+
+    const promise = (async () => {
+        try {
+            const response = await fetch(SUPABASE_URL + "/functions/v1/ipg-discord-link-auth", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "apikey": SUPABASE_KEY,
+                    "Authorization": "Bearer " + session.access_token
+                },
+                body: "{}"
+            });
+            const result = await response.json();
+
+            if (!response.ok) {
+                throw new Error(result?.error || result?.message || "Club access verification failed (HTTP " + response.status + ").");
+            }
+
+            const activeSession = currentSession;
+            if (result?.club?.name && activeSession?.access_token === session.access_token) {
+                dashboardVerificationToken = session.access_token;
+                accessLink.textContent = "DASHBOARD";
+                accessLink.href = "club-dashboard.html";
+                accessLink.setAttribute("aria-label", "Open club dashboard");
+            } else if (activeSession?.access_token === session.access_token) {
+                accessLink.textContent = "LOGIN";
+                accessLink.href = "account.html?mode=login";
+            }
+        } catch (error) {
+            console.warn("Could not verify club dashboard navigation:", error);
+            if (currentSession?.access_token === session.access_token) {
+                accessLink.textContent = "LOGIN";
+                accessLink.href = "account.html?mode=login";
+            }
+        } finally {
+            if (dashboardVerificationInFlight?.token === session.access_token) {
+                dashboardVerificationInFlight = null;
+            }
+        }
+    })();
+
+    dashboardVerificationInFlight = { token: session.access_token, promise };
+    return promise;
 }
 async function refreshClubAccount(session) {
     currentSession = session;
