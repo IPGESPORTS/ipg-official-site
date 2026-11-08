@@ -1411,7 +1411,7 @@ html{scroll-padding-top:100px}body{background:radial-gradient(ellipse at 50% -15
         <a href="#home">HOME</a>
         <a href="#tournaments">TOURNAMENTS</a>
         <a href="#profiles">CLUBS</a>
-        <a href="apply.html">APPLY</a>
+        <a href="apply.html" id="applyNavLink">APPLY</a>
         <a href="account.html?mode=login" id="clubAccessNavLink">LOGIN</a>
 
         <a href="#rankings">RANKINGS</a>
@@ -1855,26 +1855,38 @@ function setAccountMessage(text) {
 
 let dashboardVerificationToken = null;
 let dashboardVerificationInFlight = null;
+function setClubHeaderState(state){
+    const accessLink = document.getElementById("clubAccessNavLink");
+    const applyLink = document.getElementById("applyNavLink");
+    if (!accessLink || !applyLink) return;
+    if (state === "dashboard") {
+        applyLink.hidden = true;
+        accessLink.hidden = false;
+        accessLink.textContent = "DASHBOARD";
+        accessLink.href = "club-dashboard.html";
+        accessLink.setAttribute("aria-label", "Open club dashboard");
+    } else {
+        applyLink.hidden = false;
+        accessLink.hidden = false;
+        accessLink.textContent = "LOGIN";
+        accessLink.href = "account.html?mode=login";
+        accessLink.removeAttribute("aria-label");
+    }
+}
 async function updateIPGHeaderAuth(session){
     const accessLink = document.getElementById("clubAccessNavLink");
     if (!accessLink) return;
 
-    accessLink.hidden = false;
-
     if (!session?.access_token) {
         dashboardVerificationToken = null;
         dashboardVerificationInFlight = null;
-        accessLink.textContent = "LOGIN";
-        accessLink.href = "account.html?mode=login";
-        accessLink.removeAttribute("aria-label");
+        setClubHeaderState("guest");
         return;
     }
 
     // Keep the verified state when the same session is refreshed or re-emitted.
     if (dashboardVerificationToken === session.access_token) {
-        accessLink.textContent = "DASHBOARD";
-        accessLink.href = "club-dashboard.html";
-        accessLink.setAttribute("aria-label", "Open club dashboard");
+        setClubHeaderState("dashboard");
         return;
     }
 
@@ -1884,7 +1896,6 @@ async function updateIPGHeaderAuth(session){
 
     accessLink.textContent = "CHECKING...";
     accessLink.href = "account.html?mode=login";
-    accessLink.removeAttribute("aria-label");
 
     const promise = (async () => {
         try {
@@ -1906,18 +1917,14 @@ async function updateIPGHeaderAuth(session){
             const activeSession = currentSession;
             if (result?.club?.name && activeSession?.access_token === session.access_token) {
                 dashboardVerificationToken = session.access_token;
-                accessLink.textContent = "DASHBOARD";
-                accessLink.href = "club-dashboard.html";
-                accessLink.setAttribute("aria-label", "Open club dashboard");
+                setClubHeaderState("dashboard");
             } else if (activeSession?.access_token === session.access_token) {
-                accessLink.textContent = "LOGIN";
-                accessLink.href = "account.html?mode=login";
+                setClubHeaderState("guest");
             }
         } catch (error) {
             console.warn("Could not verify club dashboard navigation:", error);
             if (currentSession?.access_token === session.access_token) {
-                accessLink.textContent = "LOGIN";
-                accessLink.href = "account.html?mode=login";
+                setClubHeaderState("guest");
             }
         } finally {
             if (dashboardVerificationInFlight?.token === session.access_token) {
