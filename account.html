@@ -24,11 +24,7 @@ input{width:100%;min-height:48px;padding:12px;background:#080f1d;border:1px soli
 <section class="panel">
 <h1>IPG CLUB ACCESS</h1>
 <p class="intro">Sign in with the email address registered as your club contact. Player accounts are not available.</p>
-<form id="clubLoginForm">
-<label for="clubEmail">CLUB CONTACT EMAIL</label>
-<input id="clubEmail" type="email" autocomplete="email" placeholder="name@club.com" required>
-<button class="action" id="sendLink" type="submit">EMAIL ME A SECURE SIGN-IN LINK</button>
-</form>
+<form id="clubLoginForm"><label for="clubEmail">CLUB CONTACT EMAIL</label><input id="clubEmail" type="email" autocomplete="email" placeholder="name@club.com" required><button class="action" id="sendLink" type="submit">EMAIL ME A SECURE SIGN-IN LINK</button></form>
 <button class="action" id="continueButton" type="button" hidden>CONTINUE TO CLUB DASHBOARD</button>
 <p class="status" id="status" role="status" aria-live="polite">We will send a one-time sign-in link to your club contact email.</p>
 <p class="note">Only club accounts can use this login. New clubs can submit a registration for IPG approval after signing in.</p>
@@ -39,17 +35,8 @@ input{width:100%;min-height:48px;padding:12px;background:#080f1d;border:1px soli
 <script>
 const supabaseClient=window.supabase.createClient("https://anndmcqwvfjbnhsehrom.supabase.co","sb_publishable_4OwZ-opv95mMay8hW-5yMA_gmWhMLDC",{auth:{storageKey:"ipg-auth-token",persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
 const $=id=>document.getElementById(id);
-function showSession(session){
- if(session){$("clubLoginForm").hidden=true;$("continueButton").hidden=false;$("status").textContent="Your email sign-in is complete. Continue to your club dashboard.";}
- else{$("clubLoginForm").hidden=false;$("continueButton").hidden=true;}
-}
-$("clubLoginForm").addEventListener("submit",async event=>{
- event.preventDefault();const button=$("sendLink"),email=$("clubEmail").value.trim();if(!email)return;
- button.disabled=true;$("status").textContent="Sending your secure sign-in link...";
- try{const {error}=await supabaseClient.auth.signInWithOtp({email,options:{emailRedirectTo:location.origin+location.pathname}});if(error)throw error;$("status").textContent="Sign-in link sent. Open the email on this device, then return here to continue.";}
- catch(error){$("status").textContent="Could not send sign-in link: "+(error.message||"Unknown error");}
- finally{button.disabled=false;}
-});
+function showSession(session){if(session){$("clubLoginForm").hidden=true;$("continueButton").hidden=false;$("status").textContent="Your email sign-in is complete. Continue to your club dashboard.";}else{$("clubLoginForm").hidden=false;$("continueButton").hidden=true;}}
+$("clubLoginForm").addEventListener("submit",async event=>{event.preventDefault();const button=$("sendLink"),email=$("clubEmail").value.trim();if(!email)return;button.disabled=true;$("status").textContent="Sending your secure sign-in link...";try{const {error}=await supabaseClient.auth.signInWithOtp({email,options:{emailRedirectTo:location.origin+location.pathname}});if(error)throw error;$("status").textContent="Sign-in link sent. Open the email on this device, then return here to continue.";}catch(error){$("status").textContent="Could not send sign-in link: "+(error.message||"Unknown error");}finally{button.disabled=false;}});
 $("continueButton").addEventListener("click",()=>location.assign("index.html#register"));
 supabaseClient.auth.onAuthStateChange((event,session)=>{if(["INITIAL_SESSION","SIGNED_IN","TOKEN_REFRESHED"].includes(event))showSession(session);});
 supabaseClient.auth.getSession().then(({data,error})=>{if(error){$("status").textContent="Could not check your login session: "+error.message;return;}showSession(data.session);});
