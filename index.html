@@ -1393,6 +1393,12 @@ html{scroll-padding-top:100px}body{background:radial-gradient(ellipse at 50% -15
 @media(max-width:420px){nav{gap:9px 11px!important}nav a{font-size:8px!important;letter-spacing:.07em!important}.ipg-hero-actions{flex-direction:column;align-items:stretch}.ipg-hero-actions a{width:100%;box-sizing:border-box}.ipg-footer-inner{grid-template-columns:1fr}.ipg-footer-brand{grid-column:auto}}
 @media(prefers-reduced-motion:reduce){.hero:before,.hero:after{animation:none!important}.ipg-hero-secondary,.tournament-card,.ipg-profile-card{transition:none!important}}
 </style>
+<style id="club-signed-in-style">
+.club-signed-in-badge{display:inline-flex;align-items:center;gap:7px;padding:8px 11px;border:1px solid rgba(76,220,145,.38);border-radius:999px;background:rgba(42,190,112,.10);color:#83edb2;font-size:9px;font-weight:800;letter-spacing:.12em;white-space:nowrap}
+.club-signed-in-badge span{font-size:10px;color:#45e58d;text-shadow:0 0 10px rgba(69,229,141,.6)}
+.club-signed-in-badge[hidden]{display:none!important}
+@media(max-width:420px){.club-signed-in-badge{padding:6px 8px;font-size:8px}}
+</style>
 </head>
 
 <body>
@@ -1413,6 +1419,7 @@ html{scroll-padding-top:100px}body{background:radial-gradient(ellipse at 50% -15
         <a href="#profiles">CLUBS</a>
         <a href="apply.html" id="applyNavLink">APPLY</a>
         <a href="account.html?mode=login" id="clubAccessNavLink">LOGIN</a>
+        <span id="clubSignedInBadge" class="club-signed-in-badge" hidden><span aria-hidden="true">●</span> SIGNED IN</span>
 
         <a href="#rankings">RANKINGS</a>
         <a class="discord-nav" href="https://discord.gg/PNYkEztN5K" target="_blank" rel="noopener noreferrer">JOIN DISCORD ↗</a>
@@ -1858,19 +1865,22 @@ let dashboardVerificationInFlight = null;
 function setClubHeaderState(state){
     const accessLink = document.getElementById("clubAccessNavLink");
     const applyLink = document.getElementById("applyNavLink");
-    if (!accessLink || !applyLink) return;
+    const signedInBadge = document.getElementById("clubSignedInBadge");
+    if (!accessLink || !applyLink || !signedInBadge) return;
     if (state === "dashboard") {
         applyLink.hidden = true;
         accessLink.hidden = false;
         accessLink.textContent = "DASHBOARD";
         accessLink.href = "club-dashboard.html";
         accessLink.setAttribute("aria-label", "Open club dashboard");
+        signedInBadge.hidden = false;
     } else {
         applyLink.hidden = false;
         accessLink.hidden = false;
         accessLink.textContent = "LOGIN";
         accessLink.href = "account.html?mode=login";
         accessLink.removeAttribute("aria-label");
+        signedInBadge.hidden = true;
     }
 }
 async function updateIPGHeaderAuth(session){
