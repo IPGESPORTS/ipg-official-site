@@ -68,6 +68,17 @@ img{max-width:100%}
 @media(max-width:700px){header,.top{padding-left:18px!important;padding-right:18px!important}.panel,.card{border-radius:11px!important}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition:none!important;animation:none!important}}
 </style>
+<style id="ipg-club-performance-ui">
+.club-performance{margin:24px 0;padding:clamp(18px,3vw,28px);border:1px solid rgba(255,106,0,.25);border-radius:14px;background:linear-gradient(145deg,rgba(25,26,34,.97),rgba(9,10,15,.98));box-shadow:0 18px 48px rgba(0,0,0,.2)}
+.club-performance h2{color:#fff;margin:8px 0 18px}.club-performance-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.club-performance-stat{padding:16px;border:1px solid rgba(255,130,45,.2);border-radius:10px;background:rgba(255,255,255,.035)}
+.club-performance-stat strong{display:block;color:#ff9a50;font-size:27px;margin-bottom:5px}.club-performance-stat span{color:#a5a8b2;font-size:10px;letter-spacing:.13em;font-weight:800}
+.club-performance-list{display:grid;gap:9px}.club-performance-row{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px;border:1px solid rgba(255,255,255,.08);border-radius:9px;background:rgba(255,255,255,.025);font-size:12px}
+.club-performance-row strong{color:#ffad70}.club-performance-empty{padding:16px;border:1px dashed rgba(255,130,45,.22);border-radius:9px;color:#969ba6;font-size:12px;text-align:center}
+.club-performance-kicker{font-size:10px;color:#ff9b54;font-weight:900;letter-spacing:.18em}
+@media(max-width:700px){.club-performance-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.club-performance-row{align-items:flex-start;flex-direction:column}}
+@media(prefers-reduced-motion:no-preference){.club-performance-stat{transition:transform .25s,border-color .25s}.club-performance-stat:hover{transform:translateY(-3px);border-color:rgba(255,130,45,.55)}}
+</style>
 </head>
 <body>
 <header class="top"><div class="brand"><img src="ipg-logo.png" alt="IPG"><span>IPG CLUB PORTAL</span></div><a href="index.html">BACK TO WEBSITE ↗</a></header>
@@ -84,6 +95,22 @@ img{max-width:100%}
 <article class="card"><div class="label">COMPETITIONS</div><h2 class="section-title">Tournament hub</h2><div class="detail">Explore IPG tournaments and competition information.</div><div class="actions"><a class="btn primary" href="index.html#tournaments">VIEW TOURNAMENTS</a></div></article>
 <article class="card"><div class="label">COMMUNITY</div><h2 class="section-title">IPG Discord</h2><div class="detail">Stay connected with the IPG community and announcements.</div><div class="actions"><a class="btn" href="https://discord.gg/PNYkEztN5K" target="_blank" rel="noopener noreferrer">OPEN DISCORD ↗</a></div></article>
 </div>
+<section class="club-performance" id="clubPerformanceHub">
+ <span class="club-performance-kicker">CLUB PERFORMANCE</span><h2>YOUR CLUB AT A GLANCE</h2>
+ <div class="club-performance-grid">
+  <div class="club-performance-stat"><strong id="clubMatchesPlayed">—</strong><span>MATCHES PLAYED</span></div>
+  <div class="club-performance-stat"><strong id="clubWins">—</strong><span>WINS</span></div>
+  <div class="club-performance-stat"><strong id="clubGoalsFor">—</strong><span>GOALS SCORED</span></div>
+  <div class="club-performance-stat"><strong id="clubTrophies">—</strong><span>WINS RECORDED</span></div>
+ </div>
+ <div class="grid" style="margin-top:18px">
+  <article class="card"><div class="label">MATCH HISTORY</div><h2 class="section-title">LATEST RESULTS</h2><div class="club-performance-list" id="clubRecentResults"><div class="club-performance-empty">Loading match history…</div></div></article>
+  <article class="card"><div class="label">HONOURS</div><h2 class="section-title">TROPHY ROOM</h2><div class="club-performance-list" id="clubTrophyRoom"><div class="club-performance-empty">Loading club honours…</div></div></article>
+  <article class="card"><div class="label">SQUAD</div><h2 class="section-title">PLAYER ROSTER</h2><div class="club-performance-list" id="clubRoster"><div class="club-performance-empty">Loading registered players…</div></div></article>
+  <article class="card"><div class="label">PLAYER AWARDS</div><h2 class="section-title">CLUB TOP SCORER</h2><div class="club-performance-list" id="clubTopScorer"><div class="club-performance-empty">Loading player stats…</div></div></article>
+ </div>
+ <div class="actions" style="margin-top:18px"><a class="btn primary" href="index.html#tournaments">VIEW IPG COMPETITIONS ↗</a><a class="btn" href="index.html#rankings">GLOBAL RANKINGS ↗</a></div>
+</section>
 <section class="edit-panel" id="editClubSection">
  <div class="edit-heading"><div><span class="eyebrow">CLUB SETTINGS</span><h2 class="section-title">EDIT CLUB INFORMATION</h2><p class="detail">Changes are saved to your official club profile. Your approval status cannot be changed here.</p></div><span class="edit-lock">🔒 OWNER ACCESS</span></div>
  <form id="clubEditForm">
@@ -176,7 +203,7 @@ async function verifyClub(session){
   renderCountry(club.country||result.club.country||"");
   $("clubStatus").textContent=String(club.status||"approved").toUpperCase();
   populateEditForm(club);
-  $("loading").hidden=true;$("error").hidden=true;$("dashboard").hidden=false;
+  $("loading").hidden=true;$("error").hidden=true;$("dashboard").hidden=false; if(typeof loadClubPerformance==="function")await loadClubPerformance();
  }catch(error){showError(error.message||"Could not verify your club access.");}
 }
 $("clubEditForm").addEventListener("submit",async event=>{
@@ -223,5 +250,24 @@ $("clubEditForm").addEventListener("submit",async event=>{
 $("signOut").addEventListener("click",async()=>{await supabaseClient.auth.signOut();location.replace("account.html");});
 supabaseClient.auth.onAuthStateChange((event,session)=>{if(event==="SIGNED_OUT")showError("You have been signed out. Sign in again to access the club dashboard.");});
 supabaseClient.auth.getSession().then(({data,error})=>{if(error)showError("Could not read your login session. Please sign in again.");else verifyClub(data.session);});</script>
+<script id="ipg-club-performance-data">
+async function loadClubPerformance(){
+ if(!verifiedClub?.id)return;
+ const id=verifiedClub.id,fmt=(n)=>String(n??0);
+ const [rr,entry,stats,contracts]=await Promise.all([
+  supabaseClient.from("tournament_results").select("id,home_club_id,away_club_id,home_score,away_score,played_at,tournaments(name),home:clubs!tournament_results_home_club_id_fkey(club_name),away:clubs!tournament_results_away_club_id_fkey(club_name)").or("home_club_id.eq."+id+",away_club_id.eq."+id).order("played_at",{ascending:false}).limit(12),
+  supabaseClient.from("tournament_entries").select("id,tournament_id,status,tournaments(name,status)").eq("club_id",id),
+  supabaseClient.from("tournament_player_stats").select("player_name,goals,assists,mvp_awards").eq("club_id",id).order("goals",{ascending:false}).limit(8),
+  supabaseClient.from("player_contracts").select("id,status,player:player_profiles(display_name,primary_position)").eq("club_id",id).eq("status","active")
+ ]);
+ const results=rr.data||[],entries=entry.data||[],players=contracts.data||[],playerStats=stats.data||[];
+ let wins=0,goals=0;results.forEach(r=>{const home=r.home_club_id===id;const own=home?r.home_score:r.away_score,opp=home?r.away_score:r.home_score;goals+=own;if(own>opp)wins++});
+ $("clubMatchesPlayed").textContent=fmt(results.length);$("clubWins").textContent=fmt(wins);$("clubGoalsFor").textContent=fmt(goals);$("clubTrophies").textContent=fmt(wins);
+ $("clubRecentResults").innerHTML=results.length?results.slice(0,5).map(r=>{const home=r.home_club_id===id;return '<div class="club-performance-row"><span>'+String(r.home?.club_name||"Club")+' '+r.home_score+' – '+r.away_score+' '+String(r.away?.club_name||"Club")+'</span><strong>'+String(r.tournaments?.name||"IPG Match")+'</strong></div>'}).join(""):'<div class="club-performance-empty">No official match results yet.</div>';
+ $("clubTrophyRoom").innerHTML=entries.length?entries.map(e=>'<div class="club-performance-row"><span>'+String(e.tournaments?.name||"IPG Tournament")+'</span><strong>'+String(e.tournaments?.status||e.status||"ENTERED").toUpperCase()+'</strong></div>').join(""):'<div class="club-performance-empty">Tournament entries and honours will appear here.</div>';
+ $("clubRoster").innerHTML=players.length?players.map(p=>'<div class="club-performance-row"><span>'+String(p.player?.display_name||"Player")+' · '+String(p.player?.primary_position||"—")+'</span><strong>ACTIVE</strong></div>').join(""):'<div class="club-performance-empty">No active player contracts registered yet.</div>';
+ $("clubTopScorer").innerHTML=playerStats.length?playerStats.map(p=>'<div class="club-performance-row"><span>'+String(p.player_name)+'</span><strong>'+p.goals+' GOALS · '+p.assists+' AST</strong></div>').join(""):'<div class="club-performance-empty">Player statistics will appear when IPG admins add them.</div>';
+}
+</script>
 </body>
 </html>
