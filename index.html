@@ -1543,9 +1543,9 @@ header{gap:22px}
 
 <section class="section" id="register">
     
-    <p>Log in or create your player account to access IPG ESPORTS. You can apply to create a club after signing in.</p>
+    <p>Sign in with your club contact email to manage your IPG club account and enter tournaments.</p>
 
-    <div class="ipg-account-panel" id="clubAccountPanel" hidden>
+    <div class="ipg-account-panel" id="clubAccountPanel">
         <p id="accountStatus">Enter your email to receive a secure eight-digit login code.</p>
         <div id="magicLinkForm" hidden>
             <h3>2. EMAIL LOGIN</h3>
@@ -1561,10 +1561,6 @@ header{gap:22px}
         </div>
         <div id="clubAccountDashboard" hidden>
             <p id="clubAccountDetails"></p>
-            <div id="playerAccountChoices" class="ipg-account-choices">
-                <p>WHAT WOULD YOU LIKE TO DO?</p>
-                <p class="account-muted">Player profiles are available in the IPG Player Network.</p>
-            </div>
             <button type="button" id="editClubProfileButton" hidden>EDIT CLUB PROFILE</button>
             <button type="button" id="signOutButton">SIGN OUT</button>
         </div>
@@ -1810,21 +1806,13 @@ function renderPublicTournamentCards(tournaments, container, emptyMessage, teams
     });
 }
 
-let selectedAccountType = localStorage.getItem("ipg_account_type") || "player";
-function chooseAccountType(type) {
-    selectedAccountType = type;
-    localStorage.setItem("ipg_account_type", type);
-    document.querySelectorAll("[data-account-type]").forEach(b => b.classList.toggle("selected", b.dataset.accountType === type));
-    document.getElementById("magicLinkForm").hidden = false;
-    document.getElementById("accountTypeDescription").textContent = type === "club"
-        ? "Club / Manager selected. Your club application will be reviewed by IPG before manager tools are unlocked."
-        : "Player selected. You can create a profile and list yourself as a Free Agent without club approval.";
-    document.getElementById("accountEmail").placeholder = type === "club" ? "Club contact email" : "Player email address";
-    setAccountMessage("Enter your email to receive a secure eight-digit login code.");
-    if (currentSession && typeof refreshClubAccount === "function") refreshClubAccount(currentSession);
-}
-document.querySelectorAll("[data-account-type]").forEach(b => b.addEventListener("click", () => chooseAccountType(b.dataset.accountType)));
-chooseAccountType(selectedAccountType);
+// IPG uses club accounts only. Player authentication is disabled.
+let selectedAccountType = "club";
+localStorage.setItem("ipg_account_type", "club");
+const accountEmailInput = document.getElementById("accountEmail");
+if (accountEmailInput) accountEmailInput.placeholder = "Club contact email";
+const magicLinkForm = document.getElementById("magicLinkForm");
+if (magicLinkForm) magicLinkForm.hidden = false;
 
 function setAccountMessage(text) {
     document.getElementById("accountStatus").textContent = text;
@@ -1843,8 +1831,8 @@ async function refreshClubAccount(session) {
         document.getElementById("editClubProfileButton").hidden = true;
         dashboard.hidden = true;
         clubForm.hidden = true;
-        magicForm.hidden = !selectedAccountType;
-        setAccountMessage(selectedAccountType ? "Sign in to continue as " + (selectedAccountType === "club" ? "Club / Manager." : "Player.") : "Choose an account type to continue.");
+        magicForm.hidden = false;
+        setAccountMessage("Sign in with your club contact email to access your IPG club account.");
         return;
     }
     magicForm.hidden = true;
