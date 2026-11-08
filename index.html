@@ -1502,6 +1502,27 @@ body{background:#030817!important}
 @media(max-width:760px){.ipg-site-header{padding:12px 18px;gap:12px}.ipg-site-header .logo img{height:54px}.ipg-site-header nav{gap:10px;justify-content:center}.ipg-site-header nav a{font-size:10px;letter-spacing:.4px}.ipg-site-header nav a.discord-nav{padding:9px 12px}.ipg-hero-redesign{min-height:auto!important;padding:90px 18px 0!important;gap:55px}.ipg-hero-redesign .ipg-hero-eyebrow{letter-spacing:.22em}.ipg-hero-motto{letter-spacing:.16em!important}.ipg-hero-feature-strip{grid-template-columns:1fr;margin-bottom:18px}.ipg-hero-feature-strip a{min-height:76px;justify-content:flex-start;padding:12px 25px}.ipg-hero-feature-strip a+a{border-left:0;border-top:1px solid rgba(35,131,255,.35)}}
 @media(prefers-reduced-motion:reduce){.ipg-site-header nav a:after,.ipg-hero-redesign .ipg-champions-cta,.ipg-hero-feature-strip a{transition:none}}
 </style>
+<style id="ipg-competition-hub-upgrades">
+.ipg-tournament-meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:10px;margin:18px 0}
+.ipg-tournament-meta-item,.ipg-tournament-countdown{padding:13px 15px;border:1px solid rgba(45,155,255,.3);border-radius:12px;background:linear-gradient(135deg,rgba(8,29,62,.82),rgba(4,13,31,.9))}
+.ipg-tournament-meta small,.ipg-tournament-countdown small{display:block;color:#70caff;font-size:10px;font-weight:800;letter-spacing:.12em;margin-bottom:7px}
+.ipg-tournament-meta strong,.ipg-tournament-countdown strong{display:block;color:#fff;font-size:14px}
+.ipg-upcoming-fixtures{max-width:1200px;margin:70px auto;padding:0 24px}
+.ipg-upcoming-heading{text-align:center;margin-bottom:28px}
+.ipg-upcoming-heading h2{font-size:clamp(30px,5vw,48px);margin:10px 0;color:#fff}
+.ipg-upcoming-heading p{color:#aebed8}
+.ipg-fixture-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:15px}
+.ipg-fixture-card{padding:20px;border:1px solid rgba(45,155,255,.32);border-radius:16px;background:linear-gradient(145deg,#0b1b37,#050c1d);box-shadow:0 12px 35px rgba(0,0,0,.2)}
+.ipg-fixture-tournament{display:block;color:#56bdff;font-size:11px;font-weight:900;letter-spacing:.13em}
+.ipg-fixture-card>small{display:block;color:#92a6c5;margin-top:8px}
+.ipg-fixture-teams{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:10px;margin:22px 0}
+.ipg-fixture-teams strong{font-size:15px;color:#fff;overflow-wrap:anywhere}
+.ipg-fixture-teams strong:last-child{text-align:right}
+.ipg-fixture-teams span{font-size:11px;color:#55baff;font-weight:900}
+.ipg-fixture-card time{color:#b7c8e2;font-size:13px}
+.ipg-fixture-empty{grid-column:1/-1;text-align:center;color:#aebed8;padding:26px;border:1px dashed rgba(45,155,255,.3);border-radius:14px}
+@media(max-width:600px){.ipg-upcoming-fixtures{padding:0 16px;margin:48px auto}.ipg-fixture-card{padding:17px}}
+</style>
 </head>
 
 <body>
@@ -1619,6 +1640,10 @@ body{background:#030817!important}
 
 
 
+<section class="ipg-upcoming-fixtures" id="upcomingFixtures">
+ <div class="ipg-upcoming-heading"><span class="ipg-eyebrow">PLAN YOUR NEXT MATCH</span><h2>UPCOMING MATCHES</h2><p>Scheduled fixtures from the IPG competition calendar.</p></div>
+ <div id="ipgUpcomingFixtureList" class="ipg-fixture-list"><p class="ipg-fixture-empty">Loading upcoming matches…</p></div>
+</section>
 <section class="ipg-live-grid" aria-label="IPG live competition centre">
  <article class="ipg-live-section ipg-live-news"><div class="ipg-live-kicker">IPG BULLETIN</div><h2>LATEST NEWS</h2><p class="ipg-live-sub">Official updates from across the IPG community.</p><div class="ipg-live-list" id="ipgLatestNews"><div class="ipg-live-empty">Loading official news…</div></div></article>
  <article class="ipg-live-section ipg-live-results"><div class="ipg-live-kicker"><span class="ipg-live-dot"></span> MATCH CENTRE</div><h2>LATEST RESULTS</h2><p class="ipg-live-sub">Recent scores, updated from the competition database.</p><div class="ipg-live-list" id="ipgLatestResults"><div class="ipg-live-empty">Loading match results…</div></div></article>
@@ -1852,7 +1877,70 @@ async function loadPublicTournaments() {
         "No tournaments open for registration.",
         teamsByTournament
     );
+    updateTournamentCountdowns();
+    loadUpcomingFixtures();
 }
+
+// Upcoming scheduled fixtures — intentionally excludes live scores/results.
+async function loadUpcomingFixtures() {
+    const list = document.getElementById("ipgUpcomingFixtureList");
+    if (!list) return;
+    const { data, error } = await supabaseClient
+        .from("tournament_bracket_matches")
+        .select("id,round_name,scheduled_at,status,home:clubs!tournament_bracket_matches_home_club_id_fkey(club_name),away:clubs!tournament_bracket_matches_away_club_id_fkey(club_name),tournaments(name)")
+        .gte("scheduled_at", new Date().toISOString())
+        .order("scheduled_at", { ascending: true })
+        .limit(8);
+    if (error) {
+        console.error("Could not load upcoming fixtures:", error);
+        list.textContent = "Upcoming fixtures are temporarily unavailable.";
+        return;
+    }
+    const fixtures = (data || []).filter(match => !match.status || ["scheduled","upcoming","pending"].includes(String(match.status).toLowerCase()));
+    list.innerHTML = "";
+    if (!fixtures.length) {
+        list.textContent = "No upcoming matches have been scheduled yet.";
+        return;
+    }
+    fixtures.forEach(match => {
+        const card = document.createElement("article");
+        card.className = "ipg-fixture-card";
+        const tournament = document.createElement("span");
+        tournament.className = "ipg-fixture-tournament";
+        tournament.textContent = match.tournaments?.name || "IPG TOURNAMENT";
+        const round = document.createElement("small");
+        round.textContent = match.round_name || "UPCOMING MATCH";
+        const teams = document.createElement("div");
+        teams.className = "ipg-fixture-teams";
+        const home = document.createElement("strong");
+        home.textContent = match.home?.club_name || "TBD";
+        const vs = document.createElement("span");
+        vs.textContent = "VS";
+        const away = document.createElement("strong");
+        away.textContent = match.away?.club_name || "TBD";
+        teams.append(home, vs, away);
+        const date = document.createElement("time");
+        date.dateTime = match.scheduled_at;
+        date.textContent = new Date(match.scheduled_at).toLocaleString("sv-SE", {dateStyle:"medium",timeStyle:"short"});
+        card.append(tournament, round, teams, date);
+        list.appendChild(card);
+    });
+}
+
+function updateTournamentCountdowns() {
+    document.querySelectorAll(".ipg-tournament-countdown[data-start]").forEach(el => {
+        const remaining = new Date(el.dataset.start).getTime() - Date.now();
+        const value = el.querySelector("strong");
+        if (!value) return;
+        if (!Number.isFinite(remaining)) { value.textContent = "To be announced"; return; }
+        if (remaining <= 0) { value.textContent = "Starting / started"; return; }
+        const days = Math.floor(remaining / 86400000);
+        const hours = Math.floor((remaining % 86400000) / 3600000);
+        const minutes = Math.floor((remaining % 3600000) / 60000);
+        value.textContent = days + "d " + hours + "h " + minutes + "m";
+    });
+}
+setInterval(updateTournamentCountdowns, 60000);
 
 // RENDER TOURNAMENTS
 let currentSession = null;
@@ -1909,16 +1997,29 @@ function renderPublicTournamentCards(tournaments, container, emptyMessage, teams
             joinButton.addEventListener("click", () => joinTournament(tournament));
             card.appendChild(joinButton);
         }
+        const meta = document.createElement("div");
+        meta.className = "ipg-tournament-meta";
         if (tournament.start_date) {
-            const date = document.createElement("p");
-            date.textContent = "START: " + new Date(tournament.start_date).toLocaleDateString("sv-SE");
-            card.appendChild(date);
+            const date = document.createElement("div");
+            date.className = "ipg-tournament-meta-item";
+            date.innerHTML = '<small>TOURNAMENT START</small><strong></strong>';
+            date.querySelector("strong").textContent = new Date(tournament.start_date).toLocaleString("sv-SE", {dateStyle:"medium",timeStyle:"short"});
+            meta.appendChild(date);
+
+            const countdown = document.createElement("div");
+            countdown.className = "ipg-tournament-countdown";
+            countdown.dataset.start = tournament.start_date;
+            countdown.innerHTML = '<small>COUNTDOWN</small><strong>Calculating…</strong>';
+            meta.appendChild(countdown);
         }
         if (tournament.registration_deadline) {
-            const deadline = document.createElement("p");
-            deadline.textContent = "REGISTRATION DEADLINE: " + new Date(tournament.registration_deadline).toLocaleDateString("sv-SE");
-            card.appendChild(deadline);
+            const deadline = document.createElement("div");
+            deadline.className = "ipg-tournament-meta-item";
+            deadline.innerHTML = '<small>REGISTRATION CLOSES</small><strong></strong>';
+            deadline.querySelector("strong").textContent = new Date(tournament.registration_deadline).toLocaleString("sv-SE", {dateStyle:"medium",timeStyle:"short"});
+            meta.appendChild(deadline);
         }
+        if (meta.childElementCount) card.appendChild(meta);
         container.appendChild(card);
     });
 }
