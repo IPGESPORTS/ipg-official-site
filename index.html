@@ -1394,6 +1394,7 @@ header{gap:22px}
     <nav>
         <a href="#home">HOME</a>
         <a href="club-dashboard.html" id="clubDashboardNavLink" hidden>CLUB DASHBOARD</a>
+        <a href="join.html" id="joinIPGNavLink">JOIN IPG</a>
      <a href="#" id="tournamentMenuButton">TOURNAMENTS</a>
         <a href="#rankings">RANKINGS</a>
         <a href="#player-marketplace" id="headerProfileButton">PROFILE</a>
@@ -1528,15 +1529,6 @@ header{gap:22px}
     </div>
 </section>
 
-<section class="ipg-content-section" id="clubs">
-    <span class="ipg-eyebrow">REPRESENT YOUR CLUB</span>
-    <div class="ipg-club-banner">
-        <h2>READY TO COMPETE?</h2>
-        <p>Bring your squad into the IPG community. Register your club and get ready for the next competition.</p>
-        <a class="ipg-gold-link" href="account.html?mode=signup">SIGN UP / LOG IN →</a>
-    </div>
-</section>
-
 <section id="profiles" class="ipg-content-section">
  <span class="ipg-eyebrow">THE IPG COMMUNITY</span><h2>CLUB PROFILES</h2>
  <p class="ipg-section-intro">Discover approved clubs and follow their results across IPG competitions.</p>
@@ -1544,7 +1536,7 @@ header{gap:22px}
  <div id="profileDetail" class="ipg-profile-detail" hidden aria-live="polite"></div>
 </section>
 
-<section class="section" id="register">
+<section class="section" id="register" hidden>
     
     
 
@@ -1824,8 +1816,8 @@ function setAccountMessage(text) {
 let dashboardVerificationToken = null;
 async function updateIPGHeaderAuth(session){
     const dashboardLink = document.getElementById("clubDashboardNavLink");
-    const competeSection = document.getElementById("clubs");
-    if (competeSection) competeSection.hidden = !!session;
+    const joinLink = document.getElementById("joinIPGNavLink");
+    if (joinLink) joinLink.hidden = !!session;
     if (!dashboardLink) return;
     dashboardLink.hidden = true;
     if (!session?.access_token) {
