@@ -594,6 +594,8 @@ nav a:hover {
     transform: translateY(-3px);
     box-shadow: 0 8px 24px rgba(255,255,255,.25);
 }
+#clubs[hidden]{display:none!important}
+#clubDashboardNavLink[hidden]{display:none!important}
 #register {
     padding: 70px 20px;
     text-align: center;
@@ -1391,6 +1393,7 @@ header{gap:22px}
 
     <nav>
         <a href="#home">HOME</a>
+        <a href="club-dashboard.html" id="clubDashboardNavLink" hidden>CLUB DASHBOARD</a>
      <a href="#" id="tournamentMenuButton">TOURNAMENTS</a>
         <a href="#rankings">RANKINGS</a>
         <a href="#player-marketplace" id="headerProfileButton">PROFILE</a>
@@ -1818,7 +1821,37 @@ function setAccountMessage(text) {
     document.getElementById("accountStatus").textContent = text;
 }
 
-function updateIPGHeaderAuth(_session){ /* No authentication controls are rendered in the public header. */ }
+let dashboardVerificationToken = null;
+async function updateIPGHeaderAuth(session){
+    const dashboardLink = document.getElementById("clubDashboardNavLink");
+    const competeSection = document.getElementById("clubs");
+    if (competeSection) competeSection.hidden = !!session;
+    if (!dashboardLink) return;
+    dashboardLink.hidden = true;
+    if (!session?.access_token) {
+        dashboardVerificationToken = null;
+        return;
+    }
+    if (dashboardVerificationToken === session.access_token) return;
+    dashboardVerificationToken = session.access_token;
+    try {
+        const response = await fetch(SUPABASE_URL + "/functions/v1/ipg-discord-link-auth", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "apikey": SUPABASE_ANON_KEY,
+                "Authorization": "Bearer " + session.access_token
+            },
+            body: "{}"
+        });
+        const result = await response.json();
+        if (response.ok && result?.club?.name && currentSession?.access_token === session.access_token) {
+            dashboardLink.hidden = false;
+        }
+    } catch (error) {
+        console.warn("Could not verify club dashboard navigation:", error);
+    }
+}
 async function refreshClubAccount(session) {
     currentSession = session;
     window.currentSession = session;
