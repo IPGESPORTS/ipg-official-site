@@ -1839,7 +1839,7 @@ async function updateIPGHeaderAuth(session){
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "apikey": SUPABASE_ANON_KEY,
+                "apikey": SUPABASE_KEY,
                 "Authorization": "Bearer " + session.access_token
             },
             body: "{}"
