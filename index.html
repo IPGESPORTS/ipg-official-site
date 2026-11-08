@@ -2480,6 +2480,27 @@ refreshClubAccount=async function(session){await previousRefreshClubAccount(sess
   const {data,error}=await supabaseClient.rpc("get_public_club_profiles");
   if(error){clubBox.innerHTML='<p>Club profiles could not be loaded. '+safe(error.message)+'</p>';return}
   clubs=data||[];
+  const demoMode=new URLSearchParams(window.location.search).get("demo-clubs")==="1";
+  if(demoMode){
+    const demoTeams=[
+      ["NOVA ESPORTS","NV","#38bdf8","#172554","Sweden","Alex North",24,17,3,4,68,31,18],
+      ["VORTEX UNITED","VU","#a78bfa","#2e1065","Denmark","Mika Storm",21,14,2,5,57,29,16],
+      ["FROSTBYTE FC","FB","#67e8f9","#164e63","Norway","Erik Frost",19,12,4,3,49,22,15],
+      ["PHANTOM CORE","PC","#f472b6","#500724","Finland","Leo Shade",18,11,3,4,43,25,14],
+      ["APEX TITANS","AT","#fbbf24","#78350f","Germany","Noah Titan",22,16,1,5,61,28,17],
+      ["RIFT RANGERS","RR","#4ade80","#14532d","Netherlands","Sam Rift",16,9,4,3,38,24,13],
+      ["NEON WOLVES","NW","#fb7185","#881337","Sweden","Max Wolf",20,13,2,5,52,33,16],
+      ["IRONCLAD GAMING","IG","#cbd5e1","#334155","United Kingdom","Jamie Steel",17,10,3,4,41,26,14],
+      ["ZENITH CLUB","ZC","#fde047","#713f12","France","Theo Zenith",23,15,5,3,59,27,18],
+      ["SHADOW SYNDICATE","SS","#c4b5fd","#312e81","Spain","Dani Shadow",15,8,2,5,34,30,12]
+    ];
+    const makeDemoLogo=(name,initials,accent,base)=>{
+      const svg='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160"><path d="M80 7 145 42 132 119 80 153 28 119 15 42Z" fill="'+base+'" stroke="'+accent+'" stroke-width="5"/><path d="M80 20 132 49 121 111 80 137 39 111 28 49Z" fill="none" stroke="'+accent+'" stroke-opacity=".55" stroke-width="2"/><text x="80" y="94" text-anchor="middle" font-family="Arial,sans-serif" font-size="48" font-weight="900" fill="'+accent+'">'+initials+'</text></svg>';
+      return 'data:image/svg+xml;charset=UTF-8,'+encodeURIComponent(svg);
+    };
+    clubs=clubs.concat(demoTeams.map((t,i)=>({id:"demo-club-"+i,club_name:t[0],logo_url:makeDemoLogo(t[0],t[1],t[2],t[3]),country:t[4],captain_name:t[5],matches_played:t[6],wins:t[7],draws:t[8],losses:t[9],goals_for:t[10],goals_against:t[11],roster_size:t[12],_demo:true})));
+    clubBox.insertAdjacentHTML("beforebegin",'<p class="ipg-demo-banner" style="margin:0 0 16px;padding:11px 14px;border:1px dashed rgba(86,168,255,.55);border-radius:8px;color:#a9cfff;font-size:12px;letter-spacing:.08em">PREVIEW MODE · 10 FICTIONAL CLUBS · NOT SAVED TO THE DATABASE</p>');
+  }
   const rankingRows=document.getElementById("ipgRankingRows");
   if(rankingRows){
     const ranked=[...clubs].map(club=>{
@@ -2489,12 +2510,12 @@ refreshClubAccount=async function(session){await previousRefreshClubAccount(sess
     rankingRows.innerHTML=ranked.length?ranked.slice(0,10).map((club,index)=>'<tr><td>#'+(index+1)+'</td><td>'+safe(club.club_name)+'</td><td>'+club._matches+'</td><td>'+club._wins+'</td><td>'+Math.round(club._rate*100)+'%</td></tr>').join(""):'<tr><td colspan="5">Club performance will appear when approved clubs have recorded matches.</td></tr>';
   }
   if(!clubs.length){clubBox.innerHTML="<p>No approved clubs yet.</p>";return}
-  clubBox.innerHTML=clubs.map(x=>'<article class="ipg-profile-card ipg-logo-preview"><button class="ipg-profile-logo-button" type="button" data-club-profile="'+safe(x.id)+'" aria-label="View '+safe(x.club_name)+' profile">'+(x.logo_url?'<img src="'+safe(x.logo_url)+'" alt="'+safe(x.club_name)+' logo">':'<img src="default-club.svg" alt="Default club profile image">')+'</button><h3 class="ipg-profile-preview-name">'+safe(x.club_name)+'</h3><p>OFFICIAL CLUB PROFILE</p></article>').join("");
+  clubBox.innerHTML=clubs.map(x=>'<article class="ipg-profile-card ipg-logo-preview">'+(x._demo?'<span style="position:absolute;top:10px;right:10px;z-index:2;padding:4px 7px;border-radius:4px;background:#142b49;color:#9dccff;font-size:9px;font-weight:900;letter-spacing:.1em">DEMO</span>':'')+'<button class="ipg-profile-logo-button" type="button" data-club-profile="'+safe(x.id)+'" aria-label="View '+safe(x.club_name)+' profile"><img src="'+safe(x.logo_url||"default-club.svg")+'" alt="'+safe(x.club_name)+' logo"></button><h3 class="ipg-profile-preview-name">'+safe(x.club_name)+'</h3><p>'+(x._demo?'SAMPLE CLUB · '+safe(x.country):'OFFICIAL CLUB PROFILE')+'</p></article>').join("");
  }
  clubBox.addEventListener("click",e=>{
   const b=e.target.closest("[data-club-profile]");if(!b)return;
   const x=clubs.find(v=>v.id===b.dataset.clubProfile);if(!x)return;
-  detail.hidden=false;detail.innerHTML='<div class="ipg-profile-detail-head">'+(x.logo_url?'<img class="ipg-profile-detail-logo" src="'+safe(x.logo_url)+'" alt="'+safe(x.club_name)+' logo">':'<img class="ipg-profile-detail-logo" src="default-club.svg" alt="Default club logo">')+'<div><h3>'+safe(x.club_name)+'</h3><p>'+safe(x.country||"")+' · Captain: '+safe(x.captain_name||"Not listed")+'</p></div></div><div class="ipg-profile-stats">'+stat(x.matches_played,"MATCHES")+stat(x.wins,"WINS")+stat(x.draws,"DRAWS")+stat(x.losses,"LOSSES")+stat(x.goals_for,"GOALS FOR")+stat(x.goals_against,"GOALS AGAINST")+stat(x.roster_size,"SQUAD SIZE")+'</div>';
+  detail.hidden=false;detail.innerHTML='<div class="ipg-profile-detail-head"><img class="ipg-profile-detail-logo" src="'+safe(x.logo_url||"default-club.svg")+'" alt="'+safe(x.club_name)+' logo"><div><h3>'+safe(x.club_name)+'</h3><p>'+safe(x.country||"")+' · Captain: '+safe(x.captain_name||"Not listed")+'</p>'+(x._demo?'<p style="margin-top:8px;color:#9dccff;font-size:11px;letter-spacing:.08em">FICTIONAL DEMO CLUB</p>':'')+'</div></div><div class="ipg-profile-stats">'+stat(x.matches_played,"MATCHES")+stat(x.wins,"WINS")+stat(x.draws,"DRAWS")+stat(x.losses,"LOSSES")+stat(x.goals_for,"GOALS FOR")+stat(x.goals_against,"GOALS AGAINST")+stat(x.roster_size,"SQUAD SIZE")+'</div>';
   detail.scrollIntoView({behavior:"smooth",block:"nearest"});
  });
  loadClubProfiles();
